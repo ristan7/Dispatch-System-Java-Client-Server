@@ -18,18 +18,18 @@ import java.util.logging.Logger;
 public class Primalac {
 
     private Socket socket;
+    private ObjectInputStream in;
 
-    public Primalac(Socket socket) {
+    public Primalac(Socket socket) throws IOException {
         this.socket = socket;
+        this.in = new ObjectInputStream(socket.getInputStream());
     }
 
-    public Object primi() {
-        try {
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-            return in.readObject();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
+    public Object primi() throws Exception {
+        return in.readObject();
+    }
+
+    public void close() throws IOException {
+        in.close();
     }
 }

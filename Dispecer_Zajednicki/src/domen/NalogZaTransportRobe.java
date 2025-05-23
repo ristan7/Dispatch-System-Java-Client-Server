@@ -5,18 +5,17 @@
 package domen;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-
-
 /**
  *
  * @author mikir
  */
-public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat{
+public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 
     private int idNaloga;
     private Date datumKreiranja;
@@ -30,11 +29,11 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat{
     private List<StavkaNaloga> stavke;
 
     public NalogZaTransportRobe() {
-        stavke=new LinkedList<>();
+        stavke = new LinkedList<>();
     }
 
     public NalogZaTransportRobe(int idNaloga, Date datumKreiranja, Date datumIzvrsenja, String adresaUtovara, String adresaIstovara, StatusNaloga status, float ukupanIznosPosla, Dispecer dispecer, PoslovniPartner poslovniPartner, List<StavkaNaloga> stavke) {
-        stavke=new LinkedList<>();
+        stavke = new LinkedList<>();
         this.idNaloga = idNaloga;
         this.datumKreiranja = datumKreiranja;
         this.datumIzvrsenja = datumIzvrsenja;
@@ -46,8 +45,6 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat{
         this.poslovniPartner = poslovniPartner;
         this.stavke = stavke;
     }
-
-    
 
     public int getIdNaloga() {
         return idNaloga;
@@ -128,8 +125,6 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat{
     public void setStavke(List<StavkaNaloga> stavke) {
         this.stavke = stavke;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -170,22 +165,17 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat{
     }
 
     @Override
+    public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
     public String vratiNazivTabele() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public String vratiKoloneZaUbacivanje() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public String vratiVrednostiZaUbacivanje() {
+    public String vratiNazivPrimarnogKljuca() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -195,12 +185,37 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat{
     }
 
     @Override
-    public ApstraktniDomenskiObjekat vratiObjekatIzRS(ResultSet rs) throws Exception {
+    public String vratiKoloneZaInsert() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public String vratiVrednostiZaIzmenu() {
+    public String vratiVrednostiZaInsert() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String vratiVrednostiZaUpdate() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String alijas() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String join() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String uslov() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String uslovZaSelect() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

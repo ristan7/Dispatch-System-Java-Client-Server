@@ -5,13 +5,15 @@
 package domen;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
  *
  * @author mikir
  */
-public class PoslovniPartner implements ApstraktniDomenskiObjekat{
+public class PoslovniPartner implements ApstraktniDomenskiObjekat {
+
     private int idPoslovnogPartnera;
     private String nazivPartnera;
     private int pib;
@@ -78,8 +80,6 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat{
     public void setMesto(Mesto mesto) {
         this.mesto = mesto;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -108,22 +108,17 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat{
     }
 
     @Override
+    public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
     public String vratiNazivTabele() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public String vratiKoloneZaUbacivanje() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public String vratiVrednostiZaUbacivanje() {
+    public String vratiNazivPrimarnogKljuca() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -133,14 +128,38 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat{
     }
 
     @Override
-    public ApstraktniDomenskiObjekat vratiObjekatIzRS(ResultSet rs) throws Exception {
+    public String vratiKoloneZaInsert() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public String vratiVrednostiZaIzmenu() {
+    public String vratiVrednostiZaInsert() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    
+
+    @Override
+    public String vratiVrednostiZaUpdate() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String alijas() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String join() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String uslov() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String uslovZaSelect() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

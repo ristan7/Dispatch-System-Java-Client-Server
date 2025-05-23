@@ -17,19 +17,19 @@ import java.util.logging.Logger;
 public class Posiljalac {
 
     private Socket socket;
+    private ObjectOutputStream out;
 
-    public Posiljalac(Socket socket) {
+    public Posiljalac(Socket socket) throws IOException {
         this.socket = socket;
+        this.out = new ObjectOutputStream(socket.getOutputStream());
     }
 
-    public void posalji(Object obj) {
-        try {
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            out.writeObject(obj);
-            out.flush();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+    public void posalji(Object obj) throws IOException {
+        out.writeObject(obj);
+        out.flush();
+    }
 
+    public void close() throws IOException {
+        out.close();
     }
 }

@@ -1,6 +1,5 @@
 package komunikacija;
 
-
 import java.io.Serializable;
 import komunikacija.Operacija;
 
@@ -8,28 +7,29 @@ import komunikacija.Operacija;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author mikir
  */
-public class KlijentskiZahtev implements Serializable{
-    private Operacija operacija;
+public class KlijentskiZahtev implements Serializable {
+
+    private int operacija;
     private Object parametar;
 
     public KlijentskiZahtev() {
     }
 
-    public KlijentskiZahtev(Operacija operacija, Object parametar) {
+    public KlijentskiZahtev(int operacija, Object parametar) {
         this.operacija = operacija;
         this.parametar = parametar;
+
     }
 
-    public Operacija getOperacija() {
+    public int getOperacija() {
         return operacija;
     }
 
-    public void setOperacija(Operacija operacija) {
+    public void setOperacija(int operacija) {
         this.operacija = operacija;
     }
 
@@ -40,6 +40,5 @@ public class KlijentskiZahtev implements Serializable{
     public void setParametar(Object parametar) {
         this.parametar = parametar;
     }
-    
-    
+
 }

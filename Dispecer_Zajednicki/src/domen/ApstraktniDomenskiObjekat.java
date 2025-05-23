@@ -7,24 +7,34 @@ package domen;
 import java.io.Serializable;
 import java.util.List;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
  * @author mikir
  */
 public interface ApstraktniDomenskiObjekat extends Serializable {
-    
+
+    public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException;
+
     public String vratiNazivTabele();
-    
-    public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws Exception;
-    
-    public String vratiKoloneZaUbacivanje();
-    
-    public String vratiVrednostiZaUbacivanje();
-    
+
+    public String vratiNazivPrimarnogKljuca();
+
     public String vratiPrimarniKljuc();
-    
-    public ApstraktniDomenskiObjekat vratiObjekatIzRS(ResultSet rs) throws Exception;
-    
-    public String vratiVrednostiZaIzmenu();
+
+    public String vratiKoloneZaInsert();
+
+    public String vratiVrednostiZaInsert();
+
+    public String vratiVrednostiZaUpdate();
+
+    public String alijas();
+
+    public String join();
+
+    public String uslov();
+
+    public String uslovZaSelect();
+
 }
