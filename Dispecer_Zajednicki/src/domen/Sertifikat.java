@@ -6,6 +6,8 @@ package domen;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -19,15 +21,17 @@ public class Sertifikat implements ApstraktniDomenskiObjekat {
     private int idSertifikata;
     private Dispecer dispecer;
     private StrucnaSprema strucnaSprema;
+    private String nazivSertifikata;
     private Date datumIzdavanja;
 
     public Sertifikat() {
     }
 
-    public Sertifikat(int idSertifikata, Dispecer dispecer, StrucnaSprema strucnaSprema, Date datumIzdavanja) {
+    public Sertifikat(int idSertifikata, Dispecer dispecer, StrucnaSprema strucnaSprema, String nazivSertifikata, Date datumIzdavanja) {
         this.idSertifikata = idSertifikata;
         this.dispecer = dispecer;
         this.strucnaSprema = strucnaSprema;
+        this.nazivSertifikata = nazivSertifikata;
         this.datumIzdavanja = datumIzdavanja;
     }
 
@@ -63,6 +67,14 @@ public class Sertifikat implements ApstraktniDomenskiObjekat {
         this.datumIzdavanja = datumIzdavanja;
     }
 
+    public String getNazivSertifikata() {
+        return nazivSertifikata;
+    }
+
+    public void setNazivSertifikata(String nazivSertifikata) {
+        this.nazivSertifikata = nazivSertifikata;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -81,73 +93,132 @@ public class Sertifikat implements ApstraktniDomenskiObjekat {
             return false;
         }
         final Sertifikat other = (Sertifikat) obj;
-        if (!Objects.equals(this.dispecer, other.dispecer)) {
+        if (!Objects.equals(this.nazivSertifikata, other.nazivSertifikata)) {
             return false;
         }
-        if (!Objects.equals(this.strucnaSprema, other.strucnaSprema)) {
-            return false;
-        }
-        return Objects.equals(this.datumIzdavanja, other.datumIzdavanja);
+        return Objects.equals(this.strucnaSprema, other.strucnaSprema);
     }
 
     @Override
     public String toString() {
-        return dispecer + " dana " + datumIzdavanja + " je stekao zvanje " + strucnaSprema;
+        return dispecer + " dana " + datumIzdavanja + " je stekao sertifikat: " + nazivSertifikata;
     }
 
     @Override
-    public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ArrayList<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException {
+        ArrayList<ApstraktniDomenskiObjekat> lista = new ArrayList<>();
+
+        while (rs.next()) {
+            int idSertifikata = rs.getInt("idSertifikata");
+            String nazivSertifikata = rs.getString("nazivSertifikata");
+            java.util.Date datumIzdavanja = new java.util.Date(rs.getDate("datumIzdavanja").getTime());
+
+            int idDispecera = rs.getInt("idDispecera");
+            String ime = rs.getString("imeDispecera");
+            String prezime = rs.getString("prezimeDispecera");
+            String email = rs.getString("emailDispecera");
+            String telefon = rs.getString("telefonDispecera");
+            String username = rs.getString("korisnickoIme");
+            String pass = rs.getString("lozinka");
+
+            Dispecer dispecer = new Dispecer(idDispecera, ime, prezime, email, telefon, username, pass);
+
+            int idSpreme = rs.getInt("idStrucneSpreme");
+            String naziv = rs.getString("nazivStrucneSpreme");
+            TipStrucneSpreme tip = TipStrucneSpreme.valueOf(rs.getString("nazivTipaSpreme"));
+
+            StrucnaSprema sprema = new StrucnaSprema(idSpreme, naziv, tip);
+
+            Sertifikat sertifikat = new Sertifikat(idSertifikata, dispecer, sprema, nazivSertifikata, datumIzdavanja);
+            lista.add(sertifikat);
+
+        }
+
+        rs.close();
+        return lista;
     }
 
     @Override
     public String vratiNazivTabele() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "sertifikat";
     }
 
     @Override
     public String vratiNazivPrimarnogKljuca() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "idSertifikata , dispecer, strucnaSprema";
     }
 
     @Override
     public String vratiPrimarniKljuc() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "idSertifikata = " + idSertifikata + " AND dispecer = " + dispecer + " AND strucnaSprema = " + strucnaSprema;
     }
 
     @Override
     public String vratiKoloneZaInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return " (dispecer, strucnaSprema, nazivSertifikata, datumIzdavanja) ";
     }
 
     @Override
     public String vratiVrednostiZaInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return String.format(
+                "%d, %d, '%s', '%s'",
+                dispecer.getIdDispecera(),
+                strucnaSprema.getIdStrucneSpreme(),
+                nazivSertifikata,
+                new SimpleDateFormat("yyyy-MM-dd").format(datumIzdavanja)
+        );
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return String.format(
+                "dispecer = %d, strucnaSprema = %d, nazivSertifikata = '%s', datumIzdavanja = '%s'",
+                dispecer.getIdDispecera(),
+                strucnaSprema.getIdStrucneSpreme(),
+                nazivSertifikata,
+                new SimpleDateFormat("yyyy-MM-dd").format(datumIzdavanja)
+        );
     }
 
     @Override
     public String alijas() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "s";
     }
 
     @Override
     public String join() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "JOIN dispecer d ON s.dispecer = d.idDispecera "
+                + "JOIN strucna_sprema ss ON s.strucnaSprema = ss.idStrucneSpreme";
     }
 
     @Override
     public String uslov() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "idSertifikata = " + idSertifikata;
     }
 
     @Override
     public String uslovZaSelect() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<String> uslovi = new ArrayList<>();
+
+        //Uslov za dispecera
+        if (dispecer != null && dispecer.getIdDispecera() > 0) {
+            uslovi.add("s.dispecer = " + dispecer.getIdDispecera());
+        }
+
+        //Uslov za datum izdavanja
+        if (datumIzdavanja != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String formatiranDatum = sdf.format(datumIzdavanja);
+            uslovi.add("s.datumIzdavanja = '" + formatiranDatum + "'");
+        }
+        
+        //Nema kriterijuma
+        if(uslovi.isEmpty()){
+            System.out.println("Upozorenje: uslovZaPretragu() - Nema filtera, vraća se prazan string!");
+            return "";
+        }
+        
+        return String.join(" AND ", uslovi);
     }
 
 }

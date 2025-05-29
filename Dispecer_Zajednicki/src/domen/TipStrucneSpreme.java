@@ -9,5 +9,5 @@ package domen;
  * @author mikir
  */
 public enum TipStrucneSpreme {
-    OSNOVNA, SREDNJA, VSS, MASTER, DOKTORAT;
+    SREDNJA, VŠS, VSS, MASTER, DOKTORAT;
 }
