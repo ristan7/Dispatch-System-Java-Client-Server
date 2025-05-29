@@ -161,7 +161,7 @@ public class Roba implements ApstraktniDomenskiObjekat {
 
     @Override
     public String join() {
-        return "";
+        return "JOIN jedinica_mere jm ON r.jedinicaMere = jm.idJedinice";
     }
 
     @Override
@@ -176,11 +176,12 @@ public class Roba implements ApstraktniDomenskiObjekat {
         if (nazivRobe != null) {
             uslovi.add("nazivRobe = '" + nazivRobe + "'");
         }
-        
-        if(uslovi.isEmpty()){
+
+        if (uslovi.isEmpty()) {
+            System.out.println("Upozorenje: uslovZaPretragu() - Nema filtera, vraća se prazan string!");
             return "";
         }
-        
+
         return String.join(" AND ", uslovi);
     }
 

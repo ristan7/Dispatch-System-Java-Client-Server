@@ -7,7 +7,6 @@ package domen;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -266,7 +265,8 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
     @Override
     public String join() {
         return "JOIN nalog_za_transport_robe nr ON sn.nalog = nr.idNaloga "
-                + "JOIN roba r ON sn.roba = r.idRobe";
+                + "JOIN roba r ON sn.roba = r.idRobe "
+                + "JOIN jedinica_mere jm ON r.jedinicaMere = jm.idJedinice";
     }
 
     @Override

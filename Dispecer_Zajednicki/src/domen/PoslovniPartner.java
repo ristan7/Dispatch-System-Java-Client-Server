@@ -7,7 +7,6 @@ package domen;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -211,6 +210,12 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
                 uslov.append(" AND ");
             }
             uslov.append("m.nazivMesta LIKE '%").append(mesto.getNazivMesta()).append("%'");
+        }
+        if (mesto != null && mesto.getDrzava() != null && !mesto.getDrzava().isEmpty()) {
+            if (uslov.length() > 0) {
+                uslov.append(" AND ");
+            }
+            uslov.append("m.drzava LIKE '%").append(mesto.getDrzava()).append("%'");
         }
         return uslov.toString();
 

@@ -7,7 +7,6 @@ package domen;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -153,7 +152,8 @@ public class StrucnaSprema implements ApstraktniDomenskiObjekat {
 
     @Override
     public String uslovZaSelect() {
-        return "nazivTipaSpreme LIKE '%" + tip.name() + "%'";
+        //Da li treba brisati ts
+        return "ts.nazivTipaSpreme LIKE '%" + tip.name() + "%'";
     }
 
 }

@@ -211,13 +211,13 @@ public class Sertifikat implements ApstraktniDomenskiObjekat {
             String formatiranDatum = sdf.format(datumIzdavanja);
             uslovi.add("s.datumIzdavanja = '" + formatiranDatum + "'");
         }
-        
+
         //Nema kriterijuma
-        if(uslovi.isEmpty()){
+        if (uslovi.isEmpty()) {
             System.out.println("Upozorenje: uslovZaPretragu() - Nema filtera, vraća se prazan string!");
             return "";
         }
-        
+
         return String.join(" AND ", uslovi);
     }
 

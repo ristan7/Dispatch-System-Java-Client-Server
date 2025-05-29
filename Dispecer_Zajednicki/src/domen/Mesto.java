@@ -7,7 +7,6 @@ package domen;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -157,7 +156,17 @@ public class Mesto implements ApstraktniDomenskiObjekat {
 
     @Override
     public String uslovZaSelect() {
-        return "nazivMesta LIKE '%" + nazivMesta + "%'";
+        StringBuilder uslov = new StringBuilder();
+        if (nazivMesta != null && !nazivMesta.isEmpty()) {
+            uslov.append("m.nazivMesta LIKE '%").append(nazivMesta).append("%'");
+        }
+        if (drzava != null && !drzava.isEmpty()) {
+            if (uslov.length() > 0) {
+                uslov.append(" AND ");
+            }
+            uslov.append("m.drzava LIKE '%").append(drzava).append("%'");
+        }
+        return uslov.toString();
     }
 
 }
