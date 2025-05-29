@@ -370,10 +370,11 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 
     @Override
     public String join() {
-        return "JOIN Dispecer d ON nr.dispecer = d.idDispecera " 
-                + "JOIN poslovni_partner pp ON nr.poslovni_partner = pp.idPoslovnogPartnera " 
-                + "JOIN mesto m ON pp.mesto = m.idMesta " 
-                + "JOIN stavka_naloga sn ON nr.idNaloga = sn.nalog " 
+        return "JOIN Dispecer d ON nr.dispecer = d.idDispecera "
+                + "JOIN status_naloga st ON nr.status = st.idStatusaNaloga "
+                + "JOIN poslovni_partner pp ON nr.poslovni_partner = pp.idPoslovnogPartnera "
+                + "JOIN mesto m ON pp.mesto = m.idMesta "
+                + "JOIN stavka_naloga sn ON nr.idNaloga = sn.nalog "
                 + "JOIN roba r ON sn.roba = r.idRobe";
     }
 
@@ -394,14 +395,16 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
-            uslov.append("nr.status = '").append(status.name()).append("'");
+            //Da li brisati st
+            uslov.append("st.nazivStatusa = '").append(status.name()).append("'");
         }
 
         if (poslovniPartner != null) {
-            if (uslov.length() > 0) {
-                uslov.append(" AND ");
-            }
+
             if (poslovniPartner.getNazivPartnera() != null) {
+                if (uslov.length() > 0) {
+                    uslov.append(" AND ");
+                }
                 uslov.append("pp.nazivPartnera LIKE '%").append(poslovniPartner.getNazivPartnera()).append("%'");
             }
             if (poslovniPartner.getPib() > 0) {
@@ -411,10 +414,20 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 uslov.append("pp.pib = ").append(poslovniPartner.getPib());
             }
             if (poslovniPartner.getMesto() != null) {
-                if (uslov.length() > 0) {
-                    uslov.append(" AND ");
+
+                if (poslovniPartner.getMesto().getNazivMesta() != null) {
+                    if (uslov.length() > 0) {
+                        uslov.append(" AND ");
+                    }
+                    uslov.append("m.nazivMesta LIKE '%").append(poslovniPartner.getMesto().getNazivMesta()).append("%'");
                 }
-                uslov.append("m.nazivMesta LIKE '%").append(poslovniPartner.getMesto().getNazivMesta()).append("%'");
+                if (poslovniPartner.getMesto().getDrzava() != null) {
+                    if (uslov.length() > 0) {
+                        uslov.append(" AND ");
+                    }
+                    uslov.append("m.drzava LIKE '%").append(poslovniPartner.getMesto().getDrzava()).append('%');
+                }
+
             }
 
         }
