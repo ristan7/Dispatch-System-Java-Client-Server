@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,26 +16,26 @@ import java.sql.SQLException;
  */
 public interface ApstraktniDomenskiObjekat extends Serializable {
 
-    public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException;
+    public abstract ArrayList<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException;
 
-    public String vratiNazivTabele();
+    public abstract String vratiNazivTabele();
 
-    public String vratiNazivPrimarnogKljuca();
+    public abstract String vratiNazivPrimarnogKljuca();
 
-    public String vratiPrimarniKljuc();
+    public abstract String vratiPrimarniKljuc();
 
-    public String vratiKoloneZaInsert();
+    public abstract String vratiKoloneZaInsert();
 
-    public String vratiVrednostiZaInsert();
+    public abstract String vratiVrednostiZaInsert();
 
-    public String vratiVrednostiZaUpdate();
+    public abstract String vratiVrednostiZaUpdate();
 
-    public String alijas();
+    public abstract String alijas();
 
-    public String join();
+    public abstract String join();
 
-    public String uslov();
+    public abstract String uslov();
 
-    public String uslovZaSelect();
+    public abstract String uslovZaSelect();
 
 }

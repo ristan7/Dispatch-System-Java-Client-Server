@@ -6,6 +6,7 @@ package domen;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -125,58 +126,73 @@ public class Dispecer implements ApstraktniDomenskiObjekat {
     }
 
     @Override
-    public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ArrayList<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException {
+        ArrayList<ApstraktniDomenskiObjekat> lista = new ArrayList<>();
+
+        while (rs.next()) {
+            int id = rs.getInt("idDispecera");
+            String ime = rs.getString("imeDispecera");
+            String prezime = rs.getString("prezimeDispecera");
+            String email = rs.getString("emailDispecera");
+            String telefon = rs.getString("telefonDispecera");
+            String username = rs.getString("korisnickoIme");
+            String pass = rs.getString("lozinka");
+
+            Dispecer dispecer = new Dispecer(id, ime, prezime, email, telefon, username, pass);
+            lista.add(dispecer);
+        }
+        rs.close();
+        return lista;
     }
 
     @Override
     public String vratiNazivTabele() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "dispecer";
     }
 
     @Override
     public String vratiNazivPrimarnogKljuca() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "idDispecera";
     }
 
     @Override
     public String vratiPrimarniKljuc() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "idDispecera = " + idDispecera;
     }
 
     @Override
     public String vratiKoloneZaInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return " (imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, korisnickoIme, lozinka) ";
     }
 
     @Override
     public String vratiVrednostiZaInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return String.format("'%s', '%s', '%s', '%s', '%s', '%s'", imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, korisnickoIme, lozinka);
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return String.format("imeDispecera = '%s', prezimeDispecera = '%s', emailDispecera = '%s', telefonDispecera = '%s', korisnickoIme = '%s', lozinka = '%s'", imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, korisnickoIme, lozinka);
     }
 
     @Override
     public String alijas() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "d";
     }
 
     @Override
     public String join() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "";
     }
 
     @Override
     public String uslov() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "korisnickoIme = '" + korisnickoIme + "'";
     }
 
     @Override
     public String uslovZaSelect() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "idDispecera = " + idDispecera;
     }
 
 }

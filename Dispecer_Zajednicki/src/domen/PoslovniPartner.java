@@ -6,6 +6,7 @@ package domen;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -108,58 +109,111 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
     }
 
     @Override
-    public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ArrayList<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException {
+        ArrayList<ApstraktniDomenskiObjekat> lista = new ArrayList<>();
+
+        while (rs.next()) {
+            int idPartnera = rs.getInt("idPoslovnogPartnera");
+            String nazivPartnera = rs.getString("nazivPartnera");
+            int pib = rs.getInt("pib");
+            String adresaPartnera = rs.getString("adresaPartnera");
+            String emailPartnera = rs.getString("emailPartnera");
+
+            int idMesta = rs.getInt("idMesta");
+            String nazivMesta = rs.getString("nazivMesta");
+            String drzava = rs.getString("drzava");
+            int postanskiBroj = rs.getInt("postanskiBroj");
+
+            Mesto mesto = new Mesto(idMesta, nazivMesta, drzava, postanskiBroj);
+
+            PoslovniPartner ps = new PoslovniPartner(idPartnera, nazivPartnera, pib, adresaPartnera, emailPartnera, mesto);
+            lista.add(ps);
+        }
+
+        rs.close();
+        return lista;
     }
 
     @Override
     public String vratiNazivTabele() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "poslovni_partner";
     }
 
     @Override
     public String vratiNazivPrimarnogKljuca() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "idPoslovnogPartnera";
     }
 
     @Override
     public String vratiPrimarniKljuc() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "idPoslovnogPartnera = " + idPoslovnogPartnera;
     }
 
     @Override
     public String vratiKoloneZaInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return " (nazivPartnera, pib, adresaPartnera, emailPartnera, mesto) ";
     }
 
     @Override
     public String vratiVrednostiZaInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return String.format("'%s', %d, '%s', '%s', %d",
+                nazivPartnera,
+                pib,
+                adresaPartnera,
+                emailPartnera,
+                mesto.getIdMesta()
+        );
+
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return String.format(
+                "nazivPartnera = '%s', pib = %d, adresaPartnera = '%s', emailPartnera = '%s', mesto = %d",
+                nazivPartnera,
+                pib,
+                adresaPartnera,
+                emailPartnera,
+                mesto.getIdMesta()
+        );
     }
 
     @Override
     public String alijas() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "pp";
     }
 
     @Override
     public String join() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "JOIN mesto m ON pp.mesto = m.idMesta";
     }
 
     @Override
     public String uslov() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "";
     }
 
     @Override
     public String uslovZaSelect() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        StringBuilder uslov = new StringBuilder();
+
+        if (nazivPartnera != null && !nazivPartnera.isEmpty()) {
+            uslov.append("pp.nazivPartnera LIKE '%").append(nazivPartnera).append("%'");
+        }
+        if (pib > 0) {
+            if (uslov.length() > 0) {
+                uslov.append(" AND ");
+            }
+            uslov.append("pp.pib = ").append(pib);
+        }
+        if (mesto != null && mesto.getNazivMesta() != null && !mesto.getNazivMesta().isEmpty()) {
+            if (uslov.length() > 0) {
+                uslov.append(" AND ");
+            }
+            uslov.append("m.nazivMesta LIKE '%").append(mesto.getNazivMesta()).append("%'");
+        }
+        return uslov.toString();
+
     }
 
 }

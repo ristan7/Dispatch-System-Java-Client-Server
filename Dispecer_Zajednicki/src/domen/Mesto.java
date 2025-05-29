@@ -6,6 +6,7 @@ package domen;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -88,58 +89,75 @@ public class Mesto implements ApstraktniDomenskiObjekat {
     }
 
     @Override
-    public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ArrayList<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException {
+        ArrayList<ApstraktniDomenskiObjekat> lista = new ArrayList<>();
+
+        while (rs.next()) {
+            int id = rs.getInt("idMesta");
+            String naziv = rs.getString("nazivMesta");
+            String drzava = rs.getString("drzava");
+            int postanskiBroj = rs.getInt("postanskiBroj");
+
+            Mesto mesto = new Mesto(id, naziv, drzava, postanskiBroj);
+            lista.add(mesto);
+        }
+        rs.close();
+        return lista;
     }
 
     @Override
     public String vratiNazivTabele() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "mesto";
     }
 
     @Override
     public String vratiNazivPrimarnogKljuca() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "idMesta";
     }
 
     @Override
     public String vratiPrimarniKljuc() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "idMesta = " + idMesta;
     }
 
     @Override
     public String vratiKoloneZaInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return " (nazivMesta, drzava, postanskiBroj) ";
     }
 
     @Override
     public String vratiVrednostiZaInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return String.format("'%s', '%s', %d", nazivMesta, drzava, postanskiBroj);
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return String.format(
+                "nazivMesta = '%s', drzava = '%s', postanskiBroj = %d",
+                nazivMesta,
+                drzava,
+                postanskiBroj
+        );
     }
 
     @Override
     public String alijas() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "m";
     }
 
     @Override
     public String join() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "";
     }
 
     @Override
     public String uslov() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "";
     }
 
     @Override
     public String uslovZaSelect() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "nazivMesta LIKE '%" + nazivMesta + "%'";
     }
 
 }

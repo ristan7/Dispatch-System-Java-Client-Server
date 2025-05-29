@@ -6,9 +6,12 @@ package domen;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -26,24 +29,10 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
     private float ukupanIznosPosla;
     private Dispecer dispecer;
     private PoslovniPartner poslovniPartner;
-    private List<StavkaNaloga> stavke;
+    private List<StavkaNaloga> stavke = new ArrayList<>();
 
     public NalogZaTransportRobe() {
-        stavke = new LinkedList<>();
-    }
 
-    public NalogZaTransportRobe(int idNaloga, Date datumKreiranja, Date datumIzvrsenja, String adresaUtovara, String adresaIstovara, StatusNaloga status, float ukupanIznosPosla, Dispecer dispecer, PoslovniPartner poslovniPartner, List<StavkaNaloga> stavke) {
-        stavke = new LinkedList<>();
-        this.idNaloga = idNaloga;
-        this.datumKreiranja = datumKreiranja;
-        this.datumIzvrsenja = datumIzvrsenja;
-        this.adresaUtovara = adresaUtovara;
-        this.adresaIstovara = adresaIstovara;
-        this.status = status;
-        this.ukupanIznosPosla = ukupanIznosPosla;
-        this.dispecer = dispecer;
-        this.poslovniPartner = poslovniPartner;
-        this.stavke = stavke;
     }
 
     public int getIdNaloga() {
@@ -164,59 +153,273 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
         return "Nalog izmedju " + dispecer + " i " + poslovniPartner + ", zakljucen dana " + datumKreiranja + ", planiran da se izvrsi dana " + datumIzvrsenja;
     }
 
+    public void izracunajUkupneTroskovePosla() {
+        float ukupanIznos = 0;
+        for (StavkaNaloga stavkaNaloga : stavke) {
+            ukupanIznos += stavkaNaloga.getIznos();
+        }
+        ukupanIznosPosla = ukupanIznos;
+    }
+
     @Override
-    public List<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ArrayList<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException {
+        //Prva varijanta
+
+//        ArrayList<ApstraktniDomenskiObjekat> lista = new ArrayList<>();
+//
+//        while (rs.next()) {
+//            int idDispecera = rs.getInt("idDispecera");
+//            String imeDispecera = rs.getString("imeDispecera");
+//            String prezimeDispecera = rs.getString("prezimeDispecera");
+//            String emailDispecera = rs.getString("emailDispecera");
+//            String telefonDispecera = rs.getString("telefonDispecera");
+//            String userName = rs.getString("korisnickoIme");
+//            String pass = rs.getString("lozinka");
+//
+//            Dispecer d = new Dispecer(idDispecera, imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, userName, pass);
+//
+//            int idMesta = rs.getShort("lozinka");
+//            String nazivMesta = rs.getString("nazivMesta");
+//            String drzava = rs.getString("drzava");
+//            int postanskiBroj = rs.getInt("postanskiBroj");
+//
+//            Mesto m = new Mesto(idMesta, nazivMesta, drzava, postanskiBroj);
+//
+//            int idPoslovnogPartnera = rs.getInt("idPoslovnogPartnera");
+//            String nazivPoslovnogPartnera = rs.getString("nazivPartnera");
+//            int pib = rs.getInt("pib");
+//            String adresaPoslovnogPartnera = rs.getString("adresaPartnera");
+//            String emailPoslovnogPartnera = rs.getString("emailPartnera");
+//
+//            PoslovniPartner pp = new PoslovniPartner(idPoslovnogPartnera, nazivPoslovnogPartnera, pib, adresaPoslovnogPartnera, emailPoslovnogPartnera, m);
+//
+//            int idNaloga = rs.getInt("idNaloga");
+//
+//            java.sql.Date datumK = rs.getDate("datumKreiranja");
+//            java.util.Date datumKreiranja = new java.util.Date(datumK.getTime());
+//
+//            java.sql.Date datumI = rs.getDate("datumIzvrsenja");
+//            java.util.Date datumIzvrsenja = new java.util.Date(datumI.getTime());
+//
+//            String adresaUtovara = rs.getString("adresaUtovara");
+//            String adresaIstovara = rs.getString("adresaIstovara");
+//            StatusNaloga status = StatusNaloga.valueOf("nazivStatusa");
+//            Float ukupanIznos = rs.getFloat("ukupanIznosPosla");
+//
+//            NalogZaTransportRobe nalog = new NalogZaTransportRobe();
+//            nalog.setIdNaloga(idNaloga);
+//            nalog.setDatumKreiranja(datumKreiranja);
+//            nalog.setDatumIzvrsenja(datumIzvrsenja);
+//            nalog.setAdresaUtovara(adresaUtovara);
+//            nalog.setAdresaIstovara(adresaIstovara);
+//            nalog.setStatus(status);
+//            nalog.setUkupanIznosPosla(ukupanIznos);
+//            nalog.setDispecer(d);
+//            nalog.setPoslovniPartner(pp);
+//            nalog.setStavke(null);
+//
+//            lista.add(nalog);
+//        }
+        //Druga varijanta
+        ArrayList<ApstraktniDomenskiObjekat> lista = new ArrayList<>();
+        Map<Integer, NalogZaTransportRobe> nalozi = new HashMap<>();
+
+        while (rs.next()) {
+            int idNaloga = rs.getInt("idNaloga");
+
+            NalogZaTransportRobe nalog = nalozi.get(idNaloga);
+
+            if (nalog == null) {
+                nalog = new NalogZaTransportRobe();
+                nalog.setIdNaloga(idNaloga);
+
+                java.sql.Date datumK = rs.getDate("datumKreiranja");
+                java.util.Date datumKreiranja = new java.util.Date(datumK.getTime());
+                nalog.setDatumKreiranja(datumKreiranja);
+
+                java.sql.Date datumI = rs.getDate("datumIzvrsenja");
+                java.util.Date datumIzvrsenja = new java.util.Date(datumI.getTime());
+                nalog.setDatumIzvrsenja(datumIzvrsenja);
+
+                nalog.setAdresaUtovara(rs.getString("adresaUtovara"));
+                nalog.setAdresaIstovara(rs.getString("adresaIstovara"));
+                nalog.setStatus(StatusNaloga.valueOf("nazivStatusa"));
+                nalog.setUkupanIznosPosla(rs.getFloat("ukupanIznosPosla"));
+
+                int idDispecera = rs.getInt("idDispecera");
+                String imeDispecera = rs.getString("imeDispecera");
+                String prezimeDispecera = rs.getString("prezimeDispecera");
+                String emailDispecera = rs.getString("emailDispecera");
+                String telefonDispecera = rs.getString("telefonDispecera");
+                String userName = rs.getString("korisnickoIme");
+                String pass = rs.getString("lozinka");
+
+                Dispecer d = new Dispecer(idDispecera, imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, userName, pass);
+
+                nalog.setDispecer(d);
+
+                int idMesta = rs.getShort("lozinka");
+                String nazivMesta = rs.getString("nazivMesta");
+                String drzava = rs.getString("drzava");
+                int postanskiBroj = rs.getInt("postanskiBroj");
+
+                Mesto m = new Mesto(idMesta, nazivMesta, drzava, postanskiBroj);
+
+                int idPoslovnogPartnera = rs.getInt("idPoslovnogPartnera");
+                String nazivPoslovnogPartnera = rs.getString("nazivPartnera");
+                int pib = rs.getInt("pib");
+                String adresaPoslovnogPartnera = rs.getString("adresaPartnera");
+                String emailPoslovnogPartnera = rs.getString("emailPartnera");
+
+                PoslovniPartner pp = new PoslovniPartner(idPoslovnogPartnera, nazivPoslovnogPartnera, pib, adresaPoslovnogPartnera, emailPoslovnogPartnera, m);
+
+                nalog.setPoslovniPartner(pp);
+
+                nalozi.put(idNaloga, nalog);
+            }
+
+            StavkaNaloga stavka = new StavkaNaloga();
+
+            int rb = rs.getShort("rb");
+            Float kolicina = rs.getFloat("kolicina");
+            Float cenaPoJedinici = rs.getFloat("cenaPoJedinici");
+            Float iznos = rs.getFloat("iznos");
+
+            int idRobe = rs.getInt("idRobe");
+            String nazivRobe = rs.getString("nazivRobe");
+
+            int idJedinice = rs.getInt("idJedinice");
+            String nazivJedinice = rs.getString("nazivJedinice");
+            String oznaka = rs.getString("oznaka");
+            JedinicaMere j = new JedinicaMere(idJedinice, nazivJedinice, oznaka);
+
+            Float cena = rs.getFloat("cena");
+            Roba r = new Roba(idRobe, nazivRobe, j, cena);
+
+            stavka.setRb(rb);
+            stavka.setKolicina(kolicina);
+            stavka.setCenaPoJedinici(cenaPoJedinici);
+            stavka.setIznos(iznos);
+            stavka.setRoba(r);
+            stavka.setNalog(nalog);
+
+            nalog.getStavke().add(stavka);
+        }
+
+        lista.addAll(nalozi.values());
+
+        rs.close();
+        return lista;
     }
 
     @Override
     public String vratiNazivTabele() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "nalog_za_transport_robe";
     }
 
     @Override
     public String vratiNazivPrimarnogKljuca() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "idNaloga";
     }
 
     @Override
     public String vratiPrimarniKljuc() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "idNaloga = " + idNaloga;
     }
 
     @Override
     public String vratiKoloneZaInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return " (datumKreiranja, datumIzvrsenja, adresaUtovara, adresaIstovara, status, ukupanIznosPosla, dispecer, poslovni_partner) ";
     }
 
     @Override
     public String vratiVrednostiZaInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return String.format(
+                "'%s', '%s', '%s', '%s', %d, %.2f, %d, %d",
+                new SimpleDateFormat("yyyy-MM-dd").format(datumKreiranja),
+                new SimpleDateFormat("yyyy-MM-dd").format(datumIzvrsenja),
+                adresaUtovara,
+                adresaIstovara,
+                status.ordinal(),
+                ukupanIznosPosla,
+                dispecer.getIdDispecera(),
+                poslovniPartner.getIdPoslovnogPartnera()
+        );
+
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return String.format(
+                "datumKreiranja = '%s', datumIzvrsenja = '%s', adresaUtovara = '%s', adresaIstovara = '%s', status = %d, ukupanIznosPosla = %.2f, dispecer = %d, poslovniPartner = %d",
+                new SimpleDateFormat("yyyy-MM-dd").format(datumKreiranja),
+                new SimpleDateFormat("yyyy-MM-dd").format(datumIzvrsenja),
+                adresaUtovara,
+                adresaIstovara,
+                status.ordinal(),
+                ukupanIznosPosla,
+                dispecer.getIdDispecera(),
+                poslovniPartner.getIdPoslovnogPartnera()
+        );
     }
 
     @Override
     public String alijas() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "nr";
     }
 
     @Override
     public String join() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "JOIN Dispecer d ON nr.dispecer = d.idDispecera " 
+                + "JOIN poslovni_partner pp ON nr.poslovni_partner = pp.idPoslovnogPartnera " 
+                + "JOIN mesto m ON pp.mesto = m.idMesta " 
+                + "JOIN stavka_naloga sn ON nr.idNaloga = sn.nalog " 
+                + "JOIN roba r ON sn.roba = r.idRobe";
     }
 
     @Override
     public String uslov() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "nr.dispecer = " + dispecer.getIdDispecera();
     }
 
     @Override
     public String uslovZaSelect() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        StringBuilder uslov = new StringBuilder();
+
+        if (dispecer != null && dispecer.getIdDispecera() > 0) {
+            uslov.append("nr.dispecer = ").append(dispecer.getIdDispecera());
+        }
+
+        if (status != null) {
+            if (uslov.length() > 0) {
+                uslov.append(" AND ");
+            }
+            uslov.append("nr.status = '").append(status.name()).append("'");
+        }
+
+        if (poslovniPartner != null) {
+            if (uslov.length() > 0) {
+                uslov.append(" AND ");
+            }
+            if (poslovniPartner.getNazivPartnera() != null) {
+                uslov.append("pp.nazivPartnera LIKE '%").append(poslovniPartner.getNazivPartnera()).append("%'");
+            }
+            if (poslovniPartner.getPib() > 0) {
+                if (uslov.length() > 0) {
+                    uslov.append(" AND ");
+                }
+                uslov.append("pp.pib = ").append(poslovniPartner.getPib());
+            }
+            if (poslovniPartner.getMesto() != null) {
+                if (uslov.length() > 0) {
+                    uslov.append(" AND ");
+                }
+                uslov.append("m.nazivMesta LIKE '%").append(poslovniPartner.getMesto().getNazivMesta()).append("%'");
+            }
+
+        }
+
+        return uslov.toString();
     }
 
 }
