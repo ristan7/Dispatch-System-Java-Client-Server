@@ -5,6 +5,7 @@
 package forme;
 
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import niti.ServerskaNit;
 
 /**
@@ -21,9 +22,9 @@ public class ServerskaForma extends javax.swing.JFrame {
     public ServerskaForma() {
         initComponents();
         jButtonZaustaviServer.setEnabled(false);
-        server = new ServerskaNit();
         jLabel1.setVisible(false);
         postaviText("");
+        setTitle("Serverska forma");
     }
 
     /**
@@ -129,56 +130,31 @@ public class ServerskaForma extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jButtonPokreniServer1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPokreniServer1ActionPerformed
-        server.start();
-        postaviText("SERVER JE POKRENUT!!!!");
-        jLabel1.setVisible(true);
-        jLabelStatus.setForeground(new Color(0x00, 0x66, 0x22));
-        jButtonPokreniServer1.setEnabled(false);
-        jButtonZaustaviServer.setEnabled(true);
-
+        if (server == null || !server.isAlive()) {
+            server = new ServerskaNit();
+            server.start();
+            postaviText("SERVER JE POKRENUT!!!!");
+            jLabel1.setVisible(true);
+            jLabelStatus.setForeground(new Color(0x00, 0x66, 0x22));
+            jButtonPokreniServer1.setEnabled(false);
+            jButtonZaustaviServer.setEnabled(true);
+        }
     }//GEN-LAST:event_jButtonPokreniServer1ActionPerformed
 
     private void jButtonZaustaviServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonZaustaviServerActionPerformed
-        server.zaustaviServer();
-        postaviText("SERVER JE ZAUSTAVLJEN!!");
-        jLabelStatus.setForeground(Color.RED);
-        
+        if (server.getServerSocket() != null && server.getServerSocket().isBound()) {
+            server.zaustaviServer();
+            JOptionPane.showMessageDialog(this, "Server je ugasen, gasenje programa!!", "GASENJE PROGRAMA!", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+            System.exit(0);
+
+        }
+
     }//GEN-LAST:event_jButtonZaustaviServerActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ServerskaForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ServerskaForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ServerskaForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ServerskaForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ServerskaForma().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonPokreniServer1;

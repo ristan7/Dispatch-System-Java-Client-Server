@@ -4,6 +4,8 @@
  */
 package forme;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author mikir
@@ -16,6 +18,9 @@ public class FormaKonfiguracijeBaze extends javax.swing.JDialog {
     public FormaKonfiguracijeBaze(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        jTextFieldUrl.setText(konfiguracija.Konfiguracija.getInstance().getProperty("url"));
+        jTextFieldUserName.setText(konfiguracija.Konfiguracija.getInstance().getProperty("username"));
+        jPasswordField.setText(konfiguracija.Konfiguracija.getInstance().getProperty("password"));
     }
 
     /**
@@ -28,8 +33,8 @@ public class FormaKonfiguracijeBaze extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jTextFieldUserName = new javax.swing.JTextField();
         jTextFieldUrl = new javax.swing.JTextField();
-        jTextFieldUrl1 = new javax.swing.JTextField();
         jPasswordField = new javax.swing.JPasswordField();
         jButtonSacuvaj = new javax.swing.JButton();
         jButtonOtkazi = new javax.swing.JButton();
@@ -43,8 +48,18 @@ public class FormaKonfiguracijeBaze extends javax.swing.JDialog {
         jLabel3.setText("PASSWORD : ");
 
         jButtonSacuvaj.setText("SACUVAJ");
+        jButtonSacuvaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSacuvajActionPerformed(evt);
+            }
+        });
 
         jButtonOtkazi.setText("OTKAZI");
+        jButtonOtkazi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOtkaziActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -61,8 +76,8 @@ public class FormaKonfiguracijeBaze extends javax.swing.JDialog {
                                 .addComponent(jLabel2)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldUserName)
                             .addComponent(jTextFieldUrl)
-                            .addComponent(jTextFieldUrl1)
                             .addComponent(jPasswordField)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonOtkazi)
@@ -76,11 +91,11 @@ public class FormaKonfiguracijeBaze extends javax.swing.JDialog {
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextFieldUrl1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldUrl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextFieldUrl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -95,47 +110,31 @@ public class FormaKonfiguracijeBaze extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonOtkaziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOtkaziActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonOtkaziActionPerformed
+
+    private void jButtonSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSacuvajActionPerformed
+        String url = jTextFieldUrl.getText().trim();
+        String userName = jTextFieldUserName.getText().trim();
+        String password = String.valueOf(jPasswordField.getPassword()).trim();
+        try {
+            konfiguracija.Konfiguracija.getInstance().setProperty("url", url);
+            konfiguracija.Konfiguracija.getInstance().setProperty("username", userName);
+            konfiguracija.Konfiguracija.getInstance().setProperty("password", password);
+
+            konfiguracija.Konfiguracija.getInstance().sacuvajIzmene();
+            JOptionPane.showMessageDialog(this, "Uspesno upisivanje u property fajl!!", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Greska prilikom cuvanja u property fajl!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonSacuvajActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormaKonfiguracijeBaze.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormaKonfiguracijeBaze.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormaKonfiguracijeBaze.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormaKonfiguracijeBaze.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FormaKonfiguracijeBaze dialog = new FormaKonfiguracijeBaze(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonOtkazi;
@@ -145,6 +144,6 @@ public class FormaKonfiguracijeBaze extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JTextField jTextFieldUrl;
-    private javax.swing.JTextField jTextFieldUrl1;
+    private javax.swing.JTextField jTextFieldUserName;
     // End of variables declaration//GEN-END:variables
 }
