@@ -65,4 +65,14 @@ public class ServerskaNit extends Thread {
         }
     }
 
+    public ServerSocket getServerSocket() {
+        return serverSocket;
+    }
+
+    public void setServerSocket(ServerSocket serverSocket) {
+        this.serverSocket = serverSocket;
+    }
+    
+    
+
 }
