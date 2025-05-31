@@ -14,16 +14,16 @@ public class ServerskiOdgovor implements Serializable {
 
     private Object odgovor;
     private int operacija;
-    private String poruka;
+    private Exception ex;
     private VrstaOdgovora vrstaOdgovora;
 
     public ServerskiOdgovor() {
     }
 
-    public ServerskiOdgovor(Object odgovor, int operacija, String poruka, VrstaOdgovora vrstaOdgovora) {
+    public ServerskiOdgovor(Object odgovor, int operacija, Exception ex, VrstaOdgovora vrstaOdgovora) {
         this.odgovor = odgovor;
         this.operacija = operacija;
-        this.poruka = poruka;
+        this.ex = ex;
         this.vrstaOdgovora = vrstaOdgovora;
     }
 
@@ -43,12 +43,12 @@ public class ServerskiOdgovor implements Serializable {
         this.operacija = Operacija;
     }
 
-    public String getPoruka() {
-        return poruka;
+    public Exception getEx() {
+        return ex;
     }
 
-    public void setPoruka(String poruka) {
-        this.poruka = poruka;
+    public void setEx(Exception ex) {
+        this.ex = ex;
     }
 
     public VrstaOdgovora getVrstaOdgovora() {
@@ -61,7 +61,7 @@ public class ServerskiOdgovor implements Serializable {
 
     @Override
     public String toString() {
-        return "ServerskiOdgovor{" + "odgovor=" + odgovor + ", operacija=" + operacija + ", poruka=" + poruka + ", vrstaOdgovora=" + vrstaOdgovora + '}';
+        return "ServerskiOdgovor{" + "odgovor=" + odgovor + ", operacija=" + operacija + ", ex=" + ex + ", vrstaOdgovora=" + vrstaOdgovora + '}';
     }
 
 }

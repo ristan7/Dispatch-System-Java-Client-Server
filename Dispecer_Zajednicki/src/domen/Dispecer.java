@@ -191,7 +191,7 @@ public class Dispecer implements ApstraktniDomenskiObjekat {
 
     @Override
     public String uslovZaSelect() {
-        return "idDispecera = " + idDispecera;
+        return "";
     }
 
 }

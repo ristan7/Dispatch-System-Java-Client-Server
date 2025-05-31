@@ -4,11 +4,14 @@
  */
 package niti;
 
+import controller.ServerController;
+import domen.Dispecer;
 import java.io.IOException;
 import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import komunikacija.KlijentskiZahtev;
+import komunikacija.Operacija;
 import komunikacija.Posiljalac;
 import komunikacija.Primalac;
 import komunikacija.ServerskiOdgovor;
@@ -59,15 +62,20 @@ public class ObradaKlijentskihZahteva extends Thread {
     private ServerskiOdgovor obradiZahtev(KlijentskiZahtev zahtev) {
         try {
             if (zahtev == null) {
-                return new ServerskiOdgovor(null, -1, "Primljen je prazan zahtev.", VrstaOdgovora.NEUSPESNO);
+                return new ServerskiOdgovor(null, -1, new Exception("Primljen je prazan zahtev."), VrstaOdgovora.NEUSPESNO);
             }
 
             switch (zahtev.getOperacija()) {
+
+                case Operacija.LOGIN:
+                    Dispecer d = (Dispecer) zahtev.getParametar();
+                    Dispecer dispecer = ServerController.getInstance().login(d);
+                    return new ServerskiOdgovor(dispecer, Operacija.LOGIN, null, VrstaOdgovora.USPESNO);
                 default:
-                    return new ServerskiOdgovor(null, zahtev.getOperacija(), "Nije poznata operacija!", VrstaOdgovora.NEUSPESNO);
+                    return new ServerskiOdgovor(null, zahtev.getOperacija(), new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
             }
         } catch (Exception ex) {
-            return new ServerskiOdgovor(null, zahtev.getOperacija(), ex.getMessage(), VrstaOdgovora.NEUSPESNO);
+            return new ServerskiOdgovor(null, zahtev.getOperacija(), ex, VrstaOdgovora.NEUSPESNO);
         }
     }
 

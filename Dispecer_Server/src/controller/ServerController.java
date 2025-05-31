@@ -6,6 +6,7 @@ package controller;
 
 import domen.Dispecer;
 import java.util.ArrayList;
+import operacija.login.SistemskaOperacijaLogin;
 
 /**
  *
@@ -34,7 +35,11 @@ public class ServerController {
     public void setUlogovaniDispeceri(ArrayList<Dispecer> ulogovaniDispeceri) {
         this.ulogovaniDispeceri = ulogovaniDispeceri;
     }
-    
-    
+
+    public Dispecer login(Dispecer dispecer) throws Exception {
+        SistemskaOperacijaLogin so = new SistemskaOperacijaLogin();
+        so.templateIzvrsi(dispecer);
+        return so.getUlogovani();
+    }
 
 }
