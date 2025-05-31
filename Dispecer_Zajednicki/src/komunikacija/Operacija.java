@@ -11,5 +11,6 @@ import java.io.Serializable;
  * @author mikir
  */
 public class Operacija {
-
+    
+    public static final int LOGIN = 0;
 }

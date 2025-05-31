@@ -32,9 +32,10 @@ public class ServerskaNit extends Thread {
 
     @Override
     public void run() {
+        System.out.println("Pokrenut je SERVER!!!");
         while (serverSocket != null && !serverSocket.isClosed()) {
             try {
-                System.out.println("Pokrenut je SERVER!!!");
+
                 System.out.println("Cekanje KLIJENTA...");
                 Socket socket = serverSocket.accept();
                 ObradaKlijentskihZahteva nitKlijenta = new ObradaKlijentskihZahteva(socket);
@@ -72,7 +73,5 @@ public class ServerskaNit extends Thread {
     public void setServerSocket(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
     }
-    
-    
 
 }
