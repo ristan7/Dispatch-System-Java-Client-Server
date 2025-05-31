@@ -25,14 +25,17 @@ public class DBBroker {
     private Connection connection;
 
     private DBBroker() {
+        Properties properties = new Properties();
         try {
-            Properties properties = new Properties();
             properties.load(new FileInputStream("C:\\Users\\mikir\\Documents\\NetBeansProjects\\SeminarskiSoftveri\\Dispecer_Server\\config\\config.properties"));
             String url = properties.getProperty("url");
             String pass = properties.getProperty("password");
             String userName = properties.getProperty("username");
-            connection = DriverManager.getConnection(url, userName, pass);
-            connection.setAutoCommit(false);
+            if (connection == null || connection.isClosed()) {
+                connection = DriverManager.getConnection(url, userName, pass);
+                connection.setAutoCommit(false);
+                System.out.println("Otvorena konekcija!");
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
