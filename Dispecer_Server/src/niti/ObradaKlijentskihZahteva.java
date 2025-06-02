@@ -6,8 +6,10 @@ package niti;
 
 import controller.ServerController;
 import domen.Dispecer;
+import domen.NalogZaTransportRobe;
 import java.io.IOException;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import komunikacija.KlijentskiZahtev;
@@ -42,10 +44,11 @@ public class ObradaKlijentskihZahteva extends Thread {
                 try {
                     zahtev = (KlijentskiZahtev) primalac.primi();
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if (zahtev == null) {
-                    Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.WARNING, "Primljen je prazan zahtev");
+                    Logger.getLogger(ObradaKlijentskihZahteva.class.getName())
+                            .log(Level.WARNING, "Primljen je prazan zahtev.");
                     continue;
                 }
                 ServerskiOdgovor odgovor = obradiZahtev(zahtev);
@@ -64,19 +67,38 @@ public class ObradaKlijentskihZahteva extends Thread {
             if (zahtev == null) {
                 return new ServerskiOdgovor(null, -1, new Exception("Primljen je prazan zahtev."), VrstaOdgovora.NEUSPESNO);
             }
-
-            switch (zahtev.getOperacija()) {
-
-                case Operacija.LOGIN:
-                    Dispecer d = (Dispecer) zahtev.getParametar();
-                    Dispecer dispecer = ServerController.getInstance().login(d);
-                    return new ServerskiOdgovor(dispecer, Operacija.LOGIN, null, VrstaOdgovora.USPESNO);
-                default:
-                    return new ServerskiOdgovor(null, zahtev.getOperacija(), new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
+            if (zahtev.getOperacija() == Operacija.LOGIN) {
+                Dispecer d = (Dispecer) zahtev.getParametar();
+                Dispecer dispecer = ServerController.getInstance().login(d);
+                System.out.println("Ovde 1");
+                return new ServerskiOdgovor(dispecer, Operacija.LOGIN, null, VrstaOdgovora.USPESNO);
             }
+
+            if (zahtev.getOperacija() == Operacija.VRATI_NALOGE_PO_DATUMU) {
+                NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
+                ArrayList<NalogZaTransportRobe> naloziPoDatumu = ServerController.getInstance().naloziPoDatumu(nalog);
+                return new ServerskiOdgovor(naloziPoDatumu, Operacija.VRATI_NALOGE_PO_DATUMU, null, VrstaOdgovora.USPESNO);
+            }
+//            switch (zahtev.getOperacija()) {
+//
+//                case Operacija.LOGIN:
+//                    Dispecer d = (Dispecer) zahtev.getParametar();
+//                    Dispecer dispecer = ServerController.getInstance().login(d);
+//                    System.out.println("Ovde 1");
+//                    return new ServerskiOdgovor(dispecer, Operacija.LOGIN, null, VrstaOdgovora.USPESNO);
+//
+//                case Operacija.VRATI_NALOGE_PO_DATUMU:
+//                    NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
+//                    ArrayList<NalogZaTransportRobe> naloziPoDatumu = ServerController.getInstance().naloziPoDatumu(nalog);
+//                    return new ServerskiOdgovor(naloziPoDatumu, Operacija.VRATI_NALOGE_PO_DATUMU, null, VrstaOdgovora.USPESNO);
+//
+//                default:
+//                    return new ServerskiOdgovor(null, zahtev.getOperacija(), new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
+
         } catch (Exception ex) {
             return new ServerskiOdgovor(null, zahtev.getOperacija(), ex, VrstaOdgovora.NEUSPESNO);
         }
+        return null;
     }
 
     public void zatvoriSoket() {

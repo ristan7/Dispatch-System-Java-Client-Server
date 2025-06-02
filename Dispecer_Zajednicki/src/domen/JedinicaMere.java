@@ -4,11 +4,13 @@
  */
 package domen;
 
+import java.io.Serializable;
+
 /**
  *
  * @author mikir
  */
-public class JedinicaMere {
+public class JedinicaMere implements Serializable {
 
     private int idJedinice;
     private String nazivJedinice;

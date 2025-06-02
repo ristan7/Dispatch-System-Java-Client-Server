@@ -11,6 +11,7 @@ import java.io.Serializable;
  * @author mikir
  */
 public class Operacija {
-    
+
     public static final int LOGIN = 0;
+    public static final int VRATI_NALOGE_PO_DATUMU = 1;
 }

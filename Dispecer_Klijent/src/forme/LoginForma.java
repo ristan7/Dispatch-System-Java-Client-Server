@@ -20,6 +20,7 @@ public class LoginForma extends javax.swing.JFrame {
      */
     public LoginForma() {
         initComponents();
+        setLocationRelativeTo(null);
         setTitle("Login forma");
     }
 
@@ -121,7 +122,8 @@ public class LoginForma extends javax.swing.JFrame {
             Dispecer dispecer = ClientController.getInstance().login(d);
             Sesija.getInstance().setUlogovani(dispecer);
 
-            new MainForma().setVisible(true);
+            MainForma mf=new MainForma();
+            mf.setVisible(true);
             this.dispose();
 
         } catch (Exception ex) {
