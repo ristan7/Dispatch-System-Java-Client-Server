@@ -18,6 +18,7 @@ public class FormaKonfiguracijeBaze extends javax.swing.JDialog {
     public FormaKonfiguracijeBaze(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
         jTextFieldUrl.setText(konfiguracija.Konfiguracija.getInstance().getProperty("url"));
         jTextFieldUserName.setText(konfiguracija.Konfiguracija.getInstance().getProperty("username"));
         jPasswordField.setText(konfiguracija.Konfiguracija.getInstance().getProperty("password"));

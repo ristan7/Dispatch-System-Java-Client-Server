@@ -5,8 +5,11 @@
 package controller;
 
 import domen.Dispecer;
+import domen.NalogZaTransportRobe;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import komunikacija.KlijentskiZahtev;
 import komunikacija.Operacija;
 import komunikacija.ServerskiOdgovor;
@@ -31,25 +34,25 @@ public class ClientController {
         return instance;
     }
 
-    private Object posaljiZahtev(int operacija, Object parametar) throws Exception {
+    public void posaljiZahtev(int operacija, Object parametar) throws Exception {
         KlijentskiZahtev zahtev = new KlijentskiZahtev(operacija, parametar);
+        Sesija.getInstance().getOut().writeObject(zahtev);
+        Sesija.getInstance().getOut().flush();
+    }
 
-        ObjectOutputStream out = new ObjectOutputStream(Sesija.getInstance().getSocket().getOutputStream());
-        out.writeObject(zahtev);
-        out.flush();
-
-        ObjectInputStream in = new ObjectInputStream(Sesija.getInstance().getSocket().getInputStream());
-        ServerskiOdgovor odgovor = (ServerskiOdgovor) in.readObject();
-
-        if (odgovor.getVrstaOdgovora().equals(VrstaOdgovora.NEUSPESNO)) {
-            throw new Exception(odgovor.getEx());
-        } else {
-            return odgovor.getOdgovor();
-        }
-
+    public ServerskiOdgovor primiOdgovor() throws IOException, ClassNotFoundException {
+        return (ServerskiOdgovor) Sesija.getInstance().getIn().readObject();
     }
 
     public Dispecer login(Dispecer dispecer) throws Exception {
-        return (Dispecer) posaljiZahtev(Operacija.LOGIN, dispecer);
+        posaljiZahtev(Operacija.LOGIN, dispecer);
+        ServerskiOdgovor so = primiOdgovor();
+        return (Dispecer) so.getOdgovor();
+    }
+
+    public ArrayList<NalogZaTransportRobe> getNalogeZaDatum(NalogZaTransportRobe nalog) throws Exception {
+        posaljiZahtev(Operacija.VRATI_NALOGE_PO_DATUMU, nalog);
+        ServerskiOdgovor so = primiOdgovor();
+        return (ArrayList<NalogZaTransportRobe>) so.getOdgovor();
     }
 }

@@ -29,7 +29,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
     private float ukupanIznosPosla;
     private Dispecer dispecer;
     private PoslovniPartner poslovniPartner;
-    private List<StavkaNaloga> stavke = new ArrayList<>();
+    private ArrayList<StavkaNaloga> stavke = new ArrayList<>();
 
     public NalogZaTransportRobe() {
 
@@ -111,7 +111,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
         return stavke;
     }
 
-    public void setStavke(List<StavkaNaloga> stavke) {
+    public void setStavke(ArrayList<StavkaNaloga> stavke) {
         this.stavke = stavke;
     }
 
@@ -226,10 +226,12 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 
         while (rs.next()) {
             int idNaloga = rs.getInt("idNaloga");
+            System.out.println(idNaloga);
 
             NalogZaTransportRobe nalog = nalozi.get(idNaloga);
 
             if (nalog == null) {
+                System.out.println("Nema naloga ovde je usao");
                 nalog = new NalogZaTransportRobe();
                 nalog.setIdNaloga(idNaloga);
 
@@ -243,8 +245,10 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 
                 nalog.setAdresaUtovara(rs.getString("adresaUtovara"));
                 nalog.setAdresaIstovara(rs.getString("adresaIstovara"));
-                nalog.setStatus(StatusNaloga.valueOf("nazivStatusa"));
+                nalog.setStatus(StatusNaloga.valueOf(rs.getString("nazivStatusa")));
                 nalog.setUkupanIznosPosla(rs.getFloat("ukupanIznosPosla"));
+
+                System.out.println(nalog.getAdresaUtovara());
 
                 int idDispecera = rs.getInt("idDispecera");
                 String imeDispecera = rs.getString("imeDispecera");
@@ -255,15 +259,17 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 String pass = rs.getString("lozinka");
 
                 Dispecer d = new Dispecer(idDispecera, imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, userName, pass);
+                System.out.println(dispecer.toString());
 
                 nalog.setDispecer(d);
 
-                int idMesta = rs.getShort("lozinka");
+                int idMesta = rs.getInt("idMesta");
                 String nazivMesta = rs.getString("nazivMesta");
                 String drzava = rs.getString("drzava");
                 int postanskiBroj = rs.getInt("postanskiBroj");
 
                 Mesto m = new Mesto(idMesta, nazivMesta, drzava, postanskiBroj);
+                System.out.println(m.toString());
 
                 int idPoslovnogPartnera = rs.getInt("idPoslovnogPartnera");
                 String nazivPoslovnogPartnera = rs.getString("nazivPartnera");
@@ -272,6 +278,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 String emailPoslovnogPartnera = rs.getString("emailPartnera");
 
                 PoslovniPartner pp = new PoslovniPartner(idPoslovnogPartnera, nazivPoslovnogPartnera, pib, adresaPoslovnogPartnera, emailPoslovnogPartnera, m);
+                System.out.println(pp.toString());
 
                 nalog.setPoslovniPartner(pp);
 
@@ -280,21 +287,26 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 
             StavkaNaloga stavka = new StavkaNaloga();
 
-            int rb = rs.getShort("rb");
+            int rb = rs.getInt("rb");
             Float kolicina = rs.getFloat("kolicina");
             Float cenaPoJedinici = rs.getFloat("cenaPoJedinici");
             Float iznos = rs.getFloat("iznos");
+            System.out.println(iznos);
 
             int idRobe = rs.getInt("idRobe");
+            System.out.println(idRobe);
             String nazivRobe = rs.getString("nazivRobe");
+            System.out.println(nazivRobe);
 
             int idJedinice = rs.getInt("idJedinice");
             String nazivJedinice = rs.getString("nazivJedinice");
             String oznaka = rs.getString("oznaka");
             JedinicaMere j = new JedinicaMere(idJedinice, nazivJedinice, oznaka);
+            System.out.println(j.toString());
 
             Float cena = rs.getFloat("cena");
             Roba r = new Roba(idRobe, nazivRobe, j, cena);
+            System.out.println(r.toString());
 
             stavka.setRb(rb);
             stavka.setKolicina(kolicina);
@@ -375,7 +387,8 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 + "JOIN poslovni_partner pp ON nr.poslovni_partner = pp.idPoslovnogPartnera "
                 + "JOIN mesto m ON pp.mesto = m.idMesta "
                 + "JOIN stavka_naloga sn ON nr.idNaloga = sn.nalog "
-                + "JOIN roba r ON sn.roba = r.idRobe";
+                + "JOIN roba r ON sn.roba = r.idRobe "
+                + "JOIN jedinica_mere jm ON r.jedinicaMere = jm.idJedinice";
     }
 
     @Override
@@ -397,6 +410,20 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
             }
             //Da li brisati st
             uslov.append("st.nazivStatusa = '").append(status.name()).append("'");
+        }
+
+        if (datumKreiranja != null) {
+            if (uslov.length() > 0) {
+                uslov.append(" AND ");
+            }
+            uslov.append("nr.datumKreiranja = '").append(datumKreiranja).append("'");
+        }
+
+        if (datumIzvrsenja != null) {
+            if (uslov.length() > 0) {
+                uslov.append(" AND ");
+            }
+            uslov.append("nr.datumIzvrsenja = '").append(datumIzvrsenja).append("'");
         }
 
         if (poslovniPartner != null) {

@@ -5,8 +5,10 @@
 package controller;
 
 import domen.Dispecer;
+import domen.NalogZaTransportRobe;
 import java.util.ArrayList;
 import operacija.login.SistemskaOperacijaLogin;
+import operacija.nalog.SistemskaOperacijaVratiNalogePoDatumu;
 
 /**
  *
@@ -40,6 +42,12 @@ public class ServerController {
         SistemskaOperacijaLogin so = new SistemskaOperacijaLogin();
         so.templateIzvrsi(dispecer);
         return so.getUlogovani();
+    }
+
+    public ArrayList<NalogZaTransportRobe> naloziPoDatumu(NalogZaTransportRobe nalog) throws Exception {
+        SistemskaOperacijaVratiNalogePoDatumu so = new SistemskaOperacijaVratiNalogePoDatumu();
+        so.templateIzvrsi(nalog);
+        return so.getLista();
     }
 
 }

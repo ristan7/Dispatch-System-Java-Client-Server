@@ -5,6 +5,7 @@
 package baza;
 
 import domen.ApstraktniDomenskiObjekat;
+import domen.NalogZaTransportRobe;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.util.Properties;
@@ -81,5 +82,14 @@ public class DBBroker {
         System.out.println(naredba);
         Statement s = connection.createStatement();
         s.executeUpdate(naredba);
+    }
+
+    public ArrayList<ApstraktniDomenskiObjekat> selectZaUslov(ApstraktniDomenskiObjekat ado, String uslov) throws SQLException{
+        String upit="SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join() + " WHERE " + uslov;
+        System.out.println(upit);
+        Statement s = connection.createStatement();
+        ResultSet rs = s.executeQuery(upit);
+        System.out.println("ja sam ja");
+        return ado.vratiListu(rs);
     }
 }
