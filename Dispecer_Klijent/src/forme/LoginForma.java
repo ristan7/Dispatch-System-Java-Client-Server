@@ -123,13 +123,15 @@ public class LoginForma extends javax.swing.JFrame {
 
             Sesija.getInstance().setUlogovani(dispecer);
 
+            JOptionPane.showMessageDialog(this, "Korisnicko ime i sifra su ispravni.", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
+
             MainForma mf = new MainForma();
             mf.setVisible(true);
             this.dispose();
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "GRESKA", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Korisnicko ime i sifra nisu ispravni.", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonUlogujSeActionPerformed
 
