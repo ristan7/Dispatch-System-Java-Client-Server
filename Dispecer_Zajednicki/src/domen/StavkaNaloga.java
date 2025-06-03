@@ -142,7 +142,7 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
 
             Dispecer d = new Dispecer(idDispecera, imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, userName, pass);
 
-            int idMesta = rs.getShort("lozinka");
+            int idMesta = rs.getInt("idMesta");
             String nazivMesta = rs.getString("nazivMesta");
             String drzava = rs.getString("drzava");
             int postanskiBroj = rs.getInt("postanskiBroj");
@@ -167,7 +167,7 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
 
             String adresaUtovara = rs.getString("adresaUtovara");
             String adresaIstovara = rs.getString("adresaIstovara");
-            StatusNaloga status = StatusNaloga.valueOf("nazivStatusa");
+            StatusNaloga status = StatusNaloga.valueOf(rs.getString("nazivStatusa"));
             Float ukupanIznos = rs.getFloat("ukupanIznosPosla");
 
             NalogZaTransportRobe nalog = new NalogZaTransportRobe();
@@ -184,7 +184,7 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
 
             StavkaNaloga stavka = new StavkaNaloga();
 
-            int rb = rs.getShort("rb");
+            int rb = rs.getInt("rb");
             Float kolicina = rs.getFloat("kolicina");
             Float cenaPoJedinici = rs.getFloat("cenaPoJedinici");
             Float iznos = rs.getFloat("iznos");

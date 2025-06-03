@@ -20,7 +20,7 @@ import javax.swing.table.AbstractTableModel;
 public class ModelTabelePrikaziNaloge extends AbstractTableModel {
 
     private ArrayList<NalogZaTransportRobe> lista;
-    private String[] kolone = {"Datum kreiranja", "Datum izvršenja", "Adresa utovara","Adresa istovara", "Status", "Iznos", "Poslovni partner"};
+    private String[] kolone = {"Datum kreiranja", "Datum izvršenja", "Adresa utovara", "Adresa istovara", "Status", "Iznos", "Poslovni partner"};
     private String parametar = "";
 
     public ModelTabelePrikaziNaloge(ArrayList<NalogZaTransportRobe> lista) {

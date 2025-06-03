@@ -67,38 +67,22 @@ public class ObradaKlijentskihZahteva extends Thread {
             if (zahtev == null) {
                 return new ServerskiOdgovor(null, -1, new Exception("Primljen je prazan zahtev."), VrstaOdgovora.NEUSPESNO);
             }
-            if (zahtev.getOperacija() == Operacija.LOGIN) {
-                Dispecer d = (Dispecer) zahtev.getParametar();
-                Dispecer dispecer = ServerController.getInstance().login(d);
-                System.out.println("Ovde 1");
-                return new ServerskiOdgovor(dispecer, Operacija.LOGIN, null, VrstaOdgovora.USPESNO);
-            }
 
-            if (zahtev.getOperacija() == Operacija.VRATI_NALOGE_PO_DATUMU) {
-                NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
-                ArrayList<NalogZaTransportRobe> naloziPoDatumu = ServerController.getInstance().naloziPoDatumu(nalog);
-                return new ServerskiOdgovor(naloziPoDatumu, Operacija.VRATI_NALOGE_PO_DATUMU, null, VrstaOdgovora.USPESNO);
-            }
-//            switch (zahtev.getOperacija()) {
-//
-//                case Operacija.LOGIN:
-//                    Dispecer d = (Dispecer) zahtev.getParametar();
-//                    Dispecer dispecer = ServerController.getInstance().login(d);
-//                    System.out.println("Ovde 1");
-//                    return new ServerskiOdgovor(dispecer, Operacija.LOGIN, null, VrstaOdgovora.USPESNO);
-//
-//                case Operacija.VRATI_NALOGE_PO_DATUMU:
-//                    NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
-//                    ArrayList<NalogZaTransportRobe> naloziPoDatumu = ServerController.getInstance().naloziPoDatumu(nalog);
-//                    return new ServerskiOdgovor(naloziPoDatumu, Operacija.VRATI_NALOGE_PO_DATUMU, null, VrstaOdgovora.USPESNO);
-//
-//                default:
-//                    return new ServerskiOdgovor(null, zahtev.getOperacija(), new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
+            switch (zahtev.getOperacija()) {
 
+                case Operacija.LOGIN:
+                    return obradiLoginOperaciju(zahtev);
+
+                case Operacija.VRATI_NALOGE_PO_DATUMU:
+                    return obradiVratiNalogePremaDatumu(zahtev);
+
+                default:
+                    return new ServerskiOdgovor(null, zahtev.getOperacija(), new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
+
+            }
         } catch (Exception ex) {
             return new ServerskiOdgovor(null, zahtev.getOperacija(), ex, VrstaOdgovora.NEUSPESNO);
         }
-        return null;
     }
 
     public void zatvoriSoket() {
@@ -111,5 +95,17 @@ public class ObradaKlijentskihZahteva extends Thread {
             Logger.getLogger(ObradaKlijentskihZahteva.class.getName())
                     .log(Level.SEVERE, "Greška pri zatvaranju soketa.", e);
         }
+    }
+
+    private ServerskiOdgovor obradiLoginOperaciju(KlijentskiZahtev zahtev) throws Exception {
+        Dispecer d = (Dispecer) zahtev.getParametar();
+        Dispecer dispecer = ServerController.getInstance().login(d);
+        return new ServerskiOdgovor(dispecer, Operacija.LOGIN, null, VrstaOdgovora.USPESNO);
+    }
+
+    private ServerskiOdgovor obradiVratiNalogePremaDatumu(KlijentskiZahtev zahtev) throws Exception {
+        NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
+        ArrayList<NalogZaTransportRobe> naloziPoDatumu = ServerController.getInstance().naloziPoDatumu(nalog);
+        return new ServerskiOdgovor(naloziPoDatumu, Operacija.VRATI_NALOGE_PO_DATUMU, null, VrstaOdgovora.USPESNO);
     }
 }
