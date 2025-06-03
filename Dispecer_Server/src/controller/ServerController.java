@@ -41,6 +41,7 @@ public class ServerController {
     public Dispecer login(Dispecer dispecer) throws Exception {
         SistemskaOperacijaLogin so = new SistemskaOperacijaLogin();
         so.templateIzvrsi(dispecer);
+        ulogovaniDispeceri.add(so.getUlogovani());
         return so.getUlogovani();
     }
 

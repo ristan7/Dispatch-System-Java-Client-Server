@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import modeli.ModelTabelePrikaziNaloge;
 
 /**
@@ -27,7 +28,6 @@ public class MainForma extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         jLabelUlogovani.setText(sesija.Sesija.getInstance().getUlogovani().toString());
-        System.out.println(jLabelUlogovani.getText());
         postaviTabelu();
 
     }
@@ -176,17 +176,16 @@ public class MainForma extends javax.swing.JFrame {
     private void postaviTabelu() {
         NalogZaTransportRobe nalog = new NalogZaTransportRobe();
         Date danas = new Date();
-        System.out.println(danas);
         nalog.setDatumIzvrsenja(danas);
         nalog.setDatumKreiranja(danas);
         nalog.setDispecer(sesija.Sesija.getInstance().getUlogovani());
-        
+
         try {
             nalozi = ClientController.getInstance().getNalogeZaDatum(nalog);
         } catch (Exception ex) {
-            Logger.getLogger(ModelTabelePrikaziNaloge.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Nisu uspesno vraceni nalozi za danasnji datum!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }
-        
+
         ModelTabelePrikaziNaloge mt = new ModelTabelePrikaziNaloge(nalozi);
         jTableNalozi.setModel(mt);
     }

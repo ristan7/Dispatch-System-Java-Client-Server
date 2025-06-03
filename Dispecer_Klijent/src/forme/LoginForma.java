@@ -120,9 +120,10 @@ public class LoginForma extends javax.swing.JFrame {
             d.setLozinka(new String(jPasswordField.getPassword()).trim());
 
             Dispecer dispecer = ClientController.getInstance().login(d);
+
             Sesija.getInstance().setUlogovani(dispecer);
 
-            MainForma mf=new MainForma();
+            MainForma mf = new MainForma();
             mf.setVisible(true);
             this.dispose();
 

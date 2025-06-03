@@ -226,12 +226,11 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 
         while (rs.next()) {
             int idNaloga = rs.getInt("idNaloga");
-            System.out.println(idNaloga);
 
             NalogZaTransportRobe nalog = nalozi.get(idNaloga);
 
             if (nalog == null) {
-                System.out.println("Nema naloga ovde je usao");
+
                 nalog = new NalogZaTransportRobe();
                 nalog.setIdNaloga(idNaloga);
 
@@ -248,8 +247,6 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 nalog.setStatus(StatusNaloga.valueOf(rs.getString("nazivStatusa")));
                 nalog.setUkupanIznosPosla(rs.getFloat("ukupanIznosPosla"));
 
-                System.out.println(nalog.getAdresaUtovara());
-
                 int idDispecera = rs.getInt("idDispecera");
                 String imeDispecera = rs.getString("imeDispecera");
                 String prezimeDispecera = rs.getString("prezimeDispecera");
@@ -259,7 +256,6 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 String pass = rs.getString("lozinka");
 
                 Dispecer d = new Dispecer(idDispecera, imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, userName, pass);
-                System.out.println(dispecer.toString());
 
                 nalog.setDispecer(d);
 
@@ -269,7 +265,6 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 int postanskiBroj = rs.getInt("postanskiBroj");
 
                 Mesto m = new Mesto(idMesta, nazivMesta, drzava, postanskiBroj);
-                System.out.println(m.toString());
 
                 int idPoslovnogPartnera = rs.getInt("idPoslovnogPartnera");
                 String nazivPoslovnogPartnera = rs.getString("nazivPartnera");
@@ -278,7 +273,6 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 String emailPoslovnogPartnera = rs.getString("emailPartnera");
 
                 PoslovniPartner pp = new PoslovniPartner(idPoslovnogPartnera, nazivPoslovnogPartnera, pib, adresaPoslovnogPartnera, emailPoslovnogPartnera, m);
-                System.out.println(pp.toString());
 
                 nalog.setPoslovniPartner(pp);
 
@@ -291,22 +285,17 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
             Float kolicina = rs.getFloat("kolicina");
             Float cenaPoJedinici = rs.getFloat("cenaPoJedinici");
             Float iznos = rs.getFloat("iznos");
-            System.out.println(iznos);
 
             int idRobe = rs.getInt("idRobe");
-            System.out.println(idRobe);
             String nazivRobe = rs.getString("nazivRobe");
-            System.out.println(nazivRobe);
 
             int idJedinice = rs.getInt("idJedinice");
             String nazivJedinice = rs.getString("nazivJedinice");
             String oznaka = rs.getString("oznaka");
             JedinicaMere j = new JedinicaMere(idJedinice, nazivJedinice, oznaka);
-            System.out.println(j.toString());
 
             Float cena = rs.getFloat("cena");
             Roba r = new Roba(idRobe, nazivRobe, j, cena);
-            System.out.println(r.toString());
 
             stavka.setRb(rb);
             stavka.setKolicina(kolicina);
