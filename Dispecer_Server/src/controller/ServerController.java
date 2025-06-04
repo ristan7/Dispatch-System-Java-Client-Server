@@ -45,7 +45,6 @@ public class ServerController {
     public Dispecer login(Dispecer dispecer) throws Exception {
         SistemskaOperacijaLogin so = new SistemskaOperacijaLogin();
         so.templateIzvrsi(dispecer);
-        ulogovaniDispeceri.add(so.getUlogovani());
         return so.getUlogovani();
     }
 
@@ -56,7 +55,7 @@ public class ServerController {
     }
 
     public ArrayList<Mesto> vratiMesta(Mesto mesto) throws Exception {
-        SistemskaOperacijaVratiMesta so=new SistemskaOperacijaVratiMesta();
+        SistemskaOperacijaVratiMesta so = new SistemskaOperacijaVratiMesta();
         so.templateIzvrsi(mesto);
         return so.getLista();
     }
@@ -65,6 +64,21 @@ public class ServerController {
         SistemskaOperacijaDodajPartnera so = new SistemskaOperacijaDodajPartnera();
         so.templateIzvrsi(partner);
         return so.getBrojDodatih();
+    }
+
+    public boolean odjaviDispecera(Dispecer ulogovani) throws Exception {
+
+        try {
+            for (int i = 0; i < ulogovaniDispeceri.size(); i++) {
+                if (ulogovaniDispeceri.get(i).equals(ulogovani)) {
+                    ulogovaniDispeceri.remove(i);
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception ex) {
+            throw new Exception("Nije moguce odjaviti dispecera!!");
+        }
     }
 
 }

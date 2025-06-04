@@ -9,13 +9,10 @@ import domen.Mesto;
 import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import komunikacija.KlijentskiZahtev;
 import komunikacija.Operacija;
 import komunikacija.ServerskiOdgovor;
-import komunikacija.VrstaOdgovora;
 import sesija.Sesija;
 
 /**
@@ -66,6 +63,12 @@ public class ClientController {
 
     public boolean dodajPartnera(PoslovniPartner noviPartner) throws Exception {
         posaljiZahtev(Operacija.DODAJ_PARTNERA, noviPartner);
+        ServerskiOdgovor so = primiOdgovor();
+        return (boolean) so.getOdgovor();
+    }
+
+    public boolean odjaviDispecera(Dispecer ulogovani) throws Exception {
+        posaljiZahtev(Operacija.ODJAVI_DISPECERA,ulogovani);
         ServerskiOdgovor so = primiOdgovor();
         return (boolean) so.getOdgovor();
     }
