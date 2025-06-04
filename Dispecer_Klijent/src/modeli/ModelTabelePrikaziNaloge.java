@@ -21,7 +21,6 @@ public class ModelTabelePrikaziNaloge extends AbstractTableModel {
 
     private ArrayList<NalogZaTransportRobe> lista;
     private String[] kolone = {"Datum kreiranja", "Datum izvršenja", "Adresa utovara", "Adresa istovara", "Status", "Iznos", "Poslovni partner"};
-    private String parametar = "";
 
     public ModelTabelePrikaziNaloge(ArrayList<NalogZaTransportRobe> lista) {
         this.lista = lista;
@@ -57,7 +56,7 @@ public class ModelTabelePrikaziNaloge extends AbstractTableModel {
             case 3:
                 return nalog.getAdresaIstovara();
             case 4:
-                return nalog.getStatus().toString();
+                return srediStatus(nalog);
             case 5:
                 return nalog.getUkupanIznosPosla() + " RSD";
             case 6:
@@ -67,14 +66,26 @@ public class ModelTabelePrikaziNaloge extends AbstractTableModel {
         }
     }
 
-    public NalogZaTransportRobe getSelectedNalog(int row) {
-        return lista.get(row);
+    public ArrayList<NalogZaTransportRobe> getLista() {
+        return lista;
     }
 
-    public void setParametar(String parametar) {
-        this.parametar = parametar;
-        //refreshTable();
+    public void setLista(ArrayList<NalogZaTransportRobe> lista) {
+        this.lista = lista;
     }
 
-    //Mettoda refresh
+    public String srediStatus(NalogZaTransportRobe nalog) {
+        switch (nalog.getStatus()) {
+            case U_PRIPREMI:
+                return "U pripremi";
+            case U_TRANSPORTU:
+                return "U transportu";
+            case ISPORUCENO:
+                return "Isporuceno";
+            case OTKAZANO:
+                return "Otkazano";
+            default:
+                return "N/A";
+        }
+    }
 }

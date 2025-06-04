@@ -5,10 +5,14 @@
 package controller;
 
 import domen.Dispecer;
+import domen.Mesto;
 import domen.NalogZaTransportRobe;
+import domen.PoslovniPartner;
 import java.util.ArrayList;
 import operacija.login.SistemskaOperacijaLogin;
+import operacija.mesto.SistemskaOperacijaVratiMesta;
 import operacija.nalog.SistemskaOperacijaVratiNalogePoDatumu;
+import operacija.partner.SistemskaOperacijaDodajPartnera;
 
 /**
  *
@@ -49,6 +53,18 @@ public class ServerController {
         SistemskaOperacijaVratiNalogePoDatumu so = new SistemskaOperacijaVratiNalogePoDatumu();
         so.templateIzvrsi(nalog);
         return so.getLista();
+    }
+
+    public ArrayList<Mesto> vratiMesta(Mesto mesto) throws Exception {
+        SistemskaOperacijaVratiMesta so=new SistemskaOperacijaVratiMesta();
+        so.templateIzvrsi(mesto);
+        return so.getLista();
+    }
+
+    public int dodajPartnera(PoslovniPartner partner) throws Exception {
+        SistemskaOperacijaDodajPartnera so = new SistemskaOperacijaDodajPartnera();
+        so.templateIzvrsi(partner);
+        return so.getBrojDodatih();
     }
 
 }

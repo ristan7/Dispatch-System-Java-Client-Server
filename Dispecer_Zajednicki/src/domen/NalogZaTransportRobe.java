@@ -268,7 +268,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 
                 int idPoslovnogPartnera = rs.getInt("idPoslovnogPartnera");
                 String nazivPoslovnogPartnera = rs.getString("nazivPartnera");
-                int pib = rs.getInt("pib");
+                String pib = rs.getString("pib");
                 String adresaPoslovnogPartnera = rs.getString("adresaPartnera");
                 String emailPoslovnogPartnera = rs.getString("emailPartnera");
 
@@ -423,7 +423,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 }
                 uslov.append("pp.nazivPartnera LIKE '%").append(poslovniPartner.getNazivPartnera()).append("%'");
             }
-            if (poslovniPartner.getPib() > 0) {
+            if (poslovniPartner.getPib() != null && !poslovniPartner.getPib().isEmpty()) {
                 if (uslov.length() > 0) {
                     uslov.append(" AND ");
                 }

@@ -14,4 +14,7 @@ public class Operacija {
 
     public static final int LOGIN = 0;
     public static final int VRATI_NALOGE_PO_DATUMU = 1;
+    public static final int VRATI_MESTA = 2;
+    public static final int DODAJ_PARTNERA = 3;
+
 }

@@ -61,12 +61,27 @@ public class DBBroker {
         return ado.vratiListu(rs);
     }
 
-    public PreparedStatement insert(ApstraktniDomenskiObjekat ado) throws SQLException {
+    public int insert(ApstraktniDomenskiObjekat ado) throws SQLException {
         String naredba = "INSERT INTO " + ado.vratiNazivTabele() + " " + ado.vratiKoloneZaInsert() + " VALUES(" + ado.vratiVrednostiZaInsert() + ")";
         System.out.println(naredba);
         PreparedStatement ps = connection.prepareStatement(naredba, Statement.RETURN_GENERATED_KEYS);
-        ps.executeUpdate();
-        return ps;
+        int brojDodatihRedova = ps.executeUpdate();
+        System.out.println("Broj dodatih redova: " + brojDodatihRedova);
+
+        if (brojDodatihRedova == 0) {
+            throw new SQLException("INSERT nije uspešan, nijedan red nije dodat.");
+        }
+
+        ResultSet rs = ps.getGeneratedKeys();
+        int id = 0;
+        if (rs.next()) {
+            id = rs.getInt(1);
+            System.out.println("Generisan ID: " + id);
+        } else {
+            System.out.println("Nema generisanog ID-a!");
+        }
+
+        return id;
     }
 
     public void update(ApstraktniDomenskiObjekat ado) throws SQLException {
@@ -85,6 +100,26 @@ public class DBBroker {
 
     public ArrayList<ApstraktniDomenskiObjekat> selectZaUslov(ApstraktniDomenskiObjekat ado, String uslov) throws SQLException {
         String upit = "SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join() + " WHERE " + uslov;
+        System.out.println(upit);
+        Statement s = connection.createStatement();
+        ResultSet rs = s.executeQuery(upit);
+        return ado.vratiListu(rs);
+    }
+    
+    public int vratiPoslednjiUbaceniKljuc(ApstraktniDomenskiObjekat objekat) throws SQLException {
+        int maxId = 0;
+        String upit = "SELECT MAX(" + objekat.vratiNazivPrimarnogKljuca() + ") as maxId FROM " + objekat.vratiNazivTabele();
+        System.out.println(upit);
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(upit);
+        if (rs.next()) {
+            maxId = rs.getInt("maxId");
+        }
+        return maxId;
+    }
+    
+    public ArrayList<ApstraktniDomenskiObjekat> selectSve(ApstraktniDomenskiObjekat ado) throws SQLException {
+        String upit = "SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join() + " " + ado.uslov();
         System.out.println(upit);
         Statement s = connection.createStatement();
         ResultSet rs = s.executeQuery(upit);

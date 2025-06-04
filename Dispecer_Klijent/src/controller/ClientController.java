@@ -5,7 +5,9 @@
 package controller;
 
 import domen.Dispecer;
+import domen.Mesto;
 import domen.NalogZaTransportRobe;
+import domen.PoslovniPartner;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -54,5 +56,17 @@ public class ClientController {
         posaljiZahtev(Operacija.VRATI_NALOGE_PO_DATUMU, nalog);
         ServerskiOdgovor so = primiOdgovor();
         return (ArrayList<NalogZaTransportRobe>) so.getOdgovor();
+    }
+
+    public ArrayList<Mesto> getMesta() throws Exception {
+        posaljiZahtev(Operacija.VRATI_MESTA, null);
+        ServerskiOdgovor so = primiOdgovor();
+        return (ArrayList<Mesto>) so.getOdgovor();
+    }
+
+    public boolean dodajPartnera(PoslovniPartner noviPartner) throws Exception {
+        posaljiZahtev(Operacija.DODAJ_PARTNERA, noviPartner);
+        ServerskiOdgovor so = primiOdgovor();
+        return (boolean) so.getOdgovor();
     }
 }
