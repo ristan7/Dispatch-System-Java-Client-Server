@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package forme;
+package forme.partner;
 
 import controller.ClientController;
 import domen.Mesto;
@@ -54,21 +54,13 @@ public class DodajPartneraForma extends javax.swing.JFrame {
 
         jLabel1.setText("Naziv partnera : ");
 
-        jTextFieldNaziv.setText("Zlatiborac d.o.o,");
-
         jLabel2.setText("PIB partnera : ");
-
-        jTextFieldPib.setText("101014156");
 
         jLabel3.setText("Adresa partnera : ");
 
         jLabel4.setText("Unesite podatke o poslovnom partneru");
 
-        jTextFieldAdresa.setText("Mackat BB");
-
         jLabel5.setText("Email partnera : ");
-
-        jTextFieldEmail.setText("rpc.mackat@zlatiborac.com");
 
         jLabel6.setText("Mesto :");
 

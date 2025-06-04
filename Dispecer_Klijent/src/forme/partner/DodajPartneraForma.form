@@ -102,9 +102,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldNaziv">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Zlatiborac d.o.o,"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -112,9 +109,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldPib">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="101014156"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -127,9 +121,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldAdresa">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Mackat BB"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -137,9 +128,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldEmail">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="rpc.mackat@zlatiborac.com"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>

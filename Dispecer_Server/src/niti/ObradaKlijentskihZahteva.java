@@ -84,6 +84,9 @@ public class ObradaKlijentskihZahteva extends Thread {
                 case Operacija.DODAJ_PARTNERA:
                     return obradiDodajPartnera(zahtev);
 
+                case Operacija.ODJAVI_DISPECERA:
+                    return odjaviDispecera(zahtev);
+
                 default:
                     return new ServerskiOdgovor(null, zahtev.getOperacija(), new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
 
@@ -127,5 +130,11 @@ public class ObradaKlijentskihZahteva extends Thread {
         PoslovniPartner partner = (PoslovniPartner) zahtev.getParametar();
         int uspesno = ServerController.getInstance().dodajPartnera(partner);
         return new ServerskiOdgovor(true, Operacija.DODAJ_PARTNERA, null, VrstaOdgovora.USPESNO);
+    }
+
+    private ServerskiOdgovor odjaviDispecera(KlijentskiZahtev zahtev) throws Exception {
+        Dispecer ulogovani = (Dispecer) zahtev.getParametar();
+        boolean uspesno = ServerController.getInstance().odjaviDispecera(ulogovani);
+        return new ServerskiOdgovor(uspesno, Operacija.ODJAVI_DISPECERA, null, VrstaOdgovora.USPESNO);
     }
 }

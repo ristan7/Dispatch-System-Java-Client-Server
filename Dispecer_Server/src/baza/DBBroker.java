@@ -105,21 +105,9 @@ public class DBBroker {
         ResultSet rs = s.executeQuery(upit);
         return ado.vratiListu(rs);
     }
-    
-    public int vratiPoslednjiUbaceniKljuc(ApstraktniDomenskiObjekat objekat) throws SQLException {
-        int maxId = 0;
-        String upit = "SELECT MAX(" + objekat.vratiNazivPrimarnogKljuca() + ") as maxId FROM " + objekat.vratiNazivTabele();
-        System.out.println(upit);
-        Statement st = connection.createStatement();
-        ResultSet rs = st.executeQuery(upit);
-        if (rs.next()) {
-            maxId = rs.getInt("maxId");
-        }
-        return maxId;
-    }
-    
+
     public ArrayList<ApstraktniDomenskiObjekat> selectSve(ApstraktniDomenskiObjekat ado) throws SQLException {
-        String upit = "SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join() + " " + ado.uslov();
+        String upit = "SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join();
         System.out.println(upit);
         Statement s = connection.createStatement();
         ResultSet rs = s.executeQuery(upit);

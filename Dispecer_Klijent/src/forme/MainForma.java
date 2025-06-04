@@ -8,10 +8,9 @@ import controller.ClientController;
 import domen.NalogZaTransportRobe;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import modeli.ModelTabelePrikaziNaloge;
+import forme.partner.DodajPartneraForma;
 
 /**
  *
@@ -211,9 +210,17 @@ public class MainForma extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonOdjavaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOdjavaActionPerformed
-        this.dispose();
-        LoginForma login = new LoginForma();
-        login.setVisible(true);
+        try {
+            this.dispose();
+            boolean uspesno = ClientController.getInstance().odjaviDispecera(sesija.Sesija.getInstance().getUlogovani());
+            if (uspesno) {
+                
+                LoginForma login = new LoginForma();
+                login.setVisible(true);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "GRESKA", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButtonOdjavaActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed

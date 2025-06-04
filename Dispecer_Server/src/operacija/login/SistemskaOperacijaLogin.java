@@ -40,7 +40,7 @@ public class SistemskaOperacijaLogin extends ApstraktnaSistemskaOperacija {
         Dispecer d = (Dispecer) ado;
 
         //Unchecked cast
-        ArrayList<Dispecer> dispeceri = (ArrayList<Dispecer>) (ArrayList<?>) DBBroker.getInstance().select(ado);
+        ArrayList<Dispecer> dispeceri = (ArrayList<Dispecer>) (ArrayList<?>) DBBroker.getInstance().selectSve(ado);
 
         for (Dispecer dispecer : dispeceri) {
             if (dispecer.getKorisnickoIme().equals(d.getKorisnickoIme()) && dispecer.getLozinka().equals(d.getLozinka())) {
