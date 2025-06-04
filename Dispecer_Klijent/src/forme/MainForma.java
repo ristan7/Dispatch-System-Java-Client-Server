@@ -20,6 +20,7 @@ import modeli.ModelTabelePrikaziNaloge;
 public class MainForma extends javax.swing.JFrame {
 
     private ArrayList<NalogZaTransportRobe> nalozi = new ArrayList<>();
+    private DodajPartneraForma dpf;
 
     /**
      * Creates new form MainForma
@@ -48,15 +49,23 @@ public class MainForma extends javax.swing.JFrame {
         jButtonOdjava = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText("Dobrodošli nazad ");
+        jLabel1.setText("Dobrodosli nazad ");
 
         jLabelUlogovani.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabelUlogovani.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -77,7 +86,7 @@ public class MainForma extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Možete da pogledate naloge u vezi sa današnjim datumom:");
+        jLabel2.setText("Mozete da pogledate naloge u vezi sa danasnjim datumom:");
 
         jButtonOdjava.setText("ODJAVA");
         jButtonOdjava.addActionListener(new java.awt.event.ActionListener() {
@@ -96,7 +105,7 @@ public class MainForma extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel2)
-                .addGap(0, 276, Short.MAX_VALUE))
+                .addGap(0, 409, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonOdjava, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -114,15 +123,40 @@ public class MainForma extends javax.swing.JFrame {
                 .addGap(12, 12, 12))
         );
 
-        jMenu1.setText("File");
+        jMenu1.setText("Nalozi");
+
+        jMenuItem6.setText("Napravi novi nalog");
+        jMenu1.add(jMenuItem6);
+
+        jMenuItem7.setText("Pretrazi naloge");
+        jMenu1.add(jMenuItem7);
+
+        jMenuItem8.setText("Promeni nalog");
+        jMenu1.add(jMenuItem8);
+
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Poslovni partner");
+
+        jMenuItem3.setText("Dodaj novog poslovnog partnera");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
+
+        jMenuItem4.setText("Pretrazi moje poslovne partnere");
+        jMenu2.add(jMenuItem4);
+
+        jMenuItem5.setText("Promeni podatke o poslovnom partneru");
+        jMenu2.add(jMenuItem5);
+
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("O projektu");
+        jMenu3.setText("Strucna sprema");
 
-        jMenuItem1.setText("Podaci o projektu");
+        jMenuItem1.setText("Ubaci strucnu spremu");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -131,6 +165,18 @@ public class MainForma extends javax.swing.JFrame {
         jMenu3.add(jMenuItem1);
 
         jMenuBar1.add(jMenu3);
+
+        jMenu5.setText("O projektu");
+
+        jMenuItem2.setText("Podaci o projektu");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
 
@@ -143,9 +189,9 @@ public class MainForma extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
+                        .addGap(115, 115, 115)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(27, 27, 27)
                         .addComponent(jLabelUlogovani, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -171,9 +217,26 @@ public class MainForma extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonOdjavaActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        PodaciOProjektuForma pf=new PodaciOProjektuForma();
-        pf.setVisible(true);
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        PodaciOProjektuForma pf = new PodaciOProjektuForma();
+        pf.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+
+        if (dpf == null || !dpf.isVisible()) {
+            dpf = new DodajPartneraForma();
+            JOptionPane.showMessageDialog(this, "Sistem je kreirao poslovnog partnera!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
+            dpf.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+        }
+
+
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -187,8 +250,16 @@ public class MainForma extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableNalozi;

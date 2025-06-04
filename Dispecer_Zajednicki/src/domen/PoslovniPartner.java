@@ -7,6 +7,7 @@ package domen;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -16,7 +17,7 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
 
     private int idPoslovnogPartnera;
     private String nazivPartnera;
-    private int pib;
+    private String pib;
     private String adresaPartnera;
     private String emailPartnera;
     private Mesto mesto;
@@ -24,7 +25,7 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
     public PoslovniPartner() {
     }
 
-    public PoslovniPartner(int idPoslovnogPartnera, String nazivPartnera, int pib, String adresaPartnera, String emailPartnera, Mesto mesto) {
+    public PoslovniPartner(int idPoslovnogPartnera, String nazivPartnera, String pib, String adresaPartnera, String emailPartnera, Mesto mesto) {
         this.idPoslovnogPartnera = idPoslovnogPartnera;
         this.nazivPartnera = nazivPartnera;
         this.pib = pib;
@@ -49,11 +50,11 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
         this.nazivPartnera = nazivPartnera;
     }
 
-    public int getPib() {
+    public String getPib() {
         return pib;
     }
 
-    public void setPib(int pib) {
+    public void setPib(String pib) {
         this.pib = pib;
     }
 
@@ -99,7 +100,7 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
             return false;
         }
         final PoslovniPartner other = (PoslovniPartner) obj;
-        return this.pib == other.pib;
+        return Objects.equals(this.pib, other.pib);
     }
 
     @Override
@@ -114,7 +115,7 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
         while (rs.next()) {
             int idPartnera = rs.getInt("idPoslovnogPartnera");
             String nazivPartnera = rs.getString("nazivPartnera");
-            int pib = rs.getInt("pib");
+            String pib = rs.getString("pib");
             String adresaPartnera = rs.getString("adresaPartnera");
             String emailPartnera = rs.getString("emailPartnera");
 
@@ -125,8 +126,9 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
 
             Mesto mesto = new Mesto(idMesta, nazivMesta, drzava, postanskiBroj);
 
-            PoslovniPartner ps = new PoslovniPartner(idPartnera, nazivPartnera, pib, adresaPartnera, emailPartnera, mesto);
-            lista.add(ps);
+            PoslovniPartner pp = new PoslovniPartner(idPartnera, nazivPartnera, pib, adresaPartnera, emailPartnera, mesto);
+
+            lista.add(pp);
         }
 
         rs.close();
@@ -155,7 +157,7 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiVrednostiZaInsert() {
-        return String.format("'%s', %d, '%s', '%s', %d",
+        return String.format("'%s', '%s', '%s', '%s', %d",
                 nazivPartnera,
                 pib,
                 adresaPartnera,
@@ -168,7 +170,7 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
     @Override
     public String vratiVrednostiZaUpdate() {
         return String.format(
-                "nazivPartnera = '%s', pib = %d, adresaPartnera = '%s', emailPartnera = '%s', mesto = %d",
+                "nazivPartnera = '%s', pib = '%s', adresaPartnera = '%s', emailPartnera = '%s', mesto = %d",
                 nazivPartnera,
                 pib,
                 adresaPartnera,
@@ -199,11 +201,11 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
         if (nazivPartnera != null && !nazivPartnera.isEmpty()) {
             uslov.append("pp.nazivPartnera LIKE '%").append(nazivPartnera).append("%'");
         }
-        if (pib > 0) {
+        if (pib != null && !pib.isEmpty()) {
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
-            uslov.append("pp.pib = ").append(pib);
+            uslov.append("pp.pib = '").append(pib).append("'");
         }
         if (mesto != null && mesto.getNazivMesta() != null && !mesto.getNazivMesta().isEmpty()) {
             if (uslov.length() > 0) {

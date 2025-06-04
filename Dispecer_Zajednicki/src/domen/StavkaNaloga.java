@@ -151,7 +151,7 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
 
             int idPoslovnogPartnera = rs.getInt("idPoslovnogPartnera");
             String nazivPoslovnogPartnera = rs.getString("nazivPartnera");
-            int pib = rs.getInt("pib");
+            String pib = rs.getString("pib");
             String adresaPoslovnogPartnera = rs.getString("adresaPartnera");
             String emailPoslovnogPartnera = rs.getString("emailPartnera");
 

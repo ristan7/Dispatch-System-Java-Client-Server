@@ -6,7 +6,9 @@ package niti;
 
 import controller.ServerController;
 import domen.Dispecer;
+import domen.Mesto;
 import domen.NalogZaTransportRobe;
+import domen.PoslovniPartner;
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
@@ -76,6 +78,12 @@ public class ObradaKlijentskihZahteva extends Thread {
                 case Operacija.VRATI_NALOGE_PO_DATUMU:
                     return obradiVratiNalogePremaDatumu(zahtev);
 
+                case Operacija.VRATI_MESTA:
+                    return obradiVratiMesta(zahtev);
+
+                case Operacija.DODAJ_PARTNERA:
+                    return obradiDodajPartnera(zahtev);
+
                 default:
                     return new ServerskiOdgovor(null, zahtev.getOperacija(), new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
 
@@ -107,5 +115,17 @@ public class ObradaKlijentskihZahteva extends Thread {
         NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
         ArrayList<NalogZaTransportRobe> naloziPoDatumu = ServerController.getInstance().naloziPoDatumu(nalog);
         return new ServerskiOdgovor(naloziPoDatumu, Operacija.VRATI_NALOGE_PO_DATUMU, null, VrstaOdgovora.USPESNO);
+    }
+
+    private ServerskiOdgovor obradiVratiMesta(KlijentskiZahtev zahtev) throws Exception {
+        Mesto mesto = new Mesto();
+        ArrayList<Mesto> mesta = ServerController.getInstance().vratiMesta(mesto);
+        return new ServerskiOdgovor(mesta, Operacija.VRATI_MESTA, null, VrstaOdgovora.USPESNO);
+    }
+
+    private ServerskiOdgovor obradiDodajPartnera(KlijentskiZahtev zahtev) throws Exception {
+        PoslovniPartner partner = (PoslovniPartner) zahtev.getParametar();
+        int uspesno = ServerController.getInstance().dodajPartnera(partner);
+        return new ServerskiOdgovor(true, Operacija.DODAJ_PARTNERA, null, VrstaOdgovora.USPESNO);
     }
 }
