@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import forme.ModForme;
+import modeli.ModelTabelePrikaziPoslovnePartnere;
 
 /**
  *
@@ -19,17 +21,40 @@ import javax.swing.JOptionPane;
 public class DodajPartneraForma extends javax.swing.JFrame {
 
     private PoslovniPartner noviPartner;
+    private PretraziPoslovnogPartnera pretraziForma;
 
     /**
      * Creates new form DodajPartneraForma
      */
-    public DodajPartneraForma() throws Exception {
+    public DodajPartneraForma(ModForme mod) throws Exception {
         initComponents();
+        jButtonAzuriraj.setVisible(false);
         try {
             popuniMesto();
         } catch (Exception ex) {
             throw new Exception();
         }
+
+    }
+
+    public DodajPartneraForma(PretraziPoslovnogPartnera pretrazi, PoslovniPartner partner, ModForme mod) throws Exception {
+        initComponents();
+        jButtonDodaj.setVisible(false);
+
+        noviPartner = partner;
+        pretraziForma = pretrazi;
+
+        jTextFieldNaziv.setText(partner.getNazivPartnera());
+        jTextFieldEmail.setText(partner.getEmailPartnera());
+        jTextFieldPib.setText(partner.getPib());
+        jTextFieldAdresa.setText(partner.getAdresaPartnera());
+        try {
+            popuniMesto();
+        } catch (Exception ex) {
+            throw new Exception();
+        }
+
+        jComboBoxMesto.setSelectedItem(partner.getMesto());
 
     }
 
@@ -51,8 +76,9 @@ public class DodajPartneraForma extends javax.swing.JFrame {
         jTextFieldEmail = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jComboBoxMesto = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonDodaj = new javax.swing.JButton();
+        jButtonOdustani = new javax.swing.JButton();
+        jButtonAzuriraj = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -68,17 +94,24 @@ public class DodajPartneraForma extends javax.swing.JFrame {
 
         jLabel6.setText("Mesto :");
 
-        jButton1.setText("DODAJ PARTNERA");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonDodaj.setText("DODAJ PARTNERA");
+        jButtonDodaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonDodajActionPerformed(evt);
             }
         });
 
-        jButton2.setText("ODUSTANI");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonOdustani.setText("ODUSTANI");
+        jButtonOdustani.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonOdustaniActionPerformed(evt);
+            }
+        });
+
+        jButtonAzuriraj.setText("AZURIRAJ");
+        jButtonAzuriraj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAzurirajActionPerformed(evt);
             }
         });
 
@@ -90,9 +123,11 @@ public class DodajPartneraForma extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(jButtonOdustani)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(jButtonAzuriraj)
+                        .addGap(69, 69, 69)
+                        .addComponent(jButtonDodaj))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -138,19 +173,20 @@ public class DodajPartneraForma extends javax.swing.JFrame {
                     .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButtonDodaj)
+                    .addComponent(jButtonOdustani)
+                    .addComponent(jButtonAzuriraj))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButtonOdustaniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOdustaniActionPerformed
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButtonOdustaniActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDodajActionPerformed
         try {
             noviPartner = new PoslovniPartner();
 
@@ -216,15 +252,83 @@ public class DodajPartneraForma extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
         }
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonDodajActionPerformed
+
+    private void jButtonAzurirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAzurirajActionPerformed
+
+        try {
+            String nazivPartnera = jTextFieldNaziv.getText().trim();
+
+            if (nazivPartnera == null || nazivPartnera.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Niste uneli naziv partnera!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String pib = jTextFieldPib.getText().trim();
+
+            if (pib == null) {
+                return;
+            }
+
+            if (!pib.isBlank()) {
+                if (pib.length() != 9) {
+                    JOptionPane.showMessageDialog(this, "PIB moze imati tacno 9 cifara!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                for (char c : pib.toCharArray()) {
+                    if (!Character.isDigit(c)) {
+                        JOptionPane.showMessageDialog(this, "PIB sme da sadrzi samo cifre!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
+
+            }
+
+            String adresaPartnera = jTextFieldAdresa.getText().trim();
+
+            if (adresaPartnera == null || adresaPartnera.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Niste uneli adresu partnera!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String emailPartnera = jTextFieldEmail.getText().trim();
+
+            if (emailPartnera == null || emailPartnera.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Niste uneli email partnera!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Mesto mesto = (Mesto) jComboBoxMesto.getSelectedItem();
+
+            noviPartner.setNazivPartnera(nazivPartnera);
+            noviPartner.setAdresaPartnera(adresaPartnera);
+            noviPartner.setEmailPartnera(emailPartnera);
+            noviPartner.setMesto(mesto);
+            noviPartner.setPib(pib);
+
+            boolean uspesno = ClientController.getInstance().azurirajPartnera(noviPartner);
+            if (uspesno) {
+                JOptionPane.showMessageDialog(this, "Sistem je zapamtio poslovnog partnera!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+                ModelTabelePrikaziPoslovnePartnere model = (ModelTabelePrikaziPoslovnePartnere) pretraziForma.getTabela().getModel();
+                model.fireTableDataChanged();
+            } else {
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jButtonAzurirajActionPerformed
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonAzuriraj;
+    private javax.swing.JButton jButtonDodaj;
+    private javax.swing.JButton jButtonOdustani;
     private javax.swing.JComboBox<Mesto> jComboBoxMesto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

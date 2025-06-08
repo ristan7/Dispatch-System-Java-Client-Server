@@ -8,10 +8,12 @@ import controller.ClientController;
 import domen.Mesto;
 import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
+import forme.ModForme;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import modeli.ModelTabelePrikaziPoslovnePartnere;
 
 /**
@@ -21,6 +23,7 @@ import modeli.ModelTabelePrikaziPoslovnePartnere;
 public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
 
     private ArrayList<PoslovniPartner> partneri = new ArrayList<>();
+    private JTable tabela;
 
     /**
      * Creates new form PretraziPoslovnogPartnera
@@ -34,6 +37,7 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
             throw new Exception();
         }
         jRadioButtonPartner.doClick();
+        tabela = jTablePartneri;
     }
 
     /**
@@ -61,6 +65,7 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
         jButtonFiltriraj = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jButtonAzuriraj = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -83,14 +88,14 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 717, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -150,19 +155,29 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("Podaci o mestu :");
 
+        jButtonAzuriraj.setText("AZURIRAJ");
+        jButtonAzuriraj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAzurirajActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addComponent(jButtonOdustani)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(111, 111, 111))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
+                        .addGap(90, 90, 90)
+                        .addComponent(jButtonOdustani)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonAzuriraj))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(14, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addGroup(layout.createSequentialGroup()
@@ -194,8 +209,7 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
                             .addComponent(jRadioButtonMesto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(31, 31, 31)
-                                .addComponent(jButtonFiltriraj))))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jButtonFiltriraj)))))
                 .addGap(41, 41, 41))
         );
         layout.setVerticalGroup(
@@ -232,17 +246,23 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(39, 39, 39)
                                 .addComponent(jRadioButtonMesto)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                        .addComponent(jButtonFiltriraj)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addComponent(jButtonFiltriraj))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(jButtonOdustani)
-                .addGap(16, 16, 16))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(64, 64, 64)
+                        .addComponent(jButtonOdustani)
+                        .addGap(16, 16, 16))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonAzuriraj)
+                        .addGap(25, 25, 25))))
         );
 
         pack();
@@ -297,12 +317,12 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
             }
 
             ArrayList<PoslovniPartner> partneriPretrazeni = ClientController.getInstance().filtrirajPartnere(pp);
-            
+
             JOptionPane.showMessageDialog(this, "Sistem je nasao poslovne partnere po zadatim kriterijumima!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
-            
+
             ModelTabelePrikaziPoslovnePartnere mt = new ModelTabelePrikaziPoslovnePartnere(partneriPretrazeni);
             jTablePartneri.setModel(mt);
-            
+
             JOptionPane.showMessageDialog(this, "Sistem je nasao poslovnog partnera!", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception ex) {
@@ -311,12 +331,31 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonFiltrirajActionPerformed
 
+    private void jButtonAzurirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAzurirajActionPerformed
+        int selectedIndex = jTablePartneri.getSelectedRow();
+        if (selectedIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Morate odabrati predmet za azuriranje!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        ModelTabelePrikaziPoslovnePartnere mtp = (ModelTabelePrikaziPoslovnePartnere) jTablePartneri.getModel();
+        PoslovniPartner pp = mtp.getLista().get(selectedIndex);
+        DodajPartneraForma dpf;
+        try {
+            dpf = new DodajPartneraForma(this, pp, ModForme.PROMENI);
+        } catch (Exception ex) {
+            return;
+        }
+        dpf.setVisible(true);
+    }//GEN-LAST:event_jButtonAzurirajActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButtonAzuriraj;
     private javax.swing.JButton jButtonFiltriraj;
     private javax.swing.JButton jButtonOdustani;
     private javax.swing.JLabel jLabel1;
@@ -347,4 +386,9 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
         ModelTabelePrikaziPoslovnePartnere mt = new ModelTabelePrikaziPoslovnePartnere(partneri);
         jTablePartneri.setModel(mt);
     }
+
+    public JTable getTabela() {
+        return tabela;
+    }
+
 }

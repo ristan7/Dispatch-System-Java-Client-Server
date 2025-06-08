@@ -130,4 +130,15 @@ public class ClientController {
         }
 
     }
+
+    public boolean azurirajPartnera(PoslovniPartner noviPartner) throws Exception {
+        posaljiZahtev(Operacija.AZURIRAJ_PARTNERA, noviPartner);
+        ServerskiOdgovor so = primiOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return (boolean) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom dodavanja novog partnera: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+    }
 }

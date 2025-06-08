@@ -14,6 +14,7 @@ import operacija.mesto.SistemskaOperacijaVratiMesta;
 import operacija.nalog.SistemskaOperacijaVratiNalogePoDatumu;
 import operacija.partner.SistemskaOperacijaDodajPartnera;
 import operacija.partner.SistemskaOperacijaFiltrirajPoslovnePartnere;
+import operacija.partner.SistemskaOperacijaIzmeniPoslovnogPartnera;
 import operacija.partner.SistemskaOperacijaVratiPoslovnePartnere;
 
 /**
@@ -94,6 +95,11 @@ public class ServerController {
         SistemskaOperacijaFiltrirajPoslovnePartnere so = new SistemskaOperacijaFiltrirajPoslovnePartnere();
         so.templateIzvrsi(pp);
         return so.getLista();
+    }
+
+    public void azurirajPartnera(PoslovniPartner partner) throws Exception {
+        SistemskaOperacijaIzmeniPoslovnogPartnera so = new SistemskaOperacijaIzmeniPoslovnogPartnera();
+        so.templateIzvrsi(partner);
     }
 
 }
