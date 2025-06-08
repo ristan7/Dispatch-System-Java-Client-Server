@@ -11,6 +11,9 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import modeli.ModelTabelePrikaziNaloge;
 import forme.partner.DodajPartneraForma;
+import forme.partner.PretraziPoslovnogPartnera;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -50,11 +53,9 @@ public class MainForma extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -129,9 +130,6 @@ public class MainForma extends javax.swing.JFrame {
         jMenuItem7.setText("Pretrazi naloge");
         jMenu1.add(jMenuItem7);
 
-        jMenuItem8.setText("Promeni nalog");
-        jMenu1.add(jMenuItem8);
-
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Poslovni partner");
@@ -145,10 +143,12 @@ public class MainForma extends javax.swing.JFrame {
         jMenu2.add(jMenuItem3);
 
         jMenuItem4.setText("Pretrazi moje poslovne partnere");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
-
-        jMenuItem5.setText("Promeni podatke o poslovnom partneru");
-        jMenu2.add(jMenuItem5);
 
         jMenuBar1.add(jMenu2);
 
@@ -234,7 +234,11 @@ public class MainForma extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
 
         if (dpf == null || !dpf.isVisible()) {
-            dpf = new DodajPartneraForma();
+            try {
+                dpf = new DodajPartneraForma();
+            } catch (Exception ex) {
+               return;
+            }
             JOptionPane.showMessageDialog(this, "Sistem je kreirao poslovnog partnera!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
             dpf.setVisible(true);
         } else {
@@ -243,6 +247,16 @@ public class MainForma extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        PretraziPoslovnogPartnera ppp;
+        try {
+            ppp = new PretraziPoslovnogPartnera();
+        } catch (Exception ex) {
+            return;
+        }
+        ppp.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -262,10 +276,8 @@ public class MainForma extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableNalozi;

@@ -54,7 +54,7 @@ public class DBBroker {
     }
 
     public ArrayList<ApstraktniDomenskiObjekat> select(ApstraktniDomenskiObjekat ado) throws SQLException {
-        String upit = "SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join() + " " + ado.uslovZaSelect();
+        String upit = "SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join() + " WHERE " + ado.uslovZaSelect();
         System.out.println(upit);
         Statement s = connection.createStatement();
         ResultSet rs = s.executeQuery(upit);
