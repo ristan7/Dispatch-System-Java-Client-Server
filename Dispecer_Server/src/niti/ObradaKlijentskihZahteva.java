@@ -93,6 +93,9 @@ public class ObradaKlijentskihZahteva extends Thread {
                 case Operacija.FILTRIRAJ_PARTNERE:
                     return obradiFiltrirajPoslovnePartnere(zahtev);
 
+                case Operacija.AZURIRAJ_PARTNERA:
+                    return obradiAzurirajPartnera(zahtev);
+
                 default:
                     return new ServerskiOdgovor(null, zahtev.getOperacija(), new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
 
@@ -154,5 +157,11 @@ public class ObradaKlijentskihZahteva extends Thread {
         PoslovniPartner pp = (PoslovniPartner) zahtev.getParametar();
         ArrayList<PoslovniPartner> partneri = ServerController.getInstance().filtrirajPartnere(pp);
         return new ServerskiOdgovor(partneri, Operacija.FILTRIRAJ_PARTNERE, null, VrstaOdgovora.USPESNO);
+    }
+
+    private ServerskiOdgovor obradiAzurirajPartnera(KlijentskiZahtev zahtev) throws Exception {
+        PoslovniPartner partner = (PoslovniPartner) zahtev.getParametar();
+        ServerController.getInstance().azurirajPartnera(partner);
+        return new ServerskiOdgovor(true, Operacija.AZURIRAJ_PARTNERA, null, VrstaOdgovora.USPESNO);
     }
 }

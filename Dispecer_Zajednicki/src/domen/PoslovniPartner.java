@@ -100,6 +100,9 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
             return false;
         }
         final PoslovniPartner other = (PoslovniPartner) obj;
+        if (!Objects.equals(this.nazivPartnera, other.nazivPartnera)) {
+            return false;
+        }
         return Objects.equals(this.pib, other.pib);
     }
 
@@ -191,7 +194,7 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
 
     @Override
     public String uslov() {
-        return "";
+        return "idPoslovnogPartnera = " + idPoslovnogPartnera;
     }
 
     @Override

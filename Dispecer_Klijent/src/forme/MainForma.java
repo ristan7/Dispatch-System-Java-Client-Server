@@ -235,7 +235,7 @@ public class MainForma extends javax.swing.JFrame {
 
         if (dpf == null || !dpf.isVisible()) {
             try {
-                dpf = new DodajPartneraForma();
+                dpf = new DodajPartneraForma(ModForme.DODAJ);
             } catch (Exception ex) {
                return;
             }
