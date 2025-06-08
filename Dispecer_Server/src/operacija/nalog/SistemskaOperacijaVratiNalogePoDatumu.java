@@ -21,13 +21,13 @@ public class SistemskaOperacijaVratiNalogePoDatumu extends ApstraktnaSistemskaOp
 
     @Override
     protected void validiraj(ApstraktniDomenskiObjekat ado) throws Exception {
-        if (!(ado instanceof NalogZaTransportRobe)) {
+        if (ado == null || !(ado instanceof NalogZaTransportRobe)) {
             throw new Exception("Prosledjeni objekat nije instanca klase Nalog za transport robe!!");
         }
 
         NalogZaTransportRobe n = (NalogZaTransportRobe) ado;
 
-        if (n == null || n.getDatumKreiranja() == null || n.getDatumIzvrsenja() == null) {
+        if (n.getDatumKreiranja() == null || n.getDatumIzvrsenja() == null) {
             throw new Exception("Nalog, kao ni njegovi datumi nisu postojeci!!");
         }
     }
@@ -45,7 +45,7 @@ public class SistemskaOperacijaVratiNalogePoDatumu extends ApstraktnaSistemskaOp
                 n.getDispecer().getIdDispecera(), d, d
         );
 
-        lista = (ArrayList<NalogZaTransportRobe>) (ArrayList<?>) DBBroker.getInstance().selectZaUslov(ado, uslov);
+        lista = (ArrayList<NalogZaTransportRobe>) (ArrayList<?>) DBBroker.getInstance().vratiZaUslov(ado, uslov);
 
         if (lista == null) {
             lista = new ArrayList<>();

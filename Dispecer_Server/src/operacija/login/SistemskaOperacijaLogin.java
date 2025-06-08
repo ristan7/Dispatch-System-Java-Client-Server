@@ -21,11 +21,15 @@ public class SistemskaOperacijaLogin extends ApstraktnaSistemskaOperacija {
 
     @Override
     protected void validiraj(ApstraktniDomenskiObjekat ado) throws Exception {
-        if (!(ado instanceof Dispecer)) {
+        if (ado == null || !(ado instanceof Dispecer)) {
             throw new Exception("Prosledjeni objekat nije instanca klase Dispecer!!");
         }
 
         Dispecer d = (Dispecer) ado;
+
+        if (d.getKorisnickoIme().isEmpty() || d.getLozinka().isEmpty()) {
+            throw new Exception("Korisnicko ime i lozinka moraju biti uneti!!");
+        }
 
         for (Dispecer dispecer : ServerController.getInstance().getUlogovaniDispeceri()) {
             if (dispecer.getKorisnickoIme().equals(d.getKorisnickoIme())) {
@@ -40,7 +44,7 @@ public class SistemskaOperacijaLogin extends ApstraktnaSistemskaOperacija {
         Dispecer d = (Dispecer) ado;
 
         //Unchecked cast
-        ArrayList<Dispecer> dispeceri = (ArrayList<Dispecer>) (ArrayList<?>) DBBroker.getInstance().selectSve(ado);
+        ArrayList<Dispecer> dispeceri = (ArrayList<Dispecer>) (ArrayList<?>) DBBroker.getInstance().vratiSve(ado);
 
         for (Dispecer dispecer : dispeceri) {
             if (dispecer.getKorisnickoIme().equals(d.getKorisnickoIme()) && dispecer.getLozinka().equals(d.getLozinka())) {

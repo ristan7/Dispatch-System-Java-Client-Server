@@ -98,7 +98,7 @@ public class DBBroker {
         s.executeUpdate(naredba);
     }
 
-    public ArrayList<ApstraktniDomenskiObjekat> selectZaUslov(ApstraktniDomenskiObjekat ado, String uslov) throws SQLException {
+    public ArrayList<ApstraktniDomenskiObjekat> vratiZaUslov(ApstraktniDomenskiObjekat ado, String uslov) throws SQLException {
         String upit = "SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join() + " WHERE " + uslov;
         System.out.println(upit);
         Statement s = connection.createStatement();
@@ -106,7 +106,7 @@ public class DBBroker {
         return ado.vratiListu(rs);
     }
 
-    public ArrayList<ApstraktniDomenskiObjekat> selectSve(ApstraktniDomenskiObjekat ado) throws SQLException {
+    public ArrayList<ApstraktniDomenskiObjekat> vratiSve(ApstraktniDomenskiObjekat ado) throws SQLException {
         String upit = "SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join();
         System.out.println(upit);
         Statement s = connection.createStatement();

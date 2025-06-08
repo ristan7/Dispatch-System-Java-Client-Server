@@ -192,13 +192,10 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
             int idRobe = rs.getInt("idRobe");
             String nazivRobe = rs.getString("nazivRobe");
 
-            int idJedinice = rs.getInt("idJedinice");
-            String nazivJedinice = rs.getString("nazivJedinice");
-            String oznaka = rs.getString("oznaka");
-            JedinicaMere j = new JedinicaMere(idJedinice, nazivJedinice, oznaka);
+            JedinicaMere jedinicaMere=JedinicaMere.valueOf(rs.getString("nazivJedinice_oznaka"));
 
             Float cena = rs.getFloat("cena");
-            Roba r = new Roba(idRobe, nazivRobe, j, cena);
+            Roba r = new Roba(idRobe, nazivRobe, jedinicaMere, cena);
 
             stavka.setRb(rb);
             stavka.setKolicina(kolicina);
