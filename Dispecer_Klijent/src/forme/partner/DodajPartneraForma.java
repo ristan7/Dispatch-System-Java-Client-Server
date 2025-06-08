@@ -152,7 +152,7 @@ public class DodajPartneraForma extends javax.swing.JFrame {
 
             String nazivPartnera = jTextFieldNaziv.getText().trim();
 
-            if (nazivPartnera == null || nazivPartnera.isEmpty()) {
+            if (nazivPartnera == null || nazivPartnera.isBlank()) {
                 JOptionPane.showMessageDialog(this, "Niste uneli naziv partnera!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -163,7 +163,7 @@ public class DodajPartneraForma extends javax.swing.JFrame {
                 return;
             }
 
-            if (!pib.isEmpty()) {
+            if (!pib.isBlank()) {
                 if (pib.length() != 9) {
                     JOptionPane.showMessageDialog(this, "PIB moze imati tacno 9 cifara!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -179,14 +179,14 @@ public class DodajPartneraForma extends javax.swing.JFrame {
 
             String adresaPartnera = jTextFieldAdresa.getText().trim();
 
-            if (adresaPartnera == null || adresaPartnera.isEmpty()) {
+            if (adresaPartnera == null || adresaPartnera.isBlank()) {
                 JOptionPane.showMessageDialog(this, "Niste uneli adresu partnera!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             String emailPartnera = jTextFieldEmail.getText().trim();
 
-            if (emailPartnera == null || emailPartnera.isEmpty()) {
+            if (emailPartnera == null || emailPartnera.isBlank()) {
                 JOptionPane.showMessageDialog(this, "Niste uneli email partnera!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -199,7 +199,6 @@ public class DodajPartneraForma extends javax.swing.JFrame {
             noviPartner.setMesto(mesto);
             noviPartner.setPib(pib);
             noviPartner.setIdPoslovnogPartnera(-1);
-            
 
             boolean uspesno = ClientController.getInstance().dodajPartnera(noviPartner);
             if (uspesno) {

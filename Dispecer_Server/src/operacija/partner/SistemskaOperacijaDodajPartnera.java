@@ -27,7 +27,36 @@ public class SistemskaOperacijaDodajPartnera extends ApstraktnaSistemskaOperacij
 
         PoslovniPartner noviPartner = (PoslovniPartner) ado;
 
-        ArrayList<PoslovniPartner> partneri = (ArrayList<PoslovniPartner>) (ArrayList<?>) DBBroker.getInstance().selectSve(ado);
+        if (noviPartner.getNazivPartnera() == null || noviPartner.getNazivPartnera().isBlank()) {
+            throw new Exception("Naziv partnera nije unet!!");
+        }
+
+        if (noviPartner.getPib() != null) {
+            if (!noviPartner.getPib().isBlank()) {
+                if (noviPartner.getPib().length() != 9) {
+                    throw new Exception("PIB partnera mora da ima tacno devet cifara!!");
+                }
+                for (char c : noviPartner.getPib().toCharArray()) {
+                    if (!Character.isDigit(c)) {
+                        throw new Exception("PIB partnera mora da sadrzi samo cifre");
+                    }
+                }
+            } else {
+                throw new Exception("PIB partnera nije unet!!");
+            }
+        } else {
+            throw new Exception("PIB partnera nije unet!!");
+        }
+
+        if (noviPartner.getAdresaPartnera() == null || noviPartner.getAdresaPartnera().isBlank()) {
+            throw new Exception("Adresa partnera nije uneta!!");
+        }
+
+        if (noviPartner.getEmailPartnera() == null || noviPartner.getEmailPartnera().isBlank()) {
+            throw new Exception("Email partnera nije unet!!");
+        }
+
+        ArrayList<PoslovniPartner> partneri = (ArrayList<PoslovniPartner>) (ArrayList<?>) DBBroker.getInstance().vratiSve(ado);
 
         for (PoslovniPartner poslovniPartner : partneri) {
             if (poslovniPartner.equals(noviPartner)) {

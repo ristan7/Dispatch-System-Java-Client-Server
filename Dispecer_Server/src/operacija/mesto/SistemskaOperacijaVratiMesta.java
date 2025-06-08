@@ -20,7 +20,7 @@ public class SistemskaOperacijaVratiMesta extends ApstraktnaSistemskaOperacija {
 
     @Override
     protected void validiraj(ApstraktniDomenskiObjekat ado) throws Exception {
-        if (!(ado instanceof Mesto)) {
+        if (ado == null || !(ado instanceof Mesto)) {
             throw new Exception("Prosledjeni objekat nije instanca klase Mesto!!");
         }
     }

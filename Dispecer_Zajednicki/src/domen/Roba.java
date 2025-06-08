@@ -89,7 +89,8 @@ public class Roba implements ApstraktniDomenskiObjekat {
 
     @Override
     public String toString() {
-        return nazivRobe + " (" + jedinicaMere.getOznaka() + ") " + "cena: " + cena;
+        String jedinica[]=jedinicaMere.name().split("_");
+        return nazivRobe + " (" + jedinica[1].toLowerCase() + ") " + "cena: " + cena;
     }
 
     @Override
@@ -101,13 +102,11 @@ public class Roba implements ApstraktniDomenskiObjekat {
             String nazivRobe = rs.getString("nazivRobe");
             float cena = rs.getFloat("cena");
 
-            int idJedinice = rs.getInt("idJedinice");
-            String nazivJedinice = rs.getString("nazivJedinice");
-            String oznakaJedinice = rs.getString("oznaka");
+            JedinicaMere jedinicaMere=JedinicaMere.valueOf(rs.getString("nazivJedinice_oznaka"));
 
-            JedinicaMere jedinica = new JedinicaMere(idJedinice, nazivJedinice, oznakaJedinice);
+            
 
-            Roba roba = new Roba(idRobe, nazivRobe, jedinica, cena);
+            Roba roba = new Roba(idRobe, nazivRobe, jedinicaMere, cena);
             lista.add(roba);
         }
         rs.close();
@@ -138,7 +137,7 @@ public class Roba implements ApstraktniDomenskiObjekat {
     public String vratiVrednostiZaInsert() {
         return String.format("'%s', %d, %.2f",
                 nazivRobe,
-                jedinicaMere.getIdJedinice(),
+                jedinicaMere.ordinal(),
                 cena
         );
 
@@ -149,7 +148,7 @@ public class Roba implements ApstraktniDomenskiObjekat {
         return String.format(
                 "nazivRobe = '%s', jedinicaMere = %d, cena = %.2f",
                 nazivRobe,
-                jedinicaMere.getIdJedinice(),
+                jedinicaMere.ordinal(),
                 cena
         );
     }
