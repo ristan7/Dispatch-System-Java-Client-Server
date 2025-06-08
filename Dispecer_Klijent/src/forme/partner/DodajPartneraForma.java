@@ -310,8 +310,9 @@ public class DodajPartneraForma extends javax.swing.JFrame {
             if (uspesno) {
                 JOptionPane.showMessageDialog(this, "Sistem je zapamtio poslovnog partnera!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
-                ModelTabelePrikaziPoslovnePartnere model = (ModelTabelePrikaziPoslovnePartnere) pretraziForma.getTabela().getModel();
-                model.fireTableDataChanged();
+                pretraziForma.postaviTabelu();
+//                ModelTabelePrikaziPoslovnePartnere model = (ModelTabelePrikaziPoslovnePartnere) pretraziForma.getTabela().getModel();
+//                model.fireTableDataChanged();
             } else {
                 JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
             }

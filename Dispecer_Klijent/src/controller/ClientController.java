@@ -137,7 +137,18 @@ public class ClientController {
         if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
             return (boolean) so.getOdgovor();
         } else {
-            System.err.println("Greska prilikom dodavanja novog partnera: " + so.getEx().getMessage());
+            System.err.println("Greska prilikom azuriranja partnera: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+    }
+
+    public boolean obrisiPartnera(PoslovniPartner pp) throws Exception {
+        posaljiZahtev(Operacija.OBRISI_PARTNERA, pp);
+        ServerskiOdgovor so = primiOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return (boolean) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom brisanja partnera: " + so.getEx().getMessage());
             throw so.getEx();
         }
     }

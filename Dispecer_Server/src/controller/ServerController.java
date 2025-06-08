@@ -15,6 +15,7 @@ import operacija.nalog.SistemskaOperacijaVratiNalogePoDatumu;
 import operacija.partner.SistemskaOperacijaDodajPartnera;
 import operacija.partner.SistemskaOperacijaFiltrirajPoslovnePartnere;
 import operacija.partner.SistemskaOperacijaIzmeniPoslovnogPartnera;
+import operacija.partner.SistemskaOperacijaObrisiPoslovnogPartnera;
 import operacija.partner.SistemskaOperacijaVratiPoslovnePartnere;
 
 /**
@@ -99,6 +100,11 @@ public class ServerController {
 
     public void azurirajPartnera(PoslovniPartner partner) throws Exception {
         SistemskaOperacijaIzmeniPoslovnogPartnera so = new SistemskaOperacijaIzmeniPoslovnogPartnera();
+        so.templateIzvrsi(partner);
+    }
+
+    public void obrisiPartnera(PoslovniPartner partner) throws Exception {
+        SistemskaOperacijaObrisiPoslovnogPartnera so = new SistemskaOperacijaObrisiPoslovnogPartnera();
         so.templateIzvrsi(partner);
     }
 
