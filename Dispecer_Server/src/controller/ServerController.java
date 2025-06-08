@@ -13,6 +13,8 @@ import operacija.login.SistemskaOperacijaLogin;
 import operacija.mesto.SistemskaOperacijaVratiMesta;
 import operacija.nalog.SistemskaOperacijaVratiNalogePoDatumu;
 import operacija.partner.SistemskaOperacijaDodajPartnera;
+import operacija.partner.SistemskaOperacijaFiltrirajPoslovnePartnere;
+import operacija.partner.SistemskaOperacijaVratiPoslovnePartnere;
 
 /**
  *
@@ -79,6 +81,19 @@ public class ServerController {
         } catch (Exception ex) {
             throw new Exception("Nije moguce odjaviti dispecera!!");
         }
+    }
+
+    public ArrayList<PoslovniPartner> vratiPartnere(PoslovniPartner pp) throws Exception {
+        SistemskaOperacijaVratiPoslovnePartnere so = new SistemskaOperacijaVratiPoslovnePartnere();
+        so.templateIzvrsi(pp);
+        return so.getLista();
+
+    }
+
+    public ArrayList<PoslovniPartner> filtrirajPartnere(PoslovniPartner pp) throws Exception {
+        SistemskaOperacijaFiltrirajPoslovnePartnere so = new SistemskaOperacijaFiltrirajPoslovnePartnere();
+        so.templateIzvrsi(pp);
+        return so.getLista();
     }
 
 }

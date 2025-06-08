@@ -23,9 +23,13 @@ public class DodajPartneraForma extends javax.swing.JFrame {
     /**
      * Creates new form DodajPartneraForma
      */
-    public DodajPartneraForma() {
+    public DodajPartneraForma() throws Exception {
         initComponents();
-        popuniMesto();
+        try {
+            popuniMesto();
+        } catch (Exception ex) {
+            throw new Exception();
+        }
 
     }
 
@@ -234,7 +238,7 @@ public class DodajPartneraForma extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldPib;
     // End of variables declaration//GEN-END:variables
 
-    private void popuniMesto() {
+    private void popuniMesto() throws Exception {
         ArrayList<Mesto> mesta;
 
         try {
@@ -245,6 +249,7 @@ public class DodajPartneraForma extends javax.swing.JFrame {
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Nisu ucitana mesta!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+            throw new Exception();
         }
 
     }

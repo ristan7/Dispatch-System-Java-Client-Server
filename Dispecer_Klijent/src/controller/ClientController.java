@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import komunikacija.KlijentskiZahtev;
 import komunikacija.Operacija;
 import komunikacija.ServerskiOdgovor;
+import komunikacija.VrstaOdgovora;
 import sesija.Sesija;
 
 /**
@@ -46,30 +47,87 @@ public class ClientController {
     public Dispecer login(Dispecer dispecer) throws Exception {
         posaljiZahtev(Operacija.LOGIN, dispecer);
         ServerskiOdgovor so = primiOdgovor();
-        return (Dispecer) so.getOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return (Dispecer) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom logovanja dispecera: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+
     }
 
     public ArrayList<NalogZaTransportRobe> getNalogeZaDatum(NalogZaTransportRobe nalog) throws Exception {
         posaljiZahtev(Operacija.VRATI_NALOGE_PO_DATUMU, nalog);
         ServerskiOdgovor so = primiOdgovor();
-        return (ArrayList<NalogZaTransportRobe>) so.getOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return (ArrayList<NalogZaTransportRobe>) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom ucitavanja naloga za odredjeni datum: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+
     }
 
     public ArrayList<Mesto> getMesta() throws Exception {
         posaljiZahtev(Operacija.VRATI_MESTA, null);
         ServerskiOdgovor so = primiOdgovor();
-        return (ArrayList<Mesto>) so.getOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return (ArrayList<Mesto>) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom ucitavanja svih mesta: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+
     }
 
     public boolean dodajPartnera(PoslovniPartner noviPartner) throws Exception {
         posaljiZahtev(Operacija.DODAJ_PARTNERA, noviPartner);
         ServerskiOdgovor so = primiOdgovor();
-        return (boolean) so.getOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return (boolean) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom dodavanja novog partnera: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+
     }
 
     public boolean odjaviDispecera(Dispecer ulogovani) throws Exception {
-        posaljiZahtev(Operacija.ODJAVI_DISPECERA,ulogovani);
+        posaljiZahtev(Operacija.ODJAVI_DISPECERA, ulogovani);
         ServerskiOdgovor so = primiOdgovor();
-        return (boolean) so.getOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return (boolean) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom odjave dispecera: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+
+    }
+
+    public ArrayList<PoslovniPartner> getPoslovniPartneri() throws Exception {
+        posaljiZahtev(Operacija.VRATI_PARTNERE, null);
+        ServerskiOdgovor so = primiOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return (ArrayList<PoslovniPartner>) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom ucitavanja svih partnera: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+
+    }
+
+    public ArrayList<PoslovniPartner> filtrirajPartnere(PoslovniPartner pp) throws Exception {
+        posaljiZahtev(Operacija.FILTRIRAJ_PARTNERE, pp);
+        ServerskiOdgovor so = primiOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            if (so.getOdgovor() == null) {
+                throw new Exception();
+            }
+            return (ArrayList<PoslovniPartner>) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom filtriranja partnera: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+
     }
 }
