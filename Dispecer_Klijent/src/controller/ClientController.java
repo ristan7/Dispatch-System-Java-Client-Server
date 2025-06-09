@@ -8,6 +8,7 @@ import domen.Dispecer;
 import domen.Mesto;
 import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
+import domen.StrucnaSprema;
 import java.io.IOException;
 import java.util.ArrayList;
 import komunikacija.KlijentskiZahtev;
@@ -80,11 +81,11 @@ public class ClientController {
 
     }
 
-    public boolean dodajPartnera(PoslovniPartner noviPartner) throws Exception {
+    public int dodajPartnera(PoslovniPartner noviPartner) throws Exception {
         posaljiZahtev(Operacija.DODAJ_PARTNERA, noviPartner);
         ServerskiOdgovor so = primiOdgovor();
         if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
-            return (boolean) so.getOdgovor();
+            return (int) so.getOdgovor();
         } else {
             System.err.println("Greska prilikom dodavanja novog partnera: " + so.getEx().getMessage());
             throw so.getEx();
@@ -149,6 +150,17 @@ public class ClientController {
             return (boolean) so.getOdgovor();
         } else {
             System.err.println("Greska prilikom brisanja partnera: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+    }
+
+    public int dodajStrucnuSpremu(StrucnaSprema novaSprema) throws Exception {
+        posaljiZahtev(Operacija.UBACI_SPREMU, novaSprema);
+        ServerskiOdgovor so = primiOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return (int) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom ubacivanja strucne spreme: " + so.getEx().getMessage());
             throw so.getEx();
         }
     }

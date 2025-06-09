@@ -9,6 +9,7 @@ import domen.Dispecer;
 import domen.Mesto;
 import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
+import domen.StrucnaSprema;
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
@@ -99,6 +100,9 @@ public class ObradaKlijentskihZahteva extends Thread {
                 case Operacija.OBRISI_PARTNERA:
                     return obradiObrisiPartnera(zahtev);
 
+                case Operacija.UBACI_SPREMU:
+                    return obradiUbaciSpremu(zahtev);
+
                 default:
                     return new ServerskiOdgovor(null, zahtev.getOperacija(), new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
 
@@ -140,8 +144,8 @@ public class ObradaKlijentskihZahteva extends Thread {
 
     private ServerskiOdgovor obradiDodajPartnera(KlijentskiZahtev zahtev) throws Exception {
         PoslovniPartner partner = (PoslovniPartner) zahtev.getParametar();
-        int uspesno = ServerController.getInstance().dodajPartnera(partner);
-        return new ServerskiOdgovor(true, Operacija.DODAJ_PARTNERA, null, VrstaOdgovora.USPESNO);
+        int brojDodatih = ServerController.getInstance().dodajPartnera(partner);
+        return new ServerskiOdgovor(brojDodatih, Operacija.DODAJ_PARTNERA, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor odjaviDispecera(KlijentskiZahtev zahtev) throws Exception {
@@ -172,5 +176,11 @@ public class ObradaKlijentskihZahteva extends Thread {
         PoslovniPartner partner = (PoslovniPartner) zahtev.getParametar();
         ServerController.getInstance().obrisiPartnera(partner);
         return new ServerskiOdgovor(true, Operacija.OBRISI_PARTNERA, null, VrstaOdgovora.USPESNO);
+    }
+
+    private ServerskiOdgovor obradiUbaciSpremu(KlijentskiZahtev zahtev) throws Exception {
+        StrucnaSprema ss = (StrucnaSprema) zahtev.getParametar();
+        int brojDodatih = ServerController.getInstance().dodajStrucnuSpremu(ss);
+        return new ServerskiOdgovor(brojDodatih, Operacija.UBACI_SPREMU, null, VrstaOdgovora.USPESNO);
     }
 }
