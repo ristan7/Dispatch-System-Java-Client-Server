@@ -22,7 +22,7 @@ public class SistemskaOperacijaDodajPartnera extends ApstraktnaSistemskaOperacij
     @Override
     protected void validiraj(ApstraktniDomenskiObjekat ado) throws Exception {
         if (!(ado instanceof PoslovniPartner)) {
-            throw new Exception("Prosledjeni objekat nije instanca klase Pacijent!");
+            throw new Exception("Prosledjeni objekat nije instanca klase Poslovni partner!");
         }
 
         PoslovniPartner noviPartner = (PoslovniPartner) ado;

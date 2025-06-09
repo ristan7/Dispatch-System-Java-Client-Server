@@ -122,7 +122,7 @@ public class StrucnaSprema implements ApstraktniDomenskiObjekat {
     public String vratiVrednostiZaInsert() {
         return String.format("'%s', %d",
                 nazivStrucneSpreme,
-                tip.ordinal()
+                tip.ordinal() + 1
         );
     }
 

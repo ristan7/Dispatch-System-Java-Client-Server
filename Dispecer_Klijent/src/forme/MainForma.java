@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import modeli.ModelTabelePrikaziNaloge;
 import forme.partner.DodajPartneraForma;
 import forme.partner.PretraziPoslovnogPartnera;
+import forme.sprema.UbaciSpremuForma;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +21,7 @@ import java.util.logging.Logger;
  * @author mikir
  */
 public class MainForma extends javax.swing.JFrame {
-
+    
     private ArrayList<NalogZaTransportRobe> nalozi = new ArrayList<>();
     private DodajPartneraForma dpf;
 
@@ -32,7 +33,7 @@ public class MainForma extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         jLabelUlogovani.setText(sesija.Sesija.getInstance().getUlogovani().toString());
         postaviTabelu();
-
+        
     }
 
     /**
@@ -223,7 +224,9 @@ public class MainForma extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonOdjavaActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-
+        UbaciSpremuForma usf = new UbaciSpremuForma();
+        usf.setVisible(true);
+        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -232,19 +235,19 @@ public class MainForma extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-
+        
         if (dpf == null || !dpf.isVisible()) {
             try {
                 dpf = new DodajPartneraForma(ModForme.DODAJ);
             } catch (Exception ex) {
-               return;
+                return;
             }
             JOptionPane.showMessageDialog(this, "Sistem je kreirao poslovnog partnera!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
             dpf.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
         }
-
+        
 
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
@@ -289,13 +292,13 @@ public class MainForma extends javax.swing.JFrame {
         nalog.setDatumIzvrsenja(danas);
         nalog.setDatumKreiranja(danas);
         nalog.setDispecer(sesija.Sesija.getInstance().getUlogovani());
-
+        
         try {
             nalozi = ClientController.getInstance().getNalogeZaDatum(nalog);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Nisu uspesno vraceni nalozi za danasnji datum!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }
-
+        
         ModelTabelePrikaziNaloge mt = new ModelTabelePrikaziNaloge(nalozi);
         jTableNalozi.setModel(mt);
     }

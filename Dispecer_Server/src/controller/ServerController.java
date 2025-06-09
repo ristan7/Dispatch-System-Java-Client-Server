@@ -8,6 +8,7 @@ import domen.Dispecer;
 import domen.Mesto;
 import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
+import domen.StrucnaSprema;
 import java.util.ArrayList;
 import operacija.login.SistemskaOperacijaLogin;
 import operacija.mesto.SistemskaOperacijaVratiMesta;
@@ -17,6 +18,7 @@ import operacija.partner.SistemskaOperacijaFiltrirajPoslovnePartnere;
 import operacija.partner.SistemskaOperacijaIzmeniPoslovnogPartnera;
 import operacija.partner.SistemskaOperacijaObrisiPoslovnogPartnera;
 import operacija.partner.SistemskaOperacijaVratiPoslovnePartnere;
+import operacija.sprema.SistemskaOperacijaUbaciStrucnuSpremu;
 
 /**
  *
@@ -106,6 +108,12 @@ public class ServerController {
     public void obrisiPartnera(PoslovniPartner partner) throws Exception {
         SistemskaOperacijaObrisiPoslovnogPartnera so = new SistemskaOperacijaObrisiPoslovnogPartnera();
         so.templateIzvrsi(partner);
+    }
+
+    public int dodajStrucnuSpremu(StrucnaSprema ss) throws Exception {
+        SistemskaOperacijaUbaciStrucnuSpremu so = new SistemskaOperacijaUbaciStrucnuSpremu();
+        so.templateIzvrsi(ss);
+        return so.getBrojDodatih();
     }
 
 }

@@ -240,8 +240,8 @@ public class DodajPartneraForma extends javax.swing.JFrame {
             noviPartner.setPib(pib);
             noviPartner.setIdPoslovnogPartnera(-1);
 
-            boolean uspesno = ClientController.getInstance().dodajPartnera(noviPartner);
-            if (uspesno) {
+            int brojDodatih = ClientController.getInstance().dodajPartnera(noviPartner);
+            if (brojDodatih > 0) {
                 JOptionPane.showMessageDialog(this, "Sistem je zapamtio poslovnog partnera!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } else {
