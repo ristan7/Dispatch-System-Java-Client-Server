@@ -19,15 +19,21 @@ public enum TipStrucneSpreme {
         String[] reci = ime.split(" ");
         StringBuilder rezultat = new StringBuilder();
 
-        for (String rec : reci) {
+        for (int i = 0; i < reci.length; i++) {
+            String rec = reci[i];
             if (rec.length() > 0) {
-                rezultat.append(Character.toUpperCase(rec.charAt(0)))
-                        .append(rec.substring(1))
-                        .append(" ");
+                if (i == 0) {
+
+                    rezultat.append(Character.toUpperCase(rec.charAt(0)))
+                            .append(rec.substring(1));
+                } else {
+
+                    rezultat.append(" ").append(rec);
+                }
             }
         }
 
-        return rezultat.toString().trim();
+        return rezultat.toString();
     }
 
 }
