@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import forme.ModForme;
-import modeli.ModelTabelePrikaziPoslovnePartnere;
+import modeli.partner.ModelTabelePrikaziPoslovnePartnere;
 
 /**
  *

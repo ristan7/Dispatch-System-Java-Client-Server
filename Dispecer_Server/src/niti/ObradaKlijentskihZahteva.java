@@ -9,6 +9,7 @@ import domen.Dispecer;
 import domen.Mesto;
 import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
+import domen.Roba;
 import domen.StrucnaSprema;
 import java.io.IOException;
 import java.net.*;
@@ -103,6 +104,12 @@ public class ObradaKlijentskihZahteva extends Thread {
                 case Operacija.UBACI_SPREMU:
                     return obradiUbaciSpremu(zahtev);
 
+                case Operacija.VRATI_DISPECERE:
+                    return obradiVratiDispecere(zahtev);
+                    
+                case Operacija.VRATI_ROBU:
+                    return obradiVratiRobu(zahtev);
+
                 default:
                     return new ServerskiOdgovor(null, zahtev.getOperacija(), new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
 
@@ -182,5 +189,17 @@ public class ObradaKlijentskihZahteva extends Thread {
         StrucnaSprema ss = (StrucnaSprema) zahtev.getParametar();
         int brojDodatih = ServerController.getInstance().dodajStrucnuSpremu(ss);
         return new ServerskiOdgovor(brojDodatih, Operacija.UBACI_SPREMU, null, VrstaOdgovora.USPESNO);
+    }
+
+    private ServerskiOdgovor obradiVratiDispecere(KlijentskiZahtev zahtev) throws Exception {
+        Dispecer dispecer = new Dispecer();
+        ArrayList<Dispecer> dispeceri = ServerController.getInstance().vratiDispecere(dispecer);
+        return new ServerskiOdgovor(dispeceri, Operacija.VRATI_DISPECERE, null, VrstaOdgovora.USPESNO);
+    }
+
+    private ServerskiOdgovor obradiVratiRobu(KlijentskiZahtev zahtev) throws Exception {
+        Roba r=new Roba();
+        ArrayList<Roba> roba = ServerController.getInstance().vratiRobu(r);
+        return new ServerskiOdgovor(roba, Operacija.VRATI_ROBU, null, VrstaOdgovora.USPESNO);
     }
 }

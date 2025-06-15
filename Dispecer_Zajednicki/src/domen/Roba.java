@@ -89,8 +89,8 @@ public class Roba implements ApstraktniDomenskiObjekat {
 
     @Override
     public String toString() {
-        String jedinica[]=jedinicaMere.name().split("_");
-        return nazivRobe + " (" + jedinica[1].toLowerCase() + ") " + "cena: " + cena;
+        String jedinica[] = jedinicaMere.name().split("_");
+        return nazivRobe + " (" + jedinica[1].toLowerCase() + ")";
     }
 
     @Override
@@ -102,9 +102,7 @@ public class Roba implements ApstraktniDomenskiObjekat {
             String nazivRobe = rs.getString("nazivRobe");
             float cena = rs.getFloat("cena");
 
-            JedinicaMere jedinicaMere=JedinicaMere.valueOf(rs.getString("nazivJedinice_oznaka"));
-
-            
+            JedinicaMere jedinicaMere = JedinicaMere.valueOf(rs.getString("nazivJedinice_oznaka"));
 
             Roba roba = new Roba(idRobe, nazivRobe, jedinicaMere, cena);
             lista.add(roba);
