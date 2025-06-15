@@ -8,6 +8,7 @@ import domen.Dispecer;
 import domen.Mesto;
 import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
+import domen.Roba;
 import domen.StrucnaSprema;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -161,6 +162,28 @@ public class ClientController {
             return (int) so.getOdgovor();
         } else {
             System.err.println("Greska prilikom ubacivanja strucne spreme: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+    }
+
+    public ArrayList<Dispecer> getDispeceri() throws Exception {
+        posaljiZahtev(Operacija.VRATI_DISPECERE, null);
+        ServerskiOdgovor so = primiOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return (ArrayList<Dispecer>) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom ucitavanja svih dispecera: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+    }
+
+    public ArrayList<Roba> getRoba() throws Exception {
+        posaljiZahtev(Operacija.VRATI_ROBU, null);
+        ServerskiOdgovor so = primiOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return  (ArrayList<Roba>) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom ucitavanja sve robe: " + so.getEx().getMessage());
             throw so.getEx();
         }
     }

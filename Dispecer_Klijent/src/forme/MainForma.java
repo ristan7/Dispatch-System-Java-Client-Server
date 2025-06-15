@@ -6,10 +6,11 @@ package forme;
 
 import controller.ClientController;
 import domen.NalogZaTransportRobe;
+import forme.nalog.DodajNalogForma;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import modeli.ModelTabelePrikaziNaloge;
+import modeli.nalog.ModelTabelePrikaziNaloge;
 import forme.partner.DodajPartneraForma;
 import forme.partner.PretraziPoslovnogPartnera;
 import forme.sprema.UbaciSpremuForma;
@@ -24,6 +25,8 @@ public class MainForma extends javax.swing.JFrame {
     
     private ArrayList<NalogZaTransportRobe> nalozi = new ArrayList<>();
     private DodajPartneraForma dpf;
+    
+    private DodajNalogForma dnf;
 
     /**
      * Creates new form MainForma
@@ -126,6 +129,11 @@ public class MainForma extends javax.swing.JFrame {
         jMenu1.setText("Nalozi");
 
         jMenuItem6.setText("Napravi novi nalog");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem6);
 
         jMenuItem7.setText("Pretrazi naloge");
@@ -260,6 +268,20 @@ public class MainForma extends javax.swing.JFrame {
         }
         ppp.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        if (dnf == null || !dnf.isVisible()) {
+            try {
+                dnf = new DodajNalogForma(ModForme.DODAJ);
+            } catch (Exception ex) {
+                return;
+            }
+            JOptionPane.showMessageDialog(this, "Sistem je kreirao nalog za transport robe!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
+            dnf.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira nalog za transport robe!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments

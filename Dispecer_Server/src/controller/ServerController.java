@@ -8,8 +8,10 @@ import domen.Dispecer;
 import domen.Mesto;
 import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
+import domen.Roba;
 import domen.StrucnaSprema;
 import java.util.ArrayList;
+import operacija.dispecer.SistemskaOperacijaVratiDispecere;
 import operacija.login.SistemskaOperacijaLogin;
 import operacija.mesto.SistemskaOperacijaVratiMesta;
 import operacija.nalog.SistemskaOperacijaVratiNalogePoDatumu;
@@ -18,6 +20,7 @@ import operacija.partner.SistemskaOperacijaFiltrirajPoslovnePartnere;
 import operacija.partner.SistemskaOperacijaIzmeniPoslovnogPartnera;
 import operacija.partner.SistemskaOperacijaObrisiPoslovnogPartnera;
 import operacija.partner.SistemskaOperacijaVratiPoslovnePartnere;
+import operacija.roba.SistemskaOperacijaVratiRobu;
 import operacija.sprema.SistemskaOperacijaUbaciStrucnuSpremu;
 
 /**
@@ -114,6 +117,18 @@ public class ServerController {
         SistemskaOperacijaUbaciStrucnuSpremu so = new SistemskaOperacijaUbaciStrucnuSpremu();
         so.templateIzvrsi(ss);
         return so.getBrojDodatih();
+    }
+
+    public ArrayList<Dispecer> vratiDispecere(Dispecer dispecer) throws Exception {
+        SistemskaOperacijaVratiDispecere so=new SistemskaOperacijaVratiDispecere();
+        so.templateIzvrsi(dispecer);
+        return so.getLista();
+    }
+
+    public ArrayList<Roba> vratiRobu(Roba r) throws Exception {
+        SistemskaOperacijaVratiRobu so=new SistemskaOperacijaVratiRobu();
+        so.templateIzvrsi(r);
+        return so.getLista();
     }
 
 }

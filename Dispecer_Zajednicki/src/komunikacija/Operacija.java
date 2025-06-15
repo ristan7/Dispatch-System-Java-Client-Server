@@ -22,5 +22,7 @@ public class Operacija {
     public static final int AZURIRAJ_PARTNERA = 7;
     public static final int OBRISI_PARTNERA = 8;
     public static final int UBACI_SPREMU = 9;
+    public static final int VRATI_DISPECERE = 10;
+    public static final int VRATI_ROBU = 11;
 
 }

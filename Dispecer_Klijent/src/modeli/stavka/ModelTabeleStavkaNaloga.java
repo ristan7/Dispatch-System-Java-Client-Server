@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package modeli;
+package modeli.stavka;
 
-import domen.PoslovniPartner;
+import domen.StavkaNaloga;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
@@ -12,12 +12,12 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author mikir
  */
-public class ModelTabelePrikaziPoslovnePartnere extends AbstractTableModel {
+public class ModelTabeleStavkaNaloga extends AbstractTableModel {
 
-    private ArrayList<PoslovniPartner> lista;
-    private String[] kolone = {"Naziv partnera", "PIB", "Adresa partnera", "Email partnera", "Mesto"};
+    private ArrayList<StavkaNaloga> lista;
+    private String[] kolone = {"Naziv robe", "Kolicina", "Cena", "Ukupno"};
 
-    public ModelTabelePrikaziPoslovnePartnere(ArrayList<PoslovniPartner> lista) {
+    public ModelTabeleStavkaNaloga(ArrayList<StavkaNaloga> lista) {
         this.lista = lista;
     }
 
@@ -38,28 +38,27 @@ public class ModelTabelePrikaziPoslovnePartnere extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        PoslovniPartner pp = lista.get(rowIndex);
+        StavkaNaloga stavka = lista.get(rowIndex);
+
         switch (columnIndex) {
             case 0:
-                return pp.getNazivPartnera();
+                return stavka.getRoba().getNazivRonbe();
             case 1:
-                return pp.getPib();
+                return stavka.getKolicina();
             case 2:
-                return pp.getAdresaPartnera();
+                return stavka.getRoba().getCena();
             case 3:
-                return pp.getEmailPartnera();
-            case 4:
-                return pp.getMesto().getNazivMesta() + " (" + pp.getMesto().getDrzava() + ")";
+                return stavka.getIznos();
             default:
                 return "N/A";
         }
     }
 
-    public ArrayList<PoslovniPartner> getLista() {
+    public ArrayList<StavkaNaloga> getLista() {
         return lista;
     }
 
-    public void setLista(ArrayList<PoslovniPartner> lista) {
+    public void setLista(ArrayList<StavkaNaloga> lista) {
         this.lista = lista;
     }
 
