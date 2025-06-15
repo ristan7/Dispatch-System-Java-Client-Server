@@ -375,6 +375,7 @@ public class DodajNalogForma extends javax.swing.JFrame {
 //            }
 //        }
         jComboBoxPoslovniPartner.setSelectedIndex(-1);
+        jComboBoxRoba.setSelectedIndex(-1);
 
     }
 }
