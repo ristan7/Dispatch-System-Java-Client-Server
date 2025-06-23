@@ -13,16 +13,14 @@ import java.io.Serializable;
 public class ServerskiOdgovor implements Serializable {
 
     private Object odgovor;
-    private int operacija;
     private Exception ex;
     private VrstaOdgovora vrstaOdgovora;
 
     public ServerskiOdgovor() {
     }
 
-    public ServerskiOdgovor(Object odgovor, int operacija, Exception ex, VrstaOdgovora vrstaOdgovora) {
+    public ServerskiOdgovor(Object odgovor, Exception ex, VrstaOdgovora vrstaOdgovora) {
         this.odgovor = odgovor;
-        this.operacija = operacija;
         this.ex = ex;
         this.vrstaOdgovora = vrstaOdgovora;
     }
@@ -33,14 +31,6 @@ public class ServerskiOdgovor implements Serializable {
 
     public void setOdgovor(Object odgovor) {
         this.odgovor = odgovor;
-    }
-
-    public int getOperacija() {
-        return operacija;
-    }
-
-    public void setOperacija(int Operacija) {
-        this.operacija = Operacija;
     }
 
     public Exception getEx() {
@@ -61,7 +51,7 @@ public class ServerskiOdgovor implements Serializable {
 
     @Override
     public String toString() {
-        return "ServerskiOdgovor{" + "odgovor=" + odgovor + ", operacija=" + operacija + ", ex=" + ex + ", vrstaOdgovora=" + vrstaOdgovora + '}';
+        return "ServerskiOdgovor{" + "odgovor=" + odgovor + ", ex=" + ex + ", vrstaOdgovora=" + vrstaOdgovora + '}';
     }
 
 }

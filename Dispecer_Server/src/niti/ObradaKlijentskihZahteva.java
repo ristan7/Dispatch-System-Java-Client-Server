@@ -69,7 +69,7 @@ public class ObradaKlijentskihZahteva extends Thread {
     private ServerskiOdgovor obradiZahtev(KlijentskiZahtev zahtev) {
         try {
             if (zahtev == null) {
-                return new ServerskiOdgovor(null, -1, new Exception("Primljen je prazan zahtev."), VrstaOdgovora.NEUSPESNO);
+                return new ServerskiOdgovor(null, new Exception("Primljen je prazan zahtev."), VrstaOdgovora.NEUSPESNO);
             }
 
             switch (zahtev.getOperacija()) {
@@ -111,11 +111,11 @@ public class ObradaKlijentskihZahteva extends Thread {
                     return obradiVratiRobu(zahtev);
 
                 default:
-                    return new ServerskiOdgovor(null, zahtev.getOperacija(), new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
+                    return new ServerskiOdgovor(null, new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
 
             }
         } catch (Exception ex) {
-            return new ServerskiOdgovor(null, zahtev.getOperacija(), ex, VrstaOdgovora.NEUSPESNO);
+            return new ServerskiOdgovor(null, ex, VrstaOdgovora.NEUSPESNO);
         }
     }
 
@@ -134,72 +134,72 @@ public class ObradaKlijentskihZahteva extends Thread {
     private ServerskiOdgovor obradiLoginOperaciju(KlijentskiZahtev zahtev) throws Exception {
         Dispecer d = (Dispecer) zahtev.getParametar();
         Dispecer dispecer = ServerController.getInstance().login(d);
-        return new ServerskiOdgovor(dispecer, Operacija.LOGIN, null, VrstaOdgovora.USPESNO);
+        return new ServerskiOdgovor(dispecer, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor obradiVratiNalogePremaDatumu(KlijentskiZahtev zahtev) throws Exception {
         NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
         ArrayList<NalogZaTransportRobe> naloziPoDatumu = ServerController.getInstance().naloziPoDatumu(nalog);
-        return new ServerskiOdgovor(naloziPoDatumu, Operacija.VRATI_NALOGE_PO_DATUMU, null, VrstaOdgovora.USPESNO);
+        return new ServerskiOdgovor(naloziPoDatumu, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor obradiVratiMesta(KlijentskiZahtev zahtev) throws Exception {
         Mesto mesto = new Mesto();
         ArrayList<Mesto> mesta = ServerController.getInstance().vratiMesta(mesto);
-        return new ServerskiOdgovor(mesta, Operacija.VRATI_MESTA, null, VrstaOdgovora.USPESNO);
+        return new ServerskiOdgovor(mesta, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor obradiDodajPartnera(KlijentskiZahtev zahtev) throws Exception {
         PoslovniPartner partner = (PoslovniPartner) zahtev.getParametar();
         int brojDodatih = ServerController.getInstance().dodajPartnera(partner);
-        return new ServerskiOdgovor(brojDodatih, Operacija.DODAJ_PARTNERA, null, VrstaOdgovora.USPESNO);
+        return new ServerskiOdgovor(brojDodatih, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor odjaviDispecera(KlijentskiZahtev zahtev) throws Exception {
         Dispecer ulogovani = (Dispecer) zahtev.getParametar();
         boolean uspesno = ServerController.getInstance().odjaviDispecera(ulogovani);
-        return new ServerskiOdgovor(uspesno, Operacija.ODJAVI_DISPECERA, null, VrstaOdgovora.USPESNO);
+        return new ServerskiOdgovor(uspesno, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor obradiVratiPoslovnePartnere(KlijentskiZahtev zahtev) throws Exception {
         PoslovniPartner pp = new PoslovniPartner();
         ArrayList<PoslovniPartner> partneri = ServerController.getInstance().vratiPartnere(pp);
-        return new ServerskiOdgovor(partneri, Operacija.VRATI_PARTNERE, null, VrstaOdgovora.USPESNO);
+        return new ServerskiOdgovor(partneri, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor obradiFiltrirajPoslovnePartnere(KlijentskiZahtev zahtev) throws Exception {
         PoslovniPartner pp = (PoslovniPartner) zahtev.getParametar();
         ArrayList<PoslovniPartner> partneri = ServerController.getInstance().filtrirajPartnere(pp);
-        return new ServerskiOdgovor(partneri, Operacija.FILTRIRAJ_PARTNERE, null, VrstaOdgovora.USPESNO);
+        return new ServerskiOdgovor(partneri, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor obradiAzurirajPartnera(KlijentskiZahtev zahtev) throws Exception {
         PoslovniPartner partner = (PoslovniPartner) zahtev.getParametar();
         ServerController.getInstance().azurirajPartnera(partner);
-        return new ServerskiOdgovor(true, Operacija.AZURIRAJ_PARTNERA, null, VrstaOdgovora.USPESNO);
+        return new ServerskiOdgovor(true, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor obradiObrisiPartnera(KlijentskiZahtev zahtev) throws Exception {
         PoslovniPartner partner = (PoslovniPartner) zahtev.getParametar();
         ServerController.getInstance().obrisiPartnera(partner);
-        return new ServerskiOdgovor(true, Operacija.OBRISI_PARTNERA, null, VrstaOdgovora.USPESNO);
+        return new ServerskiOdgovor(true, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor obradiUbaciSpremu(KlijentskiZahtev zahtev) throws Exception {
         StrucnaSprema ss = (StrucnaSprema) zahtev.getParametar();
         int brojDodatih = ServerController.getInstance().dodajStrucnuSpremu(ss);
-        return new ServerskiOdgovor(brojDodatih, Operacija.UBACI_SPREMU, null, VrstaOdgovora.USPESNO);
+        return new ServerskiOdgovor(brojDodatih, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor obradiVratiDispecere(KlijentskiZahtev zahtev) throws Exception {
         Dispecer dispecer = new Dispecer();
         ArrayList<Dispecer> dispeceri = ServerController.getInstance().vratiDispecere(dispecer);
-        return new ServerskiOdgovor(dispeceri, Operacija.VRATI_DISPECERE, null, VrstaOdgovora.USPESNO);
+        return new ServerskiOdgovor(dispeceri, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor obradiVratiRobu(KlijentskiZahtev zahtev) throws Exception {
         Roba r=new Roba();
         ArrayList<Roba> roba = ServerController.getInstance().vratiRobu(r);
-        return new ServerskiOdgovor(roba, Operacija.VRATI_ROBU, null, VrstaOdgovora.USPESNO);
+        return new ServerskiOdgovor(roba, null, VrstaOdgovora.USPESNO);
     }
 }

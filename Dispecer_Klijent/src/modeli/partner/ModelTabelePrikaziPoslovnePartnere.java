@@ -17,6 +17,10 @@ public class ModelTabelePrikaziPoslovnePartnere extends AbstractTableModel {
     private ArrayList<PoslovniPartner> lista;
     private String[] kolone = {"Naziv partnera", "PIB", "Adresa partnera", "Email partnera", "Mesto"};
 
+    public ModelTabelePrikaziPoslovnePartnere() {
+        lista = new ArrayList<>();
+    }
+
     public ModelTabelePrikaziPoslovnePartnere(ArrayList<PoslovniPartner> lista) {
         this.lista = lista;
     }

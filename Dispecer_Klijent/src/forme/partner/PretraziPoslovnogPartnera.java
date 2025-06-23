@@ -24,6 +24,7 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
 
     private ArrayList<PoslovniPartner> partneri = new ArrayList<>();
     private JTable tabela;
+    private DodajPartneraForma dpf;
 
     /**
      * Creates new form PretraziPoslovnogPartnera
@@ -36,7 +37,7 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
         } catch (Exception ex) {
             throw new Exception();
         }
-        jRadioButtonPartner.doClick();
+//        jRadioButtonPartner.doClick();
         tabela = jTablePartneri;
     }
 
@@ -60,12 +61,10 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jTextFieldNazivMesta = new javax.swing.JTextField();
         jTextFieldDrzava = new javax.swing.JTextField();
-        jRadioButtonPartner = new javax.swing.JRadioButton();
-        jRadioButtonMesto = new javax.swing.JRadioButton();
         jButtonFiltriraj = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButtonAzuriraj = new javax.swing.JButton();
+        jButtonpPrikazi = new javax.swing.JButton();
         jButtonObrisi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -90,7 +89,7 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 717, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,22 +126,6 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(jRadioButtonPartner);
-        jRadioButtonPartner.setText("Filtriraj prema partneru");
-        jRadioButtonPartner.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButtonPartnerActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(jRadioButtonMesto);
-        jRadioButtonMesto.setText("Filtriraj prema mestu");
-        jRadioButtonMesto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButtonMestoActionPerformed(evt);
-            }
-        });
-
         jButtonFiltriraj.setText("FILTRIRAJ");
         jButtonFiltriraj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -156,10 +139,10 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("Podaci o mestu :");
 
-        jButtonAzuriraj.setText("AZURIRAJ");
-        jButtonAzuriraj.addActionListener(new java.awt.event.ActionListener() {
+        jButtonpPrikazi.setText("PRIKAZI INFORMACIJE  O PARTNERU");
+        jButtonpPrikazi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAzurirajActionPerformed(evt);
+                jButtonpPrikaziActionPerformed(evt);
             }
         });
 
@@ -175,51 +158,45 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(jLabel6)))
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldNazivPartnera, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addGap(24, 24, 24))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldPib)
-                            .addComponent(jTextFieldNazivMesta)
-                            .addComponent(jTextFieldDrzava, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(68, 68, 68)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jRadioButtonPartner)
-                    .addComponent(jRadioButtonMesto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(90, 90, 90)
                         .addComponent(jButtonOdustani)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonAzuriraj))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonFiltriraj))
+                        .addComponent(jButtonpPrikazi))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonObrisi)))
+                        .addComponent(jButtonObrisi))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(57, 57, 57)
+                                .addComponent(jLabel6)))
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldNazivPartnera, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel4))
+                                        .addGap(24, 24, 24))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(18, 18, 18)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldPib)
+                                    .addComponent(jTextFieldNazivMesta)
+                                    .addComponent(jTextFieldDrzava, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonFiltriraj)))
                 .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
@@ -227,45 +204,39 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addComponent(jButtonFiltriraj)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonObrisi))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jTextFieldNazivPartnera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1)))
+                                    .addComponent(jLabel1))
+                                .addGap(17, 17, 17)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldPib, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(jRadioButtonPartner)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(19, 19, 19)
+                                .addComponent(jLabel5)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldPib, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jLabel5)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jTextFieldNazivMesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRadioButtonMesto))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextFieldDrzava, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel6)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonFiltriraj)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(159, 159, 159)
-                        .addComponent(jButtonObrisi)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jTextFieldNazivMesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jTextFieldDrzava, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(jLabel6)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
@@ -273,7 +244,7 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
                         .addGap(16, 16, 16))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonAzuriraj)
+                        .addComponent(jButtonpPrikazi)
                         .addGap(26, 26, 26))))
         );
 
@@ -292,41 +263,40 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldNazivMestaActionPerformed
 
-    private void jRadioButtonPartnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonPartnerActionPerformed
-        jTextFieldNazivMesta.setEnabled(false);
-        jTextFieldDrzava.setEnabled(false);
-        jTextFieldNazivPartnera.setEnabled(true);
-        jTextFieldPib.setEnabled(true);
-    }//GEN-LAST:event_jRadioButtonPartnerActionPerformed
-
-    private void jRadioButtonMestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMestoActionPerformed
-        jTextFieldNazivMesta.setEnabled(true);
-        jTextFieldDrzava.setEnabled(true);
-        jTextFieldNazivPartnera.setEnabled(false);
-        jTextFieldPib.setEnabled(false);
-    }//GEN-LAST:event_jRadioButtonMestoActionPerformed
-
     private void jButtonFiltrirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFiltrirajActionPerformed
         try {
             PoslovniPartner pp = new PoslovniPartner();
 
-            if (jRadioButtonPartner.isSelected()) {
-                String nazivPartnera = jTextFieldNazivPartnera.getText().trim();
-                String pib = jTextFieldPib.getText().trim();
+//            if (jRadioButtonPartner.isSelected()) {
+//                String nazivPartnera = jTextFieldNazivPartnera.getText().trim();
+//                String pib = jTextFieldPib.getText().trim();
+//
+//                pp.setNazivPartnera(nazivPartnera);
+//                pp.setPib(pib);
+//            }
+//
+//            if (jRadioButtonMesto.isSelected()) {
+//                Mesto m = new Mesto();
+//                String nazivMesta = jTextFieldNazivMesta.getText().trim();
+//                String drzava = jTextFieldDrzava.getText().trim();
+//                m.setDrzava(drzava);
+//                m.setNazivMesta(nazivMesta);
+//
+//                pp.setMesto(m);
+//            }
+            String nazivPartnera = jTextFieldNazivPartnera.getText().trim();
+            String pib = jTextFieldPib.getText().trim();
 
-                pp.setNazivPartnera(nazivPartnera);
-                pp.setPib(pib);
-            }
+            pp.setNazivPartnera(nazivPartnera);
+            pp.setPib(pib);
 
-            if (jRadioButtonMesto.isSelected()) {
-                Mesto m = new Mesto();
-                String nazivMesta = jTextFieldNazivMesta.getText().trim();
-                String drzava = jTextFieldDrzava.getText().trim();
-                m.setDrzava(drzava);
-                m.setNazivMesta(nazivMesta);
+            Mesto m = new Mesto();
+            String nazivMesta = jTextFieldNazivMesta.getText().trim();
+            String drzava = jTextFieldDrzava.getText().trim();
+            m.setDrzava(drzava);
+            m.setNazivMesta(nazivMesta);
 
-                pp.setMesto(m);
-            }
+            pp.setMesto(m);
 
             ArrayList<PoslovniPartner> partneriPretrazeni = ClientController.getInstance().filtrirajPartnere(pp);
 
@@ -335,31 +305,38 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
             ModelTabelePrikaziPoslovnePartnere mt = new ModelTabelePrikaziPoslovnePartnere(partneriPretrazeni);
             jTablePartneri.setModel(mt);
 
-            JOptionPane.showMessageDialog(this, "Sistem je nasao poslovnog partnera!", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
-
+            //JOptionPane.showMessageDialog(this, "Sistem je nasao poslovnog partnera!", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje poslovne partnere po zadatim kriterijumima!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
-            JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje poslovnog partnera!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+            postaviPraznuTabelu();
+            //JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje poslovnog partnera!", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonFiltrirajActionPerformed
 
-    private void jButtonAzurirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAzurirajActionPerformed
+    private void jButtonpPrikaziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonpPrikaziActionPerformed
         int selectedIndex = jTablePartneri.getSelectedRow();
         if (selectedIndex < 0) {
-            JOptionPane.showMessageDialog(this, "Morate odabrati predmet za azuriranje!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Morate odabrati poslovnog partnera kog zelite da pogledate!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         ModelTabelePrikaziPoslovnePartnere mtp = (ModelTabelePrikaziPoslovnePartnere) jTablePartneri.getModel();
         PoslovniPartner pp = mtp.getLista().get(selectedIndex);
-        DodajPartneraForma dpf;
-        try {
-            dpf = new DodajPartneraForma(this, pp, ModForme.PROMENI);
-        } catch (Exception ex) {
-            return;
+        
+        if (dpf == null || !dpf.isVisible()) {
+            try {
+                dpf = new DodajPartneraForma(this, pp, ModForme.PROMENI);
+            } catch (Exception ex) {
+                return;
+            }
+            JOptionPane.showMessageDialog(this, "Sistem je nasao poslovnog partnera!", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
+            dpf.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje poslovnog partnera!", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }
-        dpf.setVisible(true);
-    }//GEN-LAST:event_jButtonAzurirajActionPerformed
+
+
+    }//GEN-LAST:event_jButtonpPrikaziActionPerformed
 
     private void jButtonObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonObrisiActionPerformed
         try {
@@ -390,10 +367,10 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButtonAzuriraj;
     private javax.swing.JButton jButtonFiltriraj;
     private javax.swing.JButton jButtonObrisi;
     private javax.swing.JButton jButtonOdustani;
+    private javax.swing.JButton jButtonpPrikazi;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -401,8 +378,6 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButtonMesto;
-    private javax.swing.JRadioButton jRadioButtonPartner;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePartneri;
     private javax.swing.JTextField jTextFieldDrzava;
@@ -425,6 +400,11 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
 
     public JTable getTabela() {
         return tabela;
+    }
+
+    private void postaviPraznuTabelu() {
+        ModelTabelePrikaziPoslovnePartnere mtp = new ModelTabelePrikaziPoslovnePartnere();
+        jTablePartneri.setModel(mtp);
     }
 
 }

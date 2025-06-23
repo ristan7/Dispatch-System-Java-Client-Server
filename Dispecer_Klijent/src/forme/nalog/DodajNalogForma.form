@@ -28,6 +28,8 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jButtonOdustani" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                      <Component id="jButtonOmoguciIzmene" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jButtonAzuriraj" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
@@ -63,7 +65,7 @@
                           <Component id="jComboBoxStatus" alignment="0" min="-2" pref="122" max="-2" attributes="0"/>
                           <Component id="jLabel6" min="-2" pref="122" max="-2" attributes="0"/>
                           <Component id="jComboBoxDispecer" alignment="0" min="-2" pref="226" max="-2" attributes="0"/>
-                          <Component id="jLabel10" alignment="0" min="-2" pref="64" max="-2" attributes="0"/>
+                          <Component id="jLabelDispecer" alignment="0" min="-2" pref="64" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   </Group>
@@ -109,7 +111,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jComboBoxPoslovniPartner" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelDispecer" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jComboBoxDispecer" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -124,6 +126,7 @@
                   <Component id="jButtonOdustani" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonDodajNalog" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonAzuriraj" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonOmoguciIzmene" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="16" max="32767" attributes="0"/>
           </Group>
@@ -211,16 +214,22 @@
                       <Component id="jScrollPane1" min="-2" pref="484" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jLabel8" alignment="0" min="-2" pref="237" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldKolicina" min="-2" pref="183" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel9" min="-2" pref="37" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                  <Component id="jComboBoxRoba" max="32767" attributes="0"/>
+                              <Component id="jLabel8" min="-2" pref="237" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="jLabel9" max="32767" attributes="0"/>
+                                      <Component id="jLabel11" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="jTextFieldKolicina" min="-2" pref="183" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                                          <Component id="jComboBoxRoba" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
@@ -330,7 +339,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="jLabel10">
+    <Component class="javax.swing.JLabel" name="jLabelDispecer">
       <Properties>
         <Property name="text" type="java.lang.String" value="Dispecer :"/>
       </Properties>
@@ -361,6 +370,11 @@
     <Component class="javax.swing.JButton" name="jButtonAzuriraj">
       <Properties>
         <Property name="text" type="java.lang.String" value="AZURIRAJ NALOG"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonOmoguciIzmene">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="OMOGUCI IZMENE"/>
       </Properties>
     </Component>
   </SubComponents>
