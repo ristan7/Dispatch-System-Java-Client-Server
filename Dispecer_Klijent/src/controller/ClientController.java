@@ -181,7 +181,7 @@ public class ClientController {
         posaljiZahtev(Operacija.VRATI_ROBU, null);
         ServerskiOdgovor so = primiOdgovor();
         if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
-            return  (ArrayList<Roba>) so.getOdgovor();
+            return (ArrayList<Roba>) so.getOdgovor();
         } else {
             System.err.println("Greska prilikom ucitavanja sve robe: " + so.getEx().getMessage());
             throw so.getEx();

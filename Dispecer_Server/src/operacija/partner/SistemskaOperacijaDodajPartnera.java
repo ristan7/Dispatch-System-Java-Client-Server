@@ -54,6 +54,10 @@ public class SistemskaOperacijaDodajPartnera extends ApstraktnaSistemskaOperacij
             throw new Exception("Email partnera nije unet!!");
         }
 
+        if (!noviPartner.getEmailPartnera().contains("@")) {
+            throw new Exception("Nepravilan format email-a partnera!!");
+        }
+
         ArrayList<PoslovniPartner> partneri = (ArrayList<PoslovniPartner>) (ArrayList<?>) DBBroker.getInstance().vratiSve(ado);
 
         for (PoslovniPartner poslovniPartner : partneri) {

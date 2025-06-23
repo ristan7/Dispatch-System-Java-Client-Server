@@ -22,11 +22,12 @@ public class Dispecer implements ApstraktniDomenskiObjekat {
     private String telefonDispecera;
     private String korisnickoIme;
     private String lozinka;
+    private Rola rola;
 
     public Dispecer() {
     }
 
-    public Dispecer(int idDispecera, String imeDispecera, String prezimeDispecera, String emailDispecera, String telefonDispecera, String korisnickoIme, String lozinka) {
+    public Dispecer(int idDispecera, String imeDispecera, String prezimeDispecera, String emailDispecera, String telefonDispecera, String korisnickoIme, String lozinka, Rola rola) {
         this.idDispecera = idDispecera;
         this.imeDispecera = imeDispecera;
         this.prezimeDispecera = prezimeDispecera;
@@ -34,6 +35,7 @@ public class Dispecer implements ApstraktniDomenskiObjekat {
         this.telefonDispecera = telefonDispecera;
         this.korisnickoIme = korisnickoIme;
         this.lozinka = lozinka;
+        this.rola = rola;
     }
 
     public int getIdDispecera() {
@@ -92,6 +94,14 @@ public class Dispecer implements ApstraktniDomenskiObjekat {
         this.lozinka = lozinka;
     }
 
+    public Rola getRola() {
+        return rola;
+    }
+
+    public void setRola(Rola rola) {
+        this.rola = rola;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -136,8 +146,9 @@ public class Dispecer implements ApstraktniDomenskiObjekat {
             String telefon = rs.getString("telefonDispecera");
             String username = rs.getString("korisnickoIme");
             String pass = rs.getString("lozinka");
+            Rola rola = Rola.valueOf(rs.getString("nazivRole"));
 
-            Dispecer dispecer = new Dispecer(id, ime, prezime, email, telefon, username, pass);
+            Dispecer dispecer = new Dispecer(id, ime, prezime, email, telefon, username, pass, rola);
             lista.add(dispecer);
         }
         rs.close();
@@ -161,17 +172,17 @@ public class Dispecer implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiKoloneZaInsert() {
-        return " (imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, korisnickoIme, lozinka) ";
+        return " (imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, korisnickoIme, lozinka, rola) ";
     }
 
     @Override
     public String vratiVrednostiZaInsert() {
-        return String.format("'%s', '%s', '%s', '%s', '%s', '%s'", imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, korisnickoIme, lozinka);
+        return String.format("'%s', '%s', '%s', '%s', '%s', '%s', %d", imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, korisnickoIme, lozinka, rola.ordinal());
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        return String.format("imeDispecera = '%s', prezimeDispecera = '%s', emailDispecera = '%s', telefonDispecera = '%s', korisnickoIme = '%s', lozinka = '%s'", imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, korisnickoIme, lozinka);
+        return String.format("imeDispecera = '%s', prezimeDispecera = '%s', emailDispecera = '%s', telefonDispecera = '%s', korisnickoIme = '%s', lozinka = '%s', rola = %d", imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, korisnickoIme, lozinka, rola.ordinal());
     }
 
     @Override
@@ -181,7 +192,7 @@ public class Dispecer implements ApstraktniDomenskiObjekat {
 
     @Override
     public String join() {
-        return "";
+        return "JOIN rola ro ON d.rola = ro.idRole";
     }
 
     @Override

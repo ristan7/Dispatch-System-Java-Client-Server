@@ -26,16 +26,19 @@ public class SistemskaOperacijaFiltrirajPoslovnePartnere extends ApstraktnaSiste
 
         PoslovniPartner pp = (PoslovniPartner) ado;
 
-        if (pp.getMesto() == null) {
-            if ((pp.getNazivPartnera() == null || pp.getNazivPartnera().isBlank()) && (pp.getPib() == null || pp.getPib().isBlank())) {
-                throw new Exception("Naziv partnera ili PIB su neophodni za pretragu partnera!");
-            }
-        } else {
-            if ((pp.getMesto().getNazivMesta() == null || pp.getMesto().getNazivMesta().isBlank()) && (pp.getMesto().getDrzava() == null || pp.getMesto().getDrzava().isBlank())) {
-                throw new Exception("Naziv mesta ili drzava su neophodni za pretragu partnera!");
-            }
+        if ((pp.getNazivPartnera() == null || pp.getNazivPartnera().isBlank()) && (pp.getPib() == null || pp.getPib().isBlank()) && (pp.getMesto().getNazivMesta() == null || pp.getMesto().getNazivMesta().isBlank()) && (pp.getMesto().getDrzava() == null || pp.getMesto().getDrzava().isBlank())) {
+            throw new Exception("Naziv partnera, PIB, naziv mesta ili drzava su neophodni za pretragu partnera!");
         }
 
+//        if (pp.getMesto() == null) {
+//            if ((pp.getNazivPartnera() == null || pp.getNazivPartnera().isBlank()) && (pp.getPib() == null || pp.getPib().isBlank())) {
+//                throw new Exception("Naziv partnera ili PIB su neophodni za pretragu partnera!");
+//            }
+//        } else {
+//            if ((pp.getMesto().getNazivMesta() == null || pp.getMesto().getNazivMesta().isBlank()) && (pp.getMesto().getDrzava() == null || pp.getMesto().getDrzava().isBlank())) {
+//                throw new Exception("Naziv mesta ili drzava su neophodni za pretragu partnera!");
+//            }
+//        }
     }
 
     @Override

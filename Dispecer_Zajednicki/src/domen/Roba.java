@@ -171,7 +171,7 @@ public class Roba implements ApstraktniDomenskiObjekat {
         List<String> uslovi = new ArrayList<>();
 
         if (nazivRobe != null) {
-            uslovi.add("nazivRobe = '" + nazivRobe + "'");
+            uslovi.add("nazivRobe LIKE '%" + nazivRobe + "%'");
         }
 
         if (uslovi.isEmpty()) {

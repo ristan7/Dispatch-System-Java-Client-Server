@@ -9,6 +9,7 @@ import domen.Dispecer;
 import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
 import domen.Roba;
+import domen.Rola;
 import domen.StatusNaloga;
 import domen.StavkaNaloga;
 import forme.ModForme;
@@ -34,6 +35,11 @@ public class DodajNalogForma extends javax.swing.JFrame {
         initComponents();
         this.modForme = modForme;
         jButtonAzuriraj.setVisible(false);
+        jButtonOmoguciIzmene.setVisible(false);
+        jComboBoxStatus.setEnabled(false);
+        if (Sesija.getInstance().getUlogovani().getRola() == Rola.KORISNIK) {
+            jComboBoxDispecer.setEnabled(false);
+        }
         try {
             pripremi();
         } catch (Exception ex) {
@@ -71,11 +77,12 @@ public class DodajNalogForma extends javax.swing.JFrame {
         jTableStavke = new javax.swing.JTable();
         jButtonDodajStavku = new javax.swing.JButton();
         jButtonObrisiStavku = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
+        jLabelDispecer = new javax.swing.JLabel();
         jComboBoxDispecer = new javax.swing.JComboBox<>();
         jButtonOdustani = new javax.swing.JButton();
         jButtonDodajNalog = new javax.swing.JButton();
         jButtonAzuriraj = new javax.swing.JButton();
+        jButtonOmoguciIzmene = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -137,13 +144,16 @@ public class DodajNalogForma extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldKolicina, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
-                                .addComponent(jComboBoxRoba, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextFieldKolicina, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(13, 13, 13)
+                                        .addComponent(jComboBoxRoba, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                         .addGap(42, 42, 42)
                         .addComponent(jButtonDodajStavku)
                         .addGap(32, 32, 32)
@@ -175,7 +185,7 @@ public class DodajNalogForma extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jLabel10.setText("Dispecer :");
+        jLabelDispecer.setText("Dispecer :");
 
         jButtonOdustani.setText("ODUSTANI");
         jButtonOdustani.addActionListener(new java.awt.event.ActionListener() {
@@ -188,6 +198,8 @@ public class DodajNalogForma extends javax.swing.JFrame {
 
         jButtonAzuriraj.setText("AZURIRAJ NALOG");
 
+        jButtonOmoguciIzmene.setText("OMOGUCI IZMENE");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -197,6 +209,8 @@ public class DodajNalogForma extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonOdustani)
+                        .addGap(52, 52, 52)
+                        .addComponent(jButtonOmoguciIzmene)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonAzuriraj)
                         .addGap(28, 28, 28)
@@ -227,7 +241,7 @@ public class DodajNalogForma extends javax.swing.JFrame {
                             .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboBoxDispecer, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelDispecer, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18))))
         );
         layout.setVerticalGroup(
@@ -263,7 +277,7 @@ public class DodajNalogForma extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBoxPoslovniPartner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel10)
+                                .addComponent(jLabelDispecer)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBoxDispecer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jLabel1))
@@ -273,7 +287,8 @@ public class DodajNalogForma extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonOdustani)
                     .addComponent(jButtonDodajNalog)
-                    .addComponent(jButtonAzuriraj))
+                    .addComponent(jButtonAzuriraj)
+                    .addComponent(jButtonOmoguciIzmene))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -299,12 +314,12 @@ public class DodajNalogForma extends javax.swing.JFrame {
     private javax.swing.JButton jButtonDodajStavku;
     private javax.swing.JButton jButtonObrisiStavku;
     private javax.swing.JButton jButtonOdustani;
+    private javax.swing.JButton jButtonOmoguciIzmene;
     private javax.swing.JComboBox<Dispecer> jComboBoxDispecer;
     private javax.swing.JComboBox<PoslovniPartner> jComboBoxPoslovniPartner;
     private javax.swing.JComboBox<Roba> jComboBoxRoba;
     private javax.swing.JComboBox<StatusNaloga> jComboBoxStatus;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -314,6 +329,7 @@ public class DodajNalogForma extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelDispecer;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableStavke;

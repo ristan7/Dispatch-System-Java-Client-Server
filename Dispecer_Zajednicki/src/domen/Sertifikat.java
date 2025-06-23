@@ -120,8 +120,9 @@ public class Sertifikat implements ApstraktniDomenskiObjekat {
             String telefon = rs.getString("telefonDispecera");
             String username = rs.getString("korisnickoIme");
             String pass = rs.getString("lozinka");
+            Rola rola = Rola.valueOf(rs.getString("nazivRole"));
 
-            Dispecer dispecer = new Dispecer(idDispecera, ime, prezime, email, telefon, username, pass);
+            Dispecer dispecer = new Dispecer(idDispecera, ime, prezime, email, telefon, username, pass, rola);
 
             int idSpreme = rs.getInt("idStrucneSpreme");
             String naziv = rs.getString("nazivStrucneSpreme");
@@ -188,6 +189,7 @@ public class Sertifikat implements ApstraktniDomenskiObjekat {
     @Override
     public String join() {
         return "JOIN dispecer d ON s.dispecer = d.idDispecera "
+                + "JOIN rola ro ON d.rola = ro.idRole "
                 + "JOIN strucna_sprema ss ON s.strucnaSprema = ss.idStrucneSpreme";
     }
 

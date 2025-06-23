@@ -29,6 +29,7 @@ public class DodajPartneraForma extends javax.swing.JFrame {
     public DodajPartneraForma(ModForme mod) throws Exception {
         initComponents();
         jButtonAzuriraj.setVisible(false);
+        jButtonOmoguciIzmenu.setVisible(false);
         try {
             popuniMesto();
         } catch (Exception ex) {
@@ -40,6 +41,7 @@ public class DodajPartneraForma extends javax.swing.JFrame {
     public DodajPartneraForma(PretraziPoslovnogPartnera pretrazi, PoslovniPartner partner, ModForme mod) throws Exception {
         initComponents();
         jButtonDodaj.setVisible(false);
+        jButtonAzuriraj.setEnabled(false);
 
         noviPartner = partner;
         pretraziForma = pretrazi;
@@ -48,6 +50,12 @@ public class DodajPartneraForma extends javax.swing.JFrame {
         jTextFieldEmail.setText(partner.getEmailPartnera());
         jTextFieldPib.setText(partner.getPib());
         jTextFieldAdresa.setText(partner.getAdresaPartnera());
+        
+        jTextFieldNaziv.setEnabled(false);
+        jTextFieldPib.setEnabled(false);
+        jTextFieldEmail.setEnabled(false);
+        jTextFieldAdresa.setEnabled(false);
+        
         try {
             popuniMesto();
         } catch (Exception ex) {
@@ -55,6 +63,7 @@ public class DodajPartneraForma extends javax.swing.JFrame {
         }
 
         jComboBoxMesto.setSelectedItem(partner.getMesto());
+        jComboBoxMesto.setEnabled(false);
 
     }
 
@@ -79,6 +88,7 @@ public class DodajPartneraForma extends javax.swing.JFrame {
         jButtonDodaj = new javax.swing.JButton();
         jButtonOdustani = new javax.swing.JButton();
         jButtonAzuriraj = new javax.swing.JButton();
+        jButtonOmoguciIzmenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -115,19 +125,20 @@ public class DodajPartneraForma extends javax.swing.JFrame {
             }
         });
 
+        jButtonOmoguciIzmenu.setText("OMOGUCI IZMENU");
+        jButtonOmoguciIzmenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOmoguciIzmenuActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonOdustani)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonAzuriraj)
-                        .addGap(69, 69, 69)
-                        .addComponent(jButtonDodaj))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -135,25 +146,34 @@ public class DodajPartneraForma extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel5))
                         .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(jTextFieldNaziv, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldAdresa)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextFieldPib, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
-                                .addComponent(jComboBoxMesto, 0, 144, Short.MAX_VALUE))
-                            .addComponent(jTextFieldEmail))))
-                .addContainerGap(23, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jTextFieldNaziv, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTextFieldAdresa, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jTextFieldPib, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(31, 31, 31)
+                                    .addComponent(jLabel6)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jComboBoxMesto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jTextFieldEmail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonOdustani)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonOmoguciIzmenu)
+                        .addGap(17, 17, 17)
+                        .addComponent(jButtonAzuriraj)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonDodaj)))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel4)
-                .addGap(29, 29, 29)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextFieldNaziv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -175,6 +195,7 @@ public class DodajPartneraForma extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonDodaj)
                     .addComponent(jButtonOdustani)
+                    .addComponent(jButtonOmoguciIzmenu, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonAzuriraj))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
@@ -228,6 +249,11 @@ public class DodajPartneraForma extends javax.swing.JFrame {
 
             if (emailPartnera == null || emailPartnera.isBlank()) {
                 JOptionPane.showMessageDialog(this, "Niste uneli email partnera!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!emailPartnera.contains("@")) {
+                JOptionPane.showMessageDialog(this, "Nepravilan format email-a!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -298,6 +324,11 @@ public class DodajPartneraForma extends javax.swing.JFrame {
                 return;
             }
 
+            if (!emailPartnera.contains("@")) {
+                JOptionPane.showMessageDialog(this, "Nepravilan format email-a!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             Mesto mesto = (Mesto) jComboBoxMesto.getSelectedItem();
 
             noviPartner.setNazivPartnera(nazivPartnera);
@@ -322,6 +353,19 @@ public class DodajPartneraForma extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonAzurirajActionPerformed
 
+    private void jButtonOmoguciIzmenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOmoguciIzmenuActionPerformed
+        // TODO add your handling code here:
+        jTextFieldNaziv.setEnabled(true);
+        jTextFieldPib.setEnabled(true);
+        jTextFieldEmail.setEnabled(true);
+        jTextFieldAdresa.setEnabled(true);
+        jComboBoxMesto.setEnabled(true);
+        
+        jButtonAzuriraj.setEnabled(true);
+        jButtonOmoguciIzmenu.setEnabled(false);
+        
+    }//GEN-LAST:event_jButtonOmoguciIzmenuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -330,6 +374,7 @@ public class DodajPartneraForma extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAzuriraj;
     private javax.swing.JButton jButtonDodaj;
     private javax.swing.JButton jButtonOdustani;
+    private javax.swing.JButton jButtonOmoguciIzmenu;
     private javax.swing.JComboBox<Mesto> jComboBoxMesto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

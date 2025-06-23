@@ -254,8 +254,9 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 String telefonDispecera = rs.getString("telefonDispecera");
                 String userName = rs.getString("korisnickoIme");
                 String pass = rs.getString("lozinka");
+                Rola rola = Rola.valueOf(rs.getString("nazivRole"));
 
-                Dispecer d = new Dispecer(idDispecera, imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, userName, pass);
+                Dispecer d = new Dispecer(idDispecera, imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, userName, pass, rola);
 
                 nalog.setDispecer(d);
 
@@ -289,7 +290,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
             int idRobe = rs.getInt("idRobe");
             String nazivRobe = rs.getString("nazivRobe");
 
-            JedinicaMere jedinicaMere=JedinicaMere.valueOf(rs.getString("nazivJedinice_oznaka"));
+            JedinicaMere jedinicaMere = JedinicaMere.valueOf(rs.getString("nazivJedinice_oznaka"));
 
             Float cena = rs.getFloat("cena");
             Roba r = new Roba(idRobe, nazivRobe, jedinicaMere, cena);
@@ -369,6 +370,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
     @Override
     public String join() {
         return "JOIN Dispecer d ON nr.dispecer = d.idDispecera "
+                + "JOIN rola ro ON d.rola = ro.idRole "
                 + "JOIN status_naloga st ON nr.status = st.idStatusaNaloga "
                 + "JOIN poslovni_partner pp ON nr.poslovni_partner = pp.idPoslovnogPartnera "
                 + "JOIN mesto m ON pp.mesto = m.idMesta "
