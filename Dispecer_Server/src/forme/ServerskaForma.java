@@ -133,6 +133,7 @@ public class ServerskaForma extends javax.swing.JFrame {
             server = new ServerskaNit();
             server.start();
             postaviText("SERVER JE POKRENUT!!!!");
+            JOptionPane.showMessageDialog(this, "Server je pokrenut!!", "POKRETANJE PROGRAMA!", JOptionPane.INFORMATION_MESSAGE);
             jLabel1.setVisible(true);
             jLabelStatus.setForeground(new Color(0x00, 0x66, 0x22));
             jButtonPokreniServer1.setEnabled(false);
@@ -144,8 +145,12 @@ public class ServerskaForma extends javax.swing.JFrame {
         if (server.getServerSocket() != null && server.getServerSocket().isBound()) {
             server.zaustaviServer();
             JOptionPane.showMessageDialog(this, "Server je ugasen, gasenje programa!!", "GASENJE PROGRAMA!", JOptionPane.INFORMATION_MESSAGE);
-            this.dispose();
-            System.exit(0);
+            postaviText("SERVER JE ZAUSTAVLJEN!!!!");
+            jLabelStatus.setForeground(new Color(139, 0, 0));
+            jButtonPokreniServer1.setEnabled(true);
+            jButtonZaustaviServer.setEnabled(false);
+            //this.dispose();
+            //System.exit(0);
 
         }
 

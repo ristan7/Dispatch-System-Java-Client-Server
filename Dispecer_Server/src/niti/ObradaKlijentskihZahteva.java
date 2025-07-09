@@ -48,7 +48,9 @@ public class ObradaKlijentskihZahteva extends Thread {
                 try {
                     zahtev = (KlijentskiZahtev) primalac.primi();
                 } catch (Exception ex) {
-                    Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    //Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.INFO, "Soket je zatvoren, nije moguce primiti zahtev..");
+                    return;
                 }
                 if (zahtev == null) {
                     Logger.getLogger(ObradaKlijentskihZahteva.class.getName())
@@ -106,7 +108,7 @@ public class ObradaKlijentskihZahteva extends Thread {
 
                 case Operacija.VRATI_DISPECERE:
                     return obradiVratiDispecere(zahtev);
-                    
+
                 case Operacija.VRATI_ROBU:
                     return obradiVratiRobu(zahtev);
 
@@ -123,7 +125,7 @@ public class ObradaKlijentskihZahteva extends Thread {
         try {
             if (socket != null && !socket.isClosed()) {
                 socket.close();
-                Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.INFO, "Soket je uspešno zatvoren.");
+                Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.INFO, "Soket je uspesno zatvoren.");
             }
         } catch (IOException e) {
             Logger.getLogger(ObradaKlijentskihZahteva.class.getName())
@@ -198,7 +200,7 @@ public class ObradaKlijentskihZahteva extends Thread {
     }
 
     private ServerskiOdgovor obradiVratiRobu(KlijentskiZahtev zahtev) throws Exception {
-        Roba r=new Roba();
+        Roba r = new Roba();
         ArrayList<Roba> roba = ServerController.getInstance().vratiRobu(r);
         return new ServerskiOdgovor(roba, null, VrstaOdgovora.USPESNO);
     }
