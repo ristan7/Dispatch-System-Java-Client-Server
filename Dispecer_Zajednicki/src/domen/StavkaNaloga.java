@@ -99,16 +99,10 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
             return false;
         }
         final StavkaNaloga other = (StavkaNaloga) obj;
-        if (this.rb != other.rb) {
-            return false;
-        }
-        if (Float.floatToIntBits(this.kolicina) != Float.floatToIntBits(other.kolicina)) {
-            return false;
-        }
-        if (Float.floatToIntBits(this.cenaPoJedinici) != Float.floatToIntBits(other.cenaPoJedinici)) {
-            return false;
-        }
         if (Float.floatToIntBits(this.iznos) != Float.floatToIntBits(other.iznos)) {
+            return false;
+        }
+        if (!Objects.equals(this.nalog, other.nalog)) {
             return false;
         }
         return Objects.equals(this.roba, other.roba);
@@ -139,7 +133,7 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
             String telefonDispecera = rs.getString("telefonDispecera");
             String userName = rs.getString("korisnickoIme");
             String pass = rs.getString("lozinka");
-            Rola rola = Rola.valueOf("nazivRole");
+            Rola rola = Rola.valueOf(rs.getString("nazivRole"));
 
             Dispecer d = new Dispecer(idDispecera, imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, userName, pass, rola);
 
@@ -264,7 +258,12 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
     public String join() {
         return "JOIN nalog_za_transport_robe nr ON sn.nalog = nr.idNaloga "
                 + "JOIN roba r ON sn.roba = r.idRobe "
-                + "JOIN jedinica_mere jm ON r.jedinicaMere = jm.idJedinice";
+                + "JOIN jedinica_mere jm ON r.jedinicaMere = jm.idJedinice "
+                + "JOIN Dispecer d ON nr.dispecer = d.idDispecera "
+                + "JOIN rola ro ON d.rola = ro.idRole "
+                + "JOIN status_naloga st ON nr.status = st.idStatusaNaloga "
+                + "JOIN poslovni_partner pp ON nr.poslovni_partner = pp.idPoslovnogPartnera "
+                + "JOIN mesto m ON pp.mesto = m.idMesta";
     }
 
     @Override

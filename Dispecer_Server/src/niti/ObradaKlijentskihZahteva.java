@@ -10,6 +10,7 @@ import domen.Mesto;
 import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
 import domen.Roba;
+import domen.StavkaNaloga;
 import domen.StrucnaSprema;
 import java.io.IOException;
 import java.net.*;
@@ -112,6 +113,11 @@ public class ObradaKlijentskihZahteva extends Thread {
                 case Operacija.VRATI_ROBU:
                     return obradiVratiRobu(zahtev);
 
+                case Operacija.DODAJ_NALOG:
+                    return obradiDodajNalog(zahtev);
+
+//                case Operacija.DODAJ_STAVKE:
+//                    return obradiDodajStavke(zahtev);
                 default:
                     return new ServerskiOdgovor(null, new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
 
@@ -204,4 +210,25 @@ public class ObradaKlijentskihZahteva extends Thread {
         ArrayList<Roba> roba = ServerController.getInstance().vratiRobu(r);
         return new ServerskiOdgovor(roba, null, VrstaOdgovora.USPESNO);
     }
+
+    private ServerskiOdgovor obradiDodajNalog(KlijentskiZahtev zahtev) throws Exception {
+        NalogZaTransportRobe noviNalog = (NalogZaTransportRobe) zahtev.getParametar();
+        ArrayList<Integer> brojeviDodatih = new ArrayList<>();
+
+        int brojDodatih = ServerController.getInstance().dodajNalog(noviNalog);
+        brojeviDodatih.add(brojDodatih);
+
+        noviNalog.setIdNaloga(brojDodatih);
+        if (noviNalog.getStavke().size() != 0) {
+            for (int i = 0; i < noviNalog.getStavke().size(); i++) {
+                noviNalog.getStavke().get(i).setNalog(noviNalog);
+            }
+            int brojDodatihStavki = ServerController.getInstance().dodajStavke(noviNalog.getStavke());
+
+            brojeviDodatih.add(brojDodatihStavki);
+        }
+
+        return new ServerskiOdgovor(brojeviDodatih, null, VrstaOdgovora.USPESNO);
+    }
+
 }

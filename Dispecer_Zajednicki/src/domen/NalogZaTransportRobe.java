@@ -107,7 +107,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
         this.poslovniPartner = poslovniPartner;
     }
 
-    public List<StavkaNaloga> getStavke() {
+    public ArrayList<StavkaNaloga> getStavke() {
         return stavke;
     }
 
@@ -339,7 +339,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 new SimpleDateFormat("yyyy-MM-dd").format(datumIzvrsenja),
                 adresaUtovara,
                 adresaIstovara,
-                status.ordinal(),
+                status.ordinal() + 1,
                 ukupanIznosPosla,
                 dispecer.getIdDispecera(),
                 poslovniPartner.getIdPoslovnogPartnera()
@@ -355,7 +355,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 new SimpleDateFormat("yyyy-MM-dd").format(datumIzvrsenja),
                 adresaUtovara,
                 adresaIstovara,
-                status.ordinal(),
+                status.ordinal() + 1,
                 ukupanIznosPosla,
                 dispecer.getIdDispecera(),
                 poslovniPartner.getIdPoslovnogPartnera()

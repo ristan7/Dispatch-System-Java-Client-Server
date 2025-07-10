@@ -9,9 +9,11 @@ import domen.Mesto;
 import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
 import domen.Roba;
+import domen.StavkaNaloga;
 import domen.StrucnaSprema;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import komunikacija.KlijentskiZahtev;
 import komunikacija.Operacija;
 import komunikacija.ServerskiOdgovor;
@@ -187,4 +189,16 @@ public class ClientController {
             throw so.getEx();
         }
     }
+
+    public ArrayList<Integer> dodajNalog(NalogZaTransportRobe noviNalog) throws Exception {
+        posaljiZahtev(Operacija.DODAJ_NALOG, noviNalog);
+        ServerskiOdgovor so = primiOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return (ArrayList<Integer>) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom dodavanja novog naloga: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+    }
+
 }

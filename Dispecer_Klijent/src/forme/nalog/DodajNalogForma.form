@@ -331,11 +331,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="DODAJ STAVKU"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDodajStavkuActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonObrisiStavku">
           <Properties>
             <Property name="text" type="java.lang.String" value="OBRISI STAVKU"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonObrisiStavkuActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -366,6 +372,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="DODAJ NALOG"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDodajNalogActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonAzuriraj">
       <Properties>
