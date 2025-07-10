@@ -201,4 +201,41 @@ public class ClientController {
         }
     }
 
+    public ArrayList<NalogZaTransportRobe> getNaloziZaSve() throws Exception {
+        posaljiZahtev(Operacija.VRATI_SVE_NALOGE, null);
+        ServerskiOdgovor so = primiOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return (ArrayList<NalogZaTransportRobe>) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom ucitavanja svih naloga: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+
+    }
+
+    public ArrayList<NalogZaTransportRobe> getNaloziZaUlogovanog(NalogZaTransportRobe nalog) throws Exception {
+        posaljiZahtev(Operacija.VRATI_NALOGE_ZA_ULOGOVANOG, nalog);
+        ServerskiOdgovor so = primiOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return (ArrayList<NalogZaTransportRobe>) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom ucitavanja svih naloga: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+    }
+
+    public ArrayList<NalogZaTransportRobe> filtrirajNaloge(NalogZaTransportRobe nalog) throws Exception {
+        posaljiZahtev(Operacija.FILTRIRAJ_NALOGE, nalog);
+        ServerskiOdgovor so = primiOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            if (so.getOdgovor() == null) {
+                throw new Exception();
+            }
+            return (ArrayList<NalogZaTransportRobe>) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom filtriranja naloga: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+    }
+
 }

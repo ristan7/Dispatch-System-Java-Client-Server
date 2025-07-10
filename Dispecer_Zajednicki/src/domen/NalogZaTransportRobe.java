@@ -404,19 +404,19 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
-            uslov.append("nr.datumKreiranja = '").append(datumKreiranja).append("'");
+            uslov.append("nr.datumKreiranja = '").append(new SimpleDateFormat("yyyy-MM-dd").format(datumKreiranja)).append("'");
         }
 
         if (datumIzvrsenja != null) {
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
-            uslov.append("nr.datumIzvrsenja = '").append(datumIzvrsenja).append("'");
+            uslov.append("nr.datumIzvrsenja = '").append(new SimpleDateFormat("yyyy-MM-dd").format(datumIzvrsenja)).append("'");
         }
 
         if (poslovniPartner != null) {
 
-            if (poslovniPartner.getNazivPartnera() != null) {
+            if (poslovniPartner.getNazivPartnera() != null && !poslovniPartner.getNazivPartnera().isBlank()) {
                 if (uslov.length() > 0) {
                     uslov.append(" AND ");
                 }
@@ -426,25 +426,34 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 if (uslov.length() > 0) {
                     uslov.append(" AND ");
                 }
-                uslov.append("pp.pib = ").append(poslovniPartner.getPib());
+                uslov.append("pp.pib = '").append(poslovniPartner.getPib()).append("'");
             }
+
             if (poslovniPartner.getMesto() != null) {
 
-                if (poslovniPartner.getMesto().getNazivMesta() != null) {
+                if (poslovniPartner.getMesto().getNazivMesta() != null && !poslovniPartner.getMesto().getNazivMesta().isBlank()) {
                     if (uslov.length() > 0) {
                         uslov.append(" AND ");
                     }
                     uslov.append("m.nazivMesta LIKE '%").append(poslovniPartner.getMesto().getNazivMesta()).append("%'");
                 }
-                if (poslovniPartner.getMesto().getDrzava() != null) {
+                if (poslovniPartner.getMesto().getDrzava() != null && !poslovniPartner.getMesto().getDrzava().isBlank()) {
                     if (uslov.length() > 0) {
                         uslov.append(" AND ");
                     }
-                    uslov.append("m.drzava LIKE '%").append(poslovniPartner.getMesto().getDrzava()).append('%');
+                    uslov.append("m.drzava LIKE '%").append(poslovniPartner.getMesto().getDrzava()).append("%'");
                 }
 
             }
+        }
 
+        if (stavke.size() != 0) {
+            if (uslov.length() > 0) {
+                uslov.append(" AND ");
+            }
+            for (StavkaNaloga stavkaNaloga : stavke) {
+                uslov.append("sn.roba = ").append(stavkaNaloga.getRoba().getIdRobe());
+            }
         }
 
         return uslov.toString();

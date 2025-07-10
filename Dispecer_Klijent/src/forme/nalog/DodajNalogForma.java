@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import modeli.stavka.ModelTabeleStavkaNaloga;
 import sesija.Sesija;
 
@@ -33,6 +34,7 @@ public class DodajNalogForma extends javax.swing.JFrame {
     private NalogZaTransportRobe noviNalog;
     private ModForme modForme;
     private ArrayList<StavkaNaloga> stavkeNovogNaloga;
+    private PretraziNalogeForma pretrazi;
 
     /**
      * Creates new form DodajNalogForma
@@ -53,6 +55,33 @@ public class DodajNalogForma extends javax.swing.JFrame {
         } catch (Exception ex) {
             throw new Exception();
         }
+    }
+
+    public DodajNalogForma(PretraziNalogeForma pretrazi, NalogZaTransportRobe n, ModForme modForme) throws Exception {
+        initComponents();
+        this.modForme = modForme;
+        this.pretrazi = pretrazi;
+
+        noviNalog = n;
+        stavkeNovogNaloga = n.getStavke();
+
+        jButtonDodajNalog.setVisible(false);
+        
+        jButtonAzuriraj.setEnabled(false);
+
+        jComboBoxStatus.setEnabled(false);
+        if (Sesija.getInstance().getUlogovani().getRola() == Rola.KORISNIK) {
+            jComboBoxDispecer.setEnabled(false);
+        }
+        try {
+            pripremi();
+        } catch (Exception ex) {
+            throw new Exception();
+        }
+        
+        pokupiPodatke();
+        
+
     }
 
     /**
@@ -105,7 +134,7 @@ public class DodajNalogForma extends javax.swing.JFrame {
 
         jLabel5.setText("Adresa istovara :");
 
-        jLabel6.setText("Status predmeta :");
+        jLabel6.setText("Status naloga :");
 
         jComboBoxStatus.setModel(new DefaultComboBoxModel<>(StatusNaloga.values()));
         jComboBoxStatus.addActionListener(new java.awt.event.ActionListener() {
@@ -584,5 +613,38 @@ public class DodajNalogForma extends javax.swing.JFrame {
     private void azurirajTabeluStavki() {
         ModelTabeleStavkaNaloga mts = new ModelTabeleStavkaNaloga(stavkeNovogNaloga);
         jTableStavke.setModel(mts);
+    }
+
+    private void pokupiPodatke() {
+        jTextFieldDatumKreiranja.setText(new SimpleDateFormat("dd.MM.yyy.").format(noviNalog.getDatumKreiranja()));
+        jTextFieldDatumKreiranja.setEnabled(false);
+        
+        jTextFieldDatumIzvrsenja.setText(new SimpleDateFormat("dd.MM.yyy.").format(noviNalog.getDatumIzvrsenja()));
+        jTextFieldDatumIzvrsenja.setEnabled(false);
+        
+        jTextFieldAdresaUtovara.setText(noviNalog.getAdresaUtovara());
+        jTextFieldAdresaIstovara.setText(noviNalog.getAdresaIstovara());
+        
+        jTextFieldAdresaUtovara.setEnabled(false);
+        jTextFieldAdresaIstovara.setEnabled(false);
+        
+        jComboBoxStatus.setSelectedItem(noviNalog.getStatus());
+        
+        jComboBoxPoslovniPartner.setSelectedItem(noviNalog.getPoslovniPartner());
+        jComboBoxPoslovniPartner.setEnabled(false);
+        
+        jComboBoxDispecer.setSelectedItem(noviNalog.getDispecer());
+        jComboBoxDispecer.setEnabled(false);
+        
+        jButtonDodajStavku.setEnabled(false);
+        jButtonObrisiStavku.setEnabled(false);
+        
+        jComboBoxRoba.setEnabled(false);
+        jTextFieldKolicina.setEnabled(false);
+        
+        ModelTabeleStavkaNaloga mts = new ModelTabeleStavkaNaloga(noviNalog.getStavke());
+        jTableStavke.setModel(mts);
+        
+        jTableStavke.setEnabled(false);
     }
 }

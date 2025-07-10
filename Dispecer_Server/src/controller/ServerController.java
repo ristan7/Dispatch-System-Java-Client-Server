@@ -16,7 +16,10 @@ import operacija.dispecer.SistemskaOperacijaVratiDispecere;
 import operacija.login.SistemskaOperacijaLogin;
 import operacija.mesto.SistemskaOperacijaVratiMesta;
 import operacija.nalog.SistemskaOperacijaDodajNalogZaTransportRobe;
+import operacija.nalog.SistemskaOperacijaFiltrirajNaloge;
 import operacija.nalog.SistemskaOperacijaVratiNalogePoDatumu;
+import operacija.nalog.SistemskaOperacijaVratiNalogeZaUlogovanog;
+import operacija.nalog.SistemskaOperacijaVratiSveNaloge;
 import operacija.partner.SistemskaOperacijaDodajPartnera;
 import operacija.partner.SistemskaOperacijaFiltrirajPoslovnePartnere;
 import operacija.partner.SistemskaOperacijaIzmeniPoslovnogPartnera;
@@ -149,5 +152,27 @@ public class ServerController {
             brojac += so.getBrojDodatih();
         }
         return brojac;
+    }
+
+    public ArrayList<NalogZaTransportRobe> vratiNaloge(NalogZaTransportRobe nalog) throws Exception {
+        SistemskaOperacijaVratiSveNaloge so = new SistemskaOperacijaVratiSveNaloge();
+        so.templateIzvrsi(nalog);
+        return so.getLista();
+    }
+
+    public ArrayList<NalogZaTransportRobe> vratiNalogeZaUlogovanog(NalogZaTransportRobe nalog) throws Exception {
+        SistemskaOperacijaVratiNalogeZaUlogovanog so = new SistemskaOperacijaVratiNalogeZaUlogovanog();
+        so.templateIzvrsi(nalog);
+        return so.getLista();
+    }
+
+    public void resetujListe() {
+        ulogovaniDispeceri.clear();
+    }
+
+    public ArrayList<NalogZaTransportRobe> filtrirajNaloge(NalogZaTransportRobe n) throws Exception {
+        SistemskaOperacijaFiltrirajNaloge so = new SistemskaOperacijaFiltrirajNaloge();
+        so.templateIzvrsi(n);
+        return so.getLista();
     }
 }

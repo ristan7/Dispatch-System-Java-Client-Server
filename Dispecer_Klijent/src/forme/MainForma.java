@@ -7,6 +7,7 @@ package forme;
 import controller.ClientController;
 import domen.NalogZaTransportRobe;
 import forme.nalog.DodajNalogForma;
+import forme.nalog.PretraziNalogeForma;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -22,10 +23,10 @@ import java.util.logging.Logger;
  * @author mikir
  */
 public class MainForma extends javax.swing.JFrame {
-    
+
     private ArrayList<NalogZaTransportRobe> nalozi = new ArrayList<>();
     private DodajPartneraForma dpf;
-    
+
     private DodajNalogForma dnf;
 
     /**
@@ -36,7 +37,7 @@ public class MainForma extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         jLabelUlogovani.setText(sesija.Sesija.getInstance().getUlogovani().toString());
         postaviTabelu();
-        
+
     }
 
     /**
@@ -137,6 +138,11 @@ public class MainForma extends javax.swing.JFrame {
         jMenu1.add(jMenuItem6);
 
         jMenuItem7.setText("Pretrazi naloge");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem7);
 
         jMenuBar1.add(jMenu1);
@@ -222,7 +228,7 @@ public class MainForma extends javax.swing.JFrame {
             this.dispose();
             boolean uspesno = ClientController.getInstance().odjaviDispecera(sesija.Sesija.getInstance().getUlogovani());
             if (uspesno) {
-                
+
                 LoginForma login = new LoginForma();
                 login.setVisible(true);
             }
@@ -234,7 +240,7 @@ public class MainForma extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         UbaciSpremuForma usf = new UbaciSpremuForma();
         usf.setVisible(true);
-        
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -243,7 +249,7 @@ public class MainForma extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        
+
         if (dpf == null || !dpf.isVisible()) {
             try {
                 dpf = new DodajPartneraForma(ModForme.DODAJ);
@@ -255,7 +261,7 @@ public class MainForma extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
         }
-        
+
 
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
@@ -282,6 +288,17 @@ public class MainForma extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira nalog za transport robe!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        PretraziNalogeForma pnf;
+        try {
+            pnf = new PretraziNalogeForma();
+        } catch (Exception ex) {
+            return;
+        }
+        pnf.setVisible(true);
+
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -314,13 +331,13 @@ public class MainForma extends javax.swing.JFrame {
         nalog.setDatumIzvrsenja(danas);
         nalog.setDatumKreiranja(danas);
         nalog.setDispecer(sesija.Sesija.getInstance().getUlogovani());
-        
+
         try {
             nalozi = ClientController.getInstance().getNalogeZaDatum(nalog);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Nisu uspesno vraceni nalozi za danasnji datum!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }
-        
+
         ModelTabelePrikaziNaloge mt = new ModelTabelePrikaziNaloge(nalozi);
         jTableNalozi.setModel(mt);
     }
