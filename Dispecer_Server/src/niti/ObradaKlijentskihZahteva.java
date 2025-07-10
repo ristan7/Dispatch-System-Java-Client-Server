@@ -116,8 +116,15 @@ public class ObradaKlijentskihZahteva extends Thread {
                 case Operacija.DODAJ_NALOG:
                     return obradiDodajNalog(zahtev);
 
-//                case Operacija.DODAJ_STAVKE:
-//                    return obradiDodajStavke(zahtev);
+                case Operacija.VRATI_SVE_NALOGE:
+                    return obradiVratiSveNaloge(zahtev);
+
+                case Operacija.VRATI_NALOGE_ZA_ULOGOVANOG:
+                    return obradiVratiNalogeZaUlogovanog(zahtev);
+
+                case Operacija.FILTRIRAJ_NALOGE:
+                    return obradiFiltrirajNaloge(zahtev);
+
                 default:
                     return new ServerskiOdgovor(null, new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
 
@@ -229,6 +236,24 @@ public class ObradaKlijentskihZahteva extends Thread {
         }
 
         return new ServerskiOdgovor(brojeviDodatih, null, VrstaOdgovora.USPESNO);
+    }
+
+    private ServerskiOdgovor obradiVratiSveNaloge(KlijentskiZahtev zahtev) throws Exception {
+        NalogZaTransportRobe nalog = new NalogZaTransportRobe();
+        ArrayList<NalogZaTransportRobe> nalozi = ServerController.getInstance().vratiNaloge(nalog);
+        return new ServerskiOdgovor(nalozi, null, VrstaOdgovora.USPESNO);
+    }
+
+    private ServerskiOdgovor obradiVratiNalogeZaUlogovanog(KlijentskiZahtev zahtev) throws Exception {
+        NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
+        ArrayList<NalogZaTransportRobe> nalozi = ServerController.getInstance().vratiNalogeZaUlogovanog(nalog);
+        return new ServerskiOdgovor(nalozi, null, VrstaOdgovora.USPESNO);
+    }
+
+    private ServerskiOdgovor obradiFiltrirajNaloge(KlijentskiZahtev zahtev) throws Exception {
+        NalogZaTransportRobe n = (NalogZaTransportRobe) zahtev.getParametar();
+        ArrayList<NalogZaTransportRobe> nalozi = ServerController.getInstance().filtrirajNaloge(n);
+        return new ServerskiOdgovor(nalozi, null, VrstaOdgovora.USPESNO);
     }
 
 }

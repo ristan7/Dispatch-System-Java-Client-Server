@@ -26,6 +26,10 @@ public class ModelTabelePrikaziNaloge extends AbstractTableModel {
         this.lista = lista;
     }
 
+    public ModelTabelePrikaziNaloge() {
+        lista = new ArrayList<>();
+    }
+
     @Override
     public int getRowCount() {
         return lista.size();

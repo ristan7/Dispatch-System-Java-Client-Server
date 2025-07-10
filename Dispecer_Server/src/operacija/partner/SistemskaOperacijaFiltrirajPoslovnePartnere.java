@@ -44,7 +44,7 @@ public class SistemskaOperacijaFiltrirajPoslovnePartnere extends ApstraktnaSiste
     @Override
     protected void izvrsi(ApstraktniDomenskiObjekat ado) throws Exception {
         PoslovniPartner pp = (PoslovniPartner) ado;
-        lista = (ArrayList<PoslovniPartner>) (ArrayList<?>) DBBroker.getInstance().select(ado);
+        lista = (ArrayList<PoslovniPartner>) (ArrayList<?>) DBBroker.getInstance().select(pp);
 
         if (lista.isEmpty()) {
             throw new Exception("Ne postoje partneri po zadatim kriterijumima");

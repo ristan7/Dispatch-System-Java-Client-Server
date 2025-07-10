@@ -4,6 +4,7 @@
  */
 package niti;
 
+import controller.ServerController;
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
@@ -58,6 +59,8 @@ public class ServerskaNit extends Thread {
             if (serverSocket != null && !serverSocket.isClosed()) {
                 serverSocket.close();
             }
+            listaNitiKlijenta.clear();
+            ServerController.getInstance().resetujListe();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
