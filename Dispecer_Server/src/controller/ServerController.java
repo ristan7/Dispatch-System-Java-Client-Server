@@ -9,11 +9,13 @@ import domen.Mesto;
 import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
 import domen.Roba;
+import domen.StavkaNaloga;
 import domen.StrucnaSprema;
 import java.util.ArrayList;
 import operacija.dispecer.SistemskaOperacijaVratiDispecere;
 import operacija.login.SistemskaOperacijaLogin;
 import operacija.mesto.SistemskaOperacijaVratiMesta;
+import operacija.nalog.SistemskaOperacijaDodajNalogZaTransportRobe;
 import operacija.nalog.SistemskaOperacijaVratiNalogePoDatumu;
 import operacija.partner.SistemskaOperacijaDodajPartnera;
 import operacija.partner.SistemskaOperacijaFiltrirajPoslovnePartnere;
@@ -22,6 +24,7 @@ import operacija.partner.SistemskaOperacijaObrisiPoslovnogPartnera;
 import operacija.partner.SistemskaOperacijaVratiPoslovnePartnere;
 import operacija.roba.SistemskaOperacijaVratiRobu;
 import operacija.sprema.SistemskaOperacijaUbaciStrucnuSpremu;
+import operacija.stavka.SistemskaOperacijaDodajStavkeNaloga;
 
 /**
  *
@@ -120,15 +123,31 @@ public class ServerController {
     }
 
     public ArrayList<Dispecer> vratiDispecere(Dispecer dispecer) throws Exception {
-        SistemskaOperacijaVratiDispecere so=new SistemskaOperacijaVratiDispecere();
+        SistemskaOperacijaVratiDispecere so = new SistemskaOperacijaVratiDispecere();
         so.templateIzvrsi(dispecer);
         return so.getLista();
     }
 
     public ArrayList<Roba> vratiRobu(Roba r) throws Exception {
-        SistemskaOperacijaVratiRobu so=new SistemskaOperacijaVratiRobu();
+        SistemskaOperacijaVratiRobu so = new SistemskaOperacijaVratiRobu();
         so.templateIzvrsi(r);
         return so.getLista();
     }
 
+    public int dodajNalog(NalogZaTransportRobe noviNalog) throws Exception {
+        SistemskaOperacijaDodajNalogZaTransportRobe so = new SistemskaOperacijaDodajNalogZaTransportRobe();
+        so.templateIzvrsi(noviNalog);
+        return so.getBrojDodatih();
+    }
+
+    public int dodajStavke(ArrayList<StavkaNaloga> stavke) throws Exception {
+        int brojac = 0;
+
+        for (StavkaNaloga stavkaNaloga : stavke) {
+            SistemskaOperacijaDodajStavkeNaloga so = new SistemskaOperacijaDodajStavkeNaloga();
+            so.templateIzvrsi(stavkaNaloga);
+            brojac += so.getBrojDodatih();
+        }
+        return brojac;
+    }
 }

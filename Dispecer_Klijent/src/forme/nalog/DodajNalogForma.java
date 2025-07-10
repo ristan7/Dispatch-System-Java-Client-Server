@@ -13,7 +13,12 @@ import domen.Rola;
 import domen.StatusNaloga;
 import domen.StavkaNaloga;
 import forme.ModForme;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import modeli.stavka.ModelTabeleStavkaNaloga;
@@ -27,6 +32,7 @@ public class DodajNalogForma extends javax.swing.JFrame {
 
     private NalogZaTransportRobe noviNalog;
     private ModForme modForme;
+    private ArrayList<StavkaNaloga> stavkeNovogNaloga;
 
     /**
      * Creates new form DodajNalogForma
@@ -34,6 +40,8 @@ public class DodajNalogForma extends javax.swing.JFrame {
     public DodajNalogForma(ModForme modForme) throws Exception {
         initComponents();
         this.modForme = modForme;
+        noviNalog = new NalogZaTransportRobe();
+        stavkeNovogNaloga = new ArrayList<>();
         jButtonAzuriraj.setVisible(false);
         jButtonOmoguciIzmene.setVisible(false);
         jComboBoxStatus.setEnabled(false);
@@ -129,8 +137,18 @@ public class DodajNalogForma extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTableStavke);
 
         jButtonDodajStavku.setText("DODAJ STAVKU");
+        jButtonDodajStavku.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDodajStavkuActionPerformed(evt);
+            }
+        });
 
         jButtonObrisiStavku.setText("OBRISI STAVKU");
+        jButtonObrisiStavku.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonObrisiStavkuActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -195,6 +213,11 @@ public class DodajNalogForma extends javax.swing.JFrame {
         });
 
         jButtonDodajNalog.setText("DODAJ NALOG");
+        jButtonDodajNalog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDodajNalogActionPerformed(evt);
+            }
+        });
 
         jButtonAzuriraj.setText("AZURIRAJ NALOG");
 
@@ -304,6 +327,169 @@ public class DodajNalogForma extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButtonOdustaniActionPerformed
 
+    private void jButtonDodajStavkuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDodajStavkuActionPerformed
+        // TODO add your handling code here:
+        Roba r = (Roba) jComboBoxRoba.getSelectedItem();
+
+        if (r == null) {
+            JOptionPane.showMessageDialog(this, "Morate odabrati robu!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        float kolicina;
+        try {
+            kolicina = Float.parseFloat(jTextFieldKolicina.getText().trim());
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Nepravilno uneta količina! Morate uneti količinu kao decimalan broj\nNa primer: 10.4 ili 10 !!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (kolicina == 0) {
+            JOptionPane.showMessageDialog(this, "Kolicina ne sme biti 0.0!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        StavkaNaloga novaStavka = new StavkaNaloga(noviNalog, kolicina, r);
+
+        stavkeNovogNaloga.add(novaStavka);
+
+        azurirajTabeluStavki();
+
+        jComboBoxRoba.setSelectedIndex(-1);
+        jTextFieldKolicina.setText("");
+
+
+    }//GEN-LAST:event_jButtonDodajStavkuActionPerformed
+
+    private void jButtonObrisiStavkuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonObrisiStavkuActionPerformed
+        // TODO add your handling code here:
+
+        int selektovaniRed = jTableStavke.getSelectedRow();
+
+        if (selektovaniRed < 0) {
+            JOptionPane.showMessageDialog(this, "Morate odabrati stavku koju zelite da obrisete!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        for (int i = 0; i < stavkeNovogNaloga.size(); i++) {
+            if (i == selektovaniRed) {
+                stavkeNovogNaloga.remove(i);
+                break;
+            }
+        }
+
+        azurirajTabeluStavki();
+
+    }//GEN-LAST:event_jButtonObrisiStavkuActionPerformed
+
+    private void jButtonDodajNalogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDodajNalogActionPerformed
+        // TODO add your handling code here:
+        try {
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
+            sdf.setLenient(false);
+
+            String datumKreiranjaText = jTextFieldDatumKreiranja.getText().trim();
+            Date datumKreiranja = null;
+
+            try {
+                datumKreiranja = sdf.parse(datumKreiranjaText);
+            } catch (ParseException pex) {
+                JOptionPane.showMessageDialog(this, "Nepravilno unet datum kreiranja naloga!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            String datumIzvrsenjaText = jTextFieldDatumIzvrsenja.getText().trim();
+            Date datumIzvrsenja = null;
+
+            try {
+                datumIzvrsenja = sdf.parse(datumIzvrsenjaText);
+            } catch (ParseException pex) {
+                JOptionPane.showMessageDialog(this, "Nepravilno unet datum izvrsenja naloga!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            Date danasnjiDatum = null;
+            try {
+                danasnjiDatum = sdf.parse(sdf.format(new Date()));
+            } catch (ParseException ex) {
+                Logger.getLogger(DodajNalogForma.class.getName()).log(Level.INFO, "Neuspesno parsiranje danasnjeg datuma...");
+                return;
+            }
+
+            if (datumKreiranja.before(danasnjiDatum)) {
+                JOptionPane.showMessageDialog(this, "Nepravilno unet datum kreiranja naloga!! Datum kreiranja mora biti u buducnosti!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (datumIzvrsenja.before(datumKreiranja)) {
+                JOptionPane.showMessageDialog(this, "Nepravilno unet datum izvrsenja naloga!! Datum izvrsenja mora biti pre datuma kreiranja naloga!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            String adresaUtovara = jTextFieldAdresaUtovara.getText().trim();
+
+            if (adresaUtovara == null || adresaUtovara.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Nije uneta adresa utovara!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String adressaIstovara = jTextFieldAdresaIstovara.getText().trim();
+
+            if (adressaIstovara == null || adressaIstovara.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Nije uneta adresa istovara!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            StatusNaloga status = (StatusNaloga) jComboBoxStatus.getSelectedItem();
+
+            PoslovniPartner pp = (PoslovniPartner) jComboBoxPoslovniPartner.getSelectedItem();
+
+            if (pp == null) {
+                JOptionPane.showMessageDialog(this, "Nije izabran poslovni partner!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Dispecer d = (Dispecer) jComboBoxDispecer.getSelectedItem();
+
+            noviNalog.setDispecer(d);
+            noviNalog.setPoslovniPartner(pp);
+            noviNalog.setAdresaUtovara(adresaUtovara);
+            noviNalog.setAdresaIstovara(adressaIstovara);
+            noviNalog.setDatumKreiranja(datumKreiranja);
+            noviNalog.setDatumIzvrsenja(datumIzvrsenja);
+            noviNalog.setStatus(status);
+            noviNalog.setIdNaloga(-1);
+
+            noviNalog.setStavke(stavkeNovogNaloga);
+
+            if (stavkeNovogNaloga.size() == 0) {
+                noviNalog.setUkupanIznosPosla(0);
+            } else {
+                noviNalog.izracunajUkupneTroskovePosla();
+            }
+
+            ArrayList<Integer> brojeviDodatih = ClientController.getInstance().dodajNalog(noviNalog);
+
+            if (brojeviDodatih.get(0) > 0) {
+                if (brojeviDodatih.size() == 2) {
+                    if (brojeviDodatih.get(1) > 0) {
+                        JOptionPane.showMessageDialog(this, "Sistem je zapamtio nalog za transport robe!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti nalog za transport robe!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                }
+                JOptionPane.showMessageDialog(this, "Sistem je zapamtio nalog za transport robe!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti nalog za transport robe!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti nalog za transport robe!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jButtonDodajNalogActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -393,5 +579,10 @@ public class DodajNalogForma extends javax.swing.JFrame {
         jComboBoxPoslovniPartner.setSelectedIndex(-1);
         jComboBoxRoba.setSelectedIndex(-1);
 
+    }
+
+    private void azurirajTabeluStavki() {
+        ModelTabeleStavkaNaloga mts = new ModelTabeleStavkaNaloga(stavkeNovogNaloga);
+        jTableStavke.setModel(mts);
     }
 }
