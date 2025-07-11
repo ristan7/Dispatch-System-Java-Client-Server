@@ -66,7 +66,7 @@ public class DodajNalogForma extends javax.swing.JFrame {
         stavkeNovogNaloga = n.getStavke();
 
         jButtonDodajNalog.setVisible(false);
-        
+
         jButtonAzuriraj.setEnabled(false);
 
         jComboBoxStatus.setEnabled(false);
@@ -78,10 +78,8 @@ public class DodajNalogForma extends javax.swing.JFrame {
         } catch (Exception ex) {
             throw new Exception();
         }
-        
-        pokupiPodatke();
-        
 
+        pokupiPodatke();
     }
 
     /**
@@ -249,8 +247,18 @@ public class DodajNalogForma extends javax.swing.JFrame {
         });
 
         jButtonAzuriraj.setText("AZURIRAJ NALOG");
+        jButtonAzuriraj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAzurirajActionPerformed(evt);
+            }
+        });
 
         jButtonOmoguciIzmene.setText("OMOGUCI IZMENE");
+        jButtonOmoguciIzmene.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOmoguciIzmeneActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -503,13 +511,16 @@ public class DodajNalogForma extends javax.swing.JFrame {
                     if (brojeviDodatih.get(1) > 0) {
                         JOptionPane.showMessageDialog(this, "Sistem je zapamtio nalog za transport robe!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
                         this.dispose();
+                        return;
                     } else {
                         JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti nalog za transport robe!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
                         return;
                     }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Sistem je zapamtio nalog za transport robe!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
                 }
-                JOptionPane.showMessageDialog(this, "Sistem je zapamtio nalog za transport robe!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
+
             } else {
                 JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti nalog za transport robe!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
             }
@@ -518,6 +529,130 @@ public class DodajNalogForma extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButtonDodajNalogActionPerformed
+
+    private void jButtonOmoguciIzmeneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOmoguciIzmeneActionPerformed
+        // TODO add your handling code here:
+
+        jButtonOmoguciIzmene.setEnabled(false);
+
+        jTextFieldDatumIzvrsenja.setEnabled(true);
+        jTextFieldAdresaUtovara.setEnabled(true);
+        jTextFieldAdresaIstovara.setEnabled(true);
+        jTextFieldKolicina.setEnabled(true);
+
+        if (Sesija.getInstance().getUlogovani().getRola() == Rola.ADMINISTRATOR) {
+            jComboBoxDispecer.setEnabled(true);
+        }
+
+        jComboBoxPoslovniPartner.setEnabled(true);
+        jComboBoxRoba.setEnabled(true);
+        jComboBoxStatus.setEnabled(true);
+
+        jButtonAzuriraj.setEnabled(true);
+        jButtonDodajStavku.setEnabled(true);
+        jButtonObrisiStavku.setEnabled(true);
+
+        jTableStavke.setEnabled(true);
+    }//GEN-LAST:event_jButtonOmoguciIzmeneActionPerformed
+
+    private void jButtonAzurirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAzurirajActionPerformed
+        // TODO add your handling code here:
+        try {
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
+            sdf.setLenient(false);
+
+            String datumKreiranjaText = jTextFieldDatumKreiranja.getText().trim();
+            Date datumKreiranja = null;
+
+            try {
+                datumKreiranja = sdf.parse(datumKreiranjaText);
+            } catch (ParseException pex) {
+                JOptionPane.showMessageDialog(this, "Nepravilno unet datum kreiranja naloga!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            String datumIzvrsenjaText = jTextFieldDatumIzvrsenja.getText().trim();
+            Date datumIzvrsenja = null;
+
+            try {
+                datumIzvrsenja = sdf.parse(datumIzvrsenjaText);
+            } catch (ParseException pex) {
+                JOptionPane.showMessageDialog(this, "Nepravilno unet datum izvrsenja naloga!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            Date danasnjiDatum = null;
+            try {
+                danasnjiDatum = sdf.parse(sdf.format(new Date()));
+            } catch (ParseException ex) {
+                Logger.getLogger(DodajNalogForma.class.getName()).log(Level.INFO, "Neuspesno parsiranje danasnjeg datuma...");
+                return;
+            }
+
+            if (datumIzvrsenja.before(datumKreiranja)) {
+                JOptionPane.showMessageDialog(this, "Nepravilno unet datum izvrsenja naloga!! Datum izvrsenja mora biti pre datuma kreiranja naloga!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            String adresaUtovara = jTextFieldAdresaUtovara.getText().trim();
+
+            if (adresaUtovara == null || adresaUtovara.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Nije uneta adresa utovara!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String adressaIstovara = jTextFieldAdresaIstovara.getText().trim();
+
+            if (adressaIstovara == null || adressaIstovara.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Nije uneta adresa istovara!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            StatusNaloga status = (StatusNaloga) jComboBoxStatus.getSelectedItem();
+
+            PoslovniPartner pp = (PoslovniPartner) jComboBoxPoslovniPartner.getSelectedItem();
+
+            if (pp == null) {
+                JOptionPane.showMessageDialog(this, "Nije izabran poslovni partner!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Dispecer d = (Dispecer) jComboBoxDispecer.getSelectedItem();
+
+            noviNalog.setDispecer(d);
+            noviNalog.setPoslovniPartner(pp);
+            noviNalog.setAdresaUtovara(adresaUtovara);
+            noviNalog.setAdresaIstovara(adressaIstovara);
+            noviNalog.setDatumIzvrsenja(datumIzvrsenja);
+            noviNalog.setStatus(status);
+
+            noviNalog.setStavke(stavkeNovogNaloga);
+
+            for (StavkaNaloga stavkaNaloga : noviNalog.getStavke()) {
+                stavkaNaloga.setNalog(noviNalog);
+            }
+
+            if (stavkeNovogNaloga.size() == 0) {
+                noviNalog.setUkupanIznosPosla(0);
+            } else {
+                noviNalog.izracunajUkupneTroskovePosla();
+            }
+
+            boolean uspesno = ClientController.getInstance().azurirajNalog(noviNalog);
+            if (uspesno) {
+                JOptionPane.showMessageDialog(this, "Sistem je zapamtio nalog za transport robe!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+                pretrazi.postaviTabelu();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti nalog za transport robe!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti nalog za transport robe!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+        }
+
+
+    }//GEN-LAST:event_jButtonAzurirajActionPerformed
 
     /**
      * @param args the command line arguments
@@ -618,33 +753,33 @@ public class DodajNalogForma extends javax.swing.JFrame {
     private void pokupiPodatke() {
         jTextFieldDatumKreiranja.setText(new SimpleDateFormat("dd.MM.yyy.").format(noviNalog.getDatumKreiranja()));
         jTextFieldDatumKreiranja.setEnabled(false);
-        
+
         jTextFieldDatumIzvrsenja.setText(new SimpleDateFormat("dd.MM.yyy.").format(noviNalog.getDatumIzvrsenja()));
         jTextFieldDatumIzvrsenja.setEnabled(false);
-        
+
         jTextFieldAdresaUtovara.setText(noviNalog.getAdresaUtovara());
         jTextFieldAdresaIstovara.setText(noviNalog.getAdresaIstovara());
-        
+
         jTextFieldAdresaUtovara.setEnabled(false);
         jTextFieldAdresaIstovara.setEnabled(false);
-        
+
         jComboBoxStatus.setSelectedItem(noviNalog.getStatus());
-        
+
         jComboBoxPoslovniPartner.setSelectedItem(noviNalog.getPoslovniPartner());
         jComboBoxPoslovniPartner.setEnabled(false);
-        
+
         jComboBoxDispecer.setSelectedItem(noviNalog.getDispecer());
         jComboBoxDispecer.setEnabled(false);
-        
+
         jButtonDodajStavku.setEnabled(false);
         jButtonObrisiStavku.setEnabled(false);
-        
+
         jComboBoxRoba.setEnabled(false);
         jTextFieldKolicina.setEnabled(false);
-        
+
         ModelTabeleStavkaNaloga mts = new ModelTabeleStavkaNaloga(noviNalog.getStavke());
         jTableStavke.setModel(mts);
-        
+
         jTableStavke.setEnabled(false);
     }
 }

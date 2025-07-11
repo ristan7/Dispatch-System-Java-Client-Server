@@ -29,4 +29,5 @@ public class Operacija {
     public static final int VRATI_SVE_NALOGE = 14;
     public static final int VRATI_NALOGE_ZA_ULOGOVANOG = 15;
     public static final int FILTRIRAJ_NALOGE = 16;
+    public static final int AZURIRAJ_NALOG = 17;
 }

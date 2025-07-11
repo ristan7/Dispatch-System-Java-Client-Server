@@ -125,6 +125,9 @@ public class ObradaKlijentskihZahteva extends Thread {
                 case Operacija.FILTRIRAJ_NALOGE:
                     return obradiFiltrirajNaloge(zahtev);
 
+                case Operacija.AZURIRAJ_NALOG:
+                    return obradiAzurirajNalog(zahtev);
+
                 default:
                     return new ServerskiOdgovor(null, new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
 
@@ -254,6 +257,24 @@ public class ObradaKlijentskihZahteva extends Thread {
         NalogZaTransportRobe n = (NalogZaTransportRobe) zahtev.getParametar();
         ArrayList<NalogZaTransportRobe> nalozi = ServerController.getInstance().filtrirajNaloge(n);
         return new ServerskiOdgovor(nalozi, null, VrstaOdgovora.USPESNO);
+    }
+
+    private ServerskiOdgovor obradiAzurirajNalog(KlijentskiZahtev zahtev) throws Exception {
+        NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
+        ServerController.getInstance().azurirajNalog(nalog);
+        
+        
+        StavkaNaloga stavkaZaBrisanje = new StavkaNaloga(nalog, 0, new Roba());
+        
+        System.out.println("Kreirao stavku");
+
+        ServerController.getInstance().obrisiStavkeNaloga(stavkaZaBrisanje);
+
+        if (nalog.getStavke().size() != 0) {
+
+            int brojDodatihStavki = ServerController.getInstance().dodajStavke(nalog.getStavke());
+        }
+        return new ServerskiOdgovor(true, null, VrstaOdgovora.USPESNO);
     }
 
 }

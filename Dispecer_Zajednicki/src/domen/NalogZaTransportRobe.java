@@ -280,29 +280,32 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 nalozi.put(idNaloga, nalog);
             }
 
-            StavkaNaloga stavka = new StavkaNaloga();
-
             int rb = rs.getInt("rb");
-            Float kolicina = rs.getFloat("kolicina");
-            Float cenaPoJedinici = rs.getFloat("cenaPoJedinici");
-            Float iznos = rs.getFloat("iznos");
+            if (!rs.wasNull()) {
+                StavkaNaloga stavka = new StavkaNaloga();
 
-            int idRobe = rs.getInt("idRobe");
-            String nazivRobe = rs.getString("nazivRobe");
+                Float kolicina = rs.getFloat("kolicina");
+                Float cenaPoJedinici = rs.getFloat("cenaPoJedinici");
+                Float iznos = rs.getFloat("iznos");
 
-            JedinicaMere jedinicaMere = JedinicaMere.valueOf(rs.getString("nazivJedinice_oznaka"));
+                int idRobe = rs.getInt("idRobe");
+                String nazivRobe = rs.getString("nazivRobe");
 
-            Float cena = rs.getFloat("cena");
-            Roba r = new Roba(idRobe, nazivRobe, jedinicaMere, cena);
+                JedinicaMere jedinicaMere = JedinicaMere.valueOf(rs.getString("nazivJedinice_oznaka"));
 
-            stavka.setRb(rb);
-            stavka.setKolicina(kolicina);
-            stavka.setCenaPoJedinici(cenaPoJedinici);
-            stavka.setIznos(iznos);
-            stavka.setRoba(r);
-            stavka.setNalog(nalog);
+                Float cena = rs.getFloat("cena");
+                Roba r = new Roba(idRobe, nazivRobe, jedinicaMere, cena);
 
-            nalog.getStavke().add(stavka);
+                stavka.setRb(rb);
+                stavka.setKolicina(kolicina);
+                stavka.setCenaPoJedinici(cenaPoJedinici);
+                stavka.setIznos(iznos);
+                stavka.setRoba(r);
+                stavka.setNalog(nalog);
+
+                nalog.getStavke().add(stavka);
+            }
+
         }
 
         lista.addAll(nalozi.values());
@@ -350,7 +353,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
     @Override
     public String vratiVrednostiZaUpdate() {
         return String.format(
-                "datumKreiranja = '%s', datumIzvrsenja = '%s', adresaUtovara = '%s', adresaIstovara = '%s', status = %d, ukupanIznosPosla = %.2f, dispecer = %d, poslovniPartner = %d",
+                "datumKreiranja = '%s', datumIzvrsenja = '%s', adresaUtovara = '%s', adresaIstovara = '%s', status = %d, ukupanIznosPosla = %.2f, dispecer = %d, poslovni_partner = %d",
                 new SimpleDateFormat("yyyy-MM-dd").format(datumKreiranja),
                 new SimpleDateFormat("yyyy-MM-dd").format(datumIzvrsenja),
                 adresaUtovara,
@@ -369,23 +372,25 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 
     @Override
     public String join() {
+
         return "JOIN Dispecer d ON nr.dispecer = d.idDispecera "
                 + "JOIN rola ro ON d.rola = ro.idRole "
                 + "JOIN status_naloga st ON nr.status = st.idStatusaNaloga "
                 + "JOIN poslovni_partner pp ON nr.poslovni_partner = pp.idPoslovnogPartnera "
                 + "JOIN mesto m ON pp.mesto = m.idMesta "
-                + "JOIN stavka_naloga sn ON nr.idNaloga = sn.nalog "
-                + "JOIN roba r ON sn.roba = r.idRobe "
-                + "JOIN jedinica_mere jm ON r.jedinicaMere = jm.idJedinice";
+                + "LEFT JOIN stavka_naloga sn ON nr.idNaloga = sn.nalog "
+                + "LEFT JOIN roba r ON sn.roba = r.idRobe "
+                + "LEFT JOIN jedinica_mere jm ON r.jedinicaMere = jm.idJedinice";
     }
 
     @Override
     public String uslov() {
-        return "nr.dispecer = " + dispecer.getIdDispecera();
+        return "idNaloga = " + idNaloga;
     }
 
     @Override
     public String uslovZaSelect() {
+
         StringBuilder uslov = new StringBuilder();
 
         if (dispecer != null && dispecer.getIdDispecera() > 0) {

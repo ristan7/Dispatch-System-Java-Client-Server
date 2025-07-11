@@ -238,4 +238,15 @@ public class ClientController {
         }
     }
 
+    public boolean azurirajNalog(NalogZaTransportRobe noviNalog) throws Exception {
+        posaljiZahtev(Operacija.AZURIRAJ_NALOG, noviNalog);
+        ServerskiOdgovor so = primiOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return (boolean) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom azuriranja naloga: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+    }
+
 }

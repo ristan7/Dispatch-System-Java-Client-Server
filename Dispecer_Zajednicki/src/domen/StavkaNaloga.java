@@ -268,7 +268,7 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
 
     @Override
     public String uslov() {
-        return "sn.rb = " + rb;
+        return "nalog = " + nalog.getIdNaloga();
     }
 
     @Override
