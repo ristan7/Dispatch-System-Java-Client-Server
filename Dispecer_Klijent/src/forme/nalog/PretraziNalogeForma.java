@@ -580,7 +580,7 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldPIBpartnera;
     // End of variables declaration//GEN-END:variables
 
-    private void postaviTabelu() throws Exception {
+    public void postaviTabelu() throws Exception {
         try {
             if (Sesija.getInstance().getUlogovani().getRola() == Rola.ADMINISTRATOR) {
                 nalozi = ClientController.getInstance().getNaloziZaSve();

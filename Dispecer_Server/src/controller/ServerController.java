@@ -17,6 +17,7 @@ import operacija.login.SistemskaOperacijaLogin;
 import operacija.mesto.SistemskaOperacijaVratiMesta;
 import operacija.nalog.SistemskaOperacijaDodajNalogZaTransportRobe;
 import operacija.nalog.SistemskaOperacijaFiltrirajNaloge;
+import operacija.nalog.SistemskaOperacijaIzmeniNalog;
 import operacija.nalog.SistemskaOperacijaVratiNalogePoDatumu;
 import operacija.nalog.SistemskaOperacijaVratiNalogeZaUlogovanog;
 import operacija.nalog.SistemskaOperacijaVratiSveNaloge;
@@ -28,6 +29,7 @@ import operacija.partner.SistemskaOperacijaVratiPoslovnePartnere;
 import operacija.roba.SistemskaOperacijaVratiRobu;
 import operacija.sprema.SistemskaOperacijaUbaciStrucnuSpremu;
 import operacija.stavka.SistemskaOperacijaDodajStavkeNaloga;
+import operacija.stavka.SistemskaOperacijaObrisiStavkeNaloga;
 
 /**
  *
@@ -174,5 +176,16 @@ public class ServerController {
         SistemskaOperacijaFiltrirajNaloge so = new SistemskaOperacijaFiltrirajNaloge();
         so.templateIzvrsi(n);
         return so.getLista();
+    }
+
+    public void azurirajNalog(NalogZaTransportRobe nalog) throws Exception {
+        SistemskaOperacijaIzmeniNalog so = new SistemskaOperacijaIzmeniNalog();
+        so.templateIzvrsi(nalog);
+    }
+
+    public void obrisiStavkeNaloga(StavkaNaloga stavkaZaBrisanje) throws Exception {
+        System.out.println("Usao u brisanje!!");
+        SistemskaOperacijaObrisiStavkeNaloga so = new SistemskaOperacijaObrisiStavkeNaloga();
+        so.templateIzvrsi(stavkaZaBrisanje);
     }
 }

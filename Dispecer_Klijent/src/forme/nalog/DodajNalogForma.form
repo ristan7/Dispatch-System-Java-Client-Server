@@ -380,11 +380,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="AZURIRAJ NALOG"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAzurirajActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonOmoguciIzmene">
       <Properties>
         <Property name="text" type="java.lang.String" value="OMOGUCI IZMENE"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonOmoguciIzmeneActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
