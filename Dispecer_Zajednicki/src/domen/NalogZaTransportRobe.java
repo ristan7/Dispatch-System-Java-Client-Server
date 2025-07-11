@@ -452,7 +452,10 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 uslov.append(" AND ");
             }
             for (StavkaNaloga stavkaNaloga : stavke) {
-                uslov.append("sn.roba = ").append(stavkaNaloga.getRoba().getIdRobe());
+                uslov.append("nr.idNaloga IN (\n"
+                        + "    SELECT sn2.nalog\n"
+                        + "    FROM stavka_naloga sn2\n"
+                        + "    WHERE sn2.roba = ").append(stavkaNaloga.getRoba().getIdRobe()).append(")");
             }
         }
 

@@ -376,11 +376,12 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
 
         if (Sesija.getInstance().getUlogovani().getRola() == Rola.ADMINISTRATOR) {
             jComboBoxDispecer.setEnabled(true);
-            jComboBoxDispecer.setSelectedIndex(-1);
+//            jComboBoxDispecer.setSelectedItem(Sesija.getInstance().getUlogovani());
         } else {
             jComboBoxDispecer.setEnabled(false);
-            jComboBoxDispecer.setSelectedItem(Sesija.getInstance().getUlogovani());
+//            jComboBoxDispecer.setSelectedItem(Sesija.getInstance().getUlogovani());
         }
+        jComboBoxDispecer.setSelectedItem(Sesija.getInstance().getUlogovani());
 
     }//GEN-LAST:event_jRadioButtonNalogActionPerformed
 
@@ -480,6 +481,10 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
                 pp.setPib(pib);
 
                 nalog.setPoslovniPartner(pp);
+
+                if (Sesija.getInstance().getUlogovani().getRola() == Rola.KORISNIK) {
+                    nalog.setDispecer((Dispecer) jComboBoxDispecer.getSelectedItem());
+                }
             }
 
             if (jRadioButtonRoba.isSelected()) {
@@ -493,6 +498,10 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
                 stavke.add(stavka);
 
                 nalog.setStavke(stavke);
+
+                if (Sesija.getInstance().getUlogovani().getRola() == Rola.KORISNIK) {
+                    nalog.setDispecer((Dispecer) jComboBoxDispecer.getSelectedItem());
+                }
             }
 
             ArrayList<NalogZaTransportRobe> pretrazeniNalozi = ClientController.getInstance().filtrirajNaloge(nalog);
@@ -527,7 +536,7 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
             }
             JOptionPane.showMessageDialog(this, "Sistem je nasao nalog za transport robe!", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
             dnf.setVisible(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje nalog za transport robe!", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonPrikaziActionPerformed
@@ -622,7 +631,7 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
         }
 
         jComboBoxStatus.setSelectedIndex(-1);
-        jComboBoxDispecer.setSelectedIndex(-1);
+//        jComboBoxDispecer.setSelectedIndex(-1);
         jComboBoxRoba.setSelectedIndex(-1);
 
         jRadioButtonNalog.doClick();
