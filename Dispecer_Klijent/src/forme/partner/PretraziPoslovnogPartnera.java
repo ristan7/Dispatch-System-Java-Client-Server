@@ -6,14 +6,13 @@ package forme.partner;
 
 import controller.ClientController;
 import domen.Mesto;
-import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
 import forme.ModForme;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Comparator;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import modeli.partner.ModelTabelePrikaziPoslovnePartnere;
 
 /**
@@ -38,7 +37,6 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
         } catch (Exception ex) {
             throw new Exception();
         }
-//        jRadioButtonPartner.doClick();
         tabela = jTablePartneri;
     }
 
@@ -81,6 +79,11 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTablePartneri.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTablePartneriMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTablePartneri);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -272,23 +275,6 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
         try {
             PoslovniPartner pp = new PoslovniPartner();
 
-//            if (jRadioButtonPartner.isSelected()) {
-//                String nazivPartnera = jTextFieldNazivPartnera.getText().trim();
-//                String pib = jTextFieldPib.getText().trim();
-//
-//                pp.setNazivPartnera(nazivPartnera);
-//                pp.setPib(pib);
-//            }
-//
-//            if (jRadioButtonMesto.isSelected()) {
-//                Mesto m = new Mesto();
-//                String nazivMesta = jTextFieldNazivMesta.getText().trim();
-//                String drzava = jTextFieldDrzava.getText().trim();
-//                m.setDrzava(drzava);
-//                m.setNazivMesta(nazivMesta);
-//
-//                pp.setMesto(m);
-//            }
             String nazivPartnera = jTextFieldNazivPartnera.getText().trim();
             String pib = jTextFieldPib.getText().trim();
 
@@ -304,17 +290,31 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
             pp.setMesto(m);
 
             ArrayList<PoslovniPartner> partneriPretrazeni = ClientController.getInstance().filtrirajPartnere(pp);
+            partneriPretrazeni.sort(Comparator.comparing(partner -> partner.getMesto().getNazivMesta(), String.CASE_INSENSITIVE_ORDER));
 
             JOptionPane.showMessageDialog(this, "Sistem je nasao poslovne partnere po zadatim kriterijumima!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
 
             ModelTabelePrikaziPoslovnePartnere mt = new ModelTabelePrikaziPoslovnePartnere(partneriPretrazeni);
             jTablePartneri.setModel(mt);
 
-            //JOptionPane.showMessageDialog(this, "Sistem je nasao poslovnog partnera!", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+            for (int i = 0; i < jTablePartneri.getColumnCount(); i++) {
+                jTablePartneri.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
+
+            DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) jTablePartneri.getTableHeader().getDefaultRenderer();
+            headerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            jTablePartneri.getTableHeader().setDefaultRenderer(headerRenderer);
+
+            jTextFieldNazivPartnera.setText("");
+            jTextFieldPib.setText("");
+            jTextFieldNazivMesta.setText("");
+            jTextFieldDrzava.setText("");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje poslovne partnere po zadatim kriterijumima!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
             postaviPraznuTabelu();
-            //JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje poslovnog partnera!", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonFiltrirajActionPerformed
 
@@ -366,6 +366,29 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonObrisiActionPerformed
 
+    private void jTablePartneriMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePartneriMouseClicked
+        // TODO add your handling code here:
+        int row = jTablePartneri.rowAtPoint(evt.getPoint());
+        int col = jTablePartneri.columnAtPoint(evt.getPoint());
+
+        if (col == 0 || col == 2 || col == 3 || col == 4) {
+            Object vrednost = jTablePartneri.getValueAt(row, col);
+            if (vrednost != null) {
+                String prikazi = vrednost.toString();
+                // Ako je tekst duži od npr. 20 karaktera, prikaži JOptionPane
+                if (prikazi.length() > 20) {
+                    String nazivKolone = jTablePartneri.getColumnName(col);
+                    JOptionPane.showMessageDialog(
+                            this,
+                            nazivKolone + ":\n" + prikazi,
+                            "Pun tekst",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                }
+            }
+        }
+    }//GEN-LAST:event_jTablePartneriMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -394,6 +417,8 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
     public void postaviTabelu() throws Exception {
         try {
             partneri = ClientController.getInstance().getPoslovniPartneri();
+            partneri.sort(Comparator.comparing(partner -> partner.getMesto().getNazivMesta(), String.CASE_INSENSITIVE_ORDER));
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Nisu uspesno vraceni poslovni partneri!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
             throw new Exception();
@@ -401,6 +426,17 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
 
         ModelTabelePrikaziPoslovnePartnere mt = new ModelTabelePrikaziPoslovnePartnere(partneri);
         jTablePartneri.setModel(mt);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        for (int i = 0; i < jTablePartneri.getColumnCount(); i++) {
+            jTablePartneri.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) jTablePartneri.getTableHeader().getDefaultRenderer();
+        headerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jTablePartneri.getTableHeader().setDefaultRenderer(headerRenderer);
     }
 
     public JTable getTabela() {
@@ -410,6 +446,10 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
     private void postaviPraznuTabelu() {
         ModelTabelePrikaziPoslovnePartnere mtp = new ModelTabelePrikaziPoslovnePartnere();
         jTablePartneri.setModel(mtp);
+
+        DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) jTablePartneri.getTableHeader().getDefaultRenderer();
+        headerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jTablePartneri.getTableHeader().setDefaultRenderer(headerRenderer);
     }
 
 }

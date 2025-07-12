@@ -7,7 +7,6 @@ package domen;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -168,21 +167,7 @@ public class Roba implements ApstraktniDomenskiObjekat {
 
     @Override
     public String uslovZaSelect() {
-
         return "";
-        
-//        List<String> uslovi = new ArrayList<>();
-//
-//        if (nazivRobe != null) {
-//            uslovi.add("nazivRobe LIKE '%" + nazivRobe + "%'");
-//        }
-//
-//        if (uslovi.isEmpty()) {
-//            System.out.println("Upozorenje: uslovZaPretragu() - Nema filtera, vraća se prazan string!");
-//            return "";
-//        }
-//
-//        return String.join(" AND ", uslovi);
     }
 
 }

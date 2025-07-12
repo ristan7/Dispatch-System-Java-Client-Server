@@ -9,7 +9,6 @@ import domen.Mesto;
 import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
 import domen.Roba;
-import domen.StavkaNaloga;
 import domen.StrucnaSprema;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +19,6 @@ import operacija.mesto.SistemskaOperacijaVratiMesta;
 import operacija.nalog.SistemskaOperacijaDodajNalogZaTransportRobe;
 import operacija.nalog.SistemskaOperacijaFiltrirajNalogeZaTransportRobe;
 import operacija.nalog.SistemskaOperacijaIzmeniNalogZaTransportRobe;
-
 import operacija.nalog.SistemskaOperacijaVratiNalogeZaTransportRobe;
 import operacija.partner.SistemskaOperacijaDodajPartnera;
 import operacija.partner.SistemskaOperacijaFiltrirajPoslovnePartnere;
@@ -29,8 +27,6 @@ import operacija.partner.SistemskaOperacijaObrisiPoslovnogPartnera;
 import operacija.partner.SistemskaOperacijaVratiPoslovnePartnere;
 import operacija.roba.SistemskaOperacijaVratiRobu;
 import operacija.sprema.SistemskaOperacijaUbaciStrucnuSpremu;
-//import operacija.stavka.SistemskaOperacijaDodajStavkeNaloga;
-//import operacija.stavka.SistemskaOperacijaObrisiStavkeNaloga;
 
 /**
  *
@@ -65,14 +61,6 @@ public class ServerController {
         so.templateIzvrsi(dispecer);
         return so.getUlogovani();
     }
-
-//    public ArrayList<NalogZaTransportRobe> naloziPoDatumu(NalogZaTransportRobe nalog) throws Exception {
-//        SistemskaOperacijaVratiNalogeZaTransportRobe so = new SistemskaOperacijaVratiNalogeZaTransportRobe();
-//        so.templateIzvrsi(nalog);
-////        SistemskaOperacijaVratiNalogePoDatumu so = new SistemskaOperacijaVratiNalogePoDatumu();
-////        so.templateIzvrsi(nalog);
-//        return so.getLista();
-//    }
 
     public ArrayList<Mesto> vratiMesta(Mesto mesto) throws Exception {
         SistemskaOperacijaVratiMesta so = new SistemskaOperacijaVratiMesta();
@@ -151,31 +139,10 @@ public class ServerController {
         return mapaDodatih;
     }
 
-//    public int dodajStavke(ArrayList<StavkaNaloga> stavke) throws Exception {
-//        int brojac = 0;
-//
-//        for (StavkaNaloga stavkaNaloga : stavke) {
-//            SistemskaOperacijaDodajStavkeNaloga so = new SistemskaOperacijaDodajStavkeNaloga();
-//            so.templateIzvrsi(stavkaNaloga);
-//            brojac += so.getBrojDodatih();
-//        }
-//        return brojac;
-//    }
-
     public ArrayList<NalogZaTransportRobe> vratiNaloge(NalogZaTransportRobe nalog) throws Exception {
         SistemskaOperacijaVratiNalogeZaTransportRobe so = new SistemskaOperacijaVratiNalogeZaTransportRobe();
         so.templateIzvrsi(nalog);
         return so.getLista();
-    }
-
-//    public ArrayList<NalogZaTransportRobe> vratiNalogeZaUlogovanog(NalogZaTransportRobe nalog) throws Exception {
-//        SistemskaOperacijaVratiNalogeZaUlogovanog so = new SistemskaOperacijaVratiNalogeZaUlogovanog();
-//        so.templateIzvrsi(nalog);
-//        return so.getLista();
-//    }
-
-    public void resetujListe() {
-        ulogovaniDispeceri.clear();
     }
 
     public ArrayList<NalogZaTransportRobe> filtrirajNaloge(NalogZaTransportRobe n) throws Exception {
@@ -189,9 +156,7 @@ public class ServerController {
         so.templateIzvrsi(nalog);
     }
 
-//    public void obrisiStavkeNaloga(StavkaNaloga stavkaZaBrisanje) throws Exception {
-//        System.out.println("Usao u brisanje!!");
-//        SistemskaOperacijaObrisiStavkeNaloga so = new SistemskaOperacijaObrisiStavkeNaloga();
-//        so.templateIzvrsi(stavkaZaBrisanje);
-//    }
+    public void resetujListe() {
+        ulogovaniDispeceri.clear();
+    }
 }

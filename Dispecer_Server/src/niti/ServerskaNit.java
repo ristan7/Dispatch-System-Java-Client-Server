@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,7 +26,8 @@ public class ServerskaNit extends Thread {
             serverSocket = new ServerSocket(9000);
             listaNitiKlijenta = new ArrayList<>();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Logger.getLogger(ObradaKlijentskihZahteva.class.getName())
+                    .log(Level.WARNING, "Greška prilikom kreiranja serverske niti na portu 9000: " + ex.getMessage(), ex);
         }
     }
 
@@ -45,7 +48,8 @@ public class ServerskaNit extends Thread {
                 System.out.println("Serverski soket je zatvoren!!");
                 break;
             } catch (IOException ex) {
-                ex.printStackTrace();
+                Logger.getLogger(ObradaKlijentskihZahteva.class.getName())
+                        .log(Level.WARNING, "Greška prilikom primanja klijenata: " + ex.getMessage(), ex);;
             }
         }
     }
@@ -62,7 +66,8 @@ public class ServerskaNit extends Thread {
             listaNitiKlijenta.clear();
             ServerController.getInstance().resetujListe();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(ObradaKlijentskihZahteva.class.getName())
+                    .log(Level.WARNING, "Greška prilikom zaustavljanja servera: " + ex.getMessage(), ex);
         }
     }
 

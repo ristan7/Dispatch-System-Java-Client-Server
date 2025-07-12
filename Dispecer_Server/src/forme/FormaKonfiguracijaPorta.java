@@ -19,6 +19,8 @@ public class FormaKonfiguracijaPorta extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        setTitle("KONFIGURACIJA PORTA");
+        setResizable(false);
         jTextFieldPort.setText(konfiguracija.Konfiguracija.getInstance().getProperty("port"));
     }
 
@@ -95,8 +97,7 @@ public class FormaKonfiguracijaPorta extends javax.swing.JDialog {
         try {
             port = Integer.parseInt(jTextFieldPort.getText().trim());
         } catch (NumberFormatException numberFormatException) {
-            numberFormatException.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Greska prilikom preuzimanja podataka sa forme!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Greska prilikom preuzimanja podataka sa forme za port!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if (port >= 0 && port <= 65335) {
@@ -106,7 +107,6 @@ public class FormaKonfiguracijaPorta extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Uspesno upisivanje u property fajl!!", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } catch (Exception e) {
-                e.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Greska prilikom cuvanja u property fajl!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
             }
         } else {

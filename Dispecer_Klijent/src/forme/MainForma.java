@@ -15,8 +15,7 @@ import modeli.nalog.ModelTabelePrikaziNaloge;
 import forme.partner.DodajPartneraForma;
 import forme.partner.PretraziPoslovnogPartnera;
 import forme.sprema.UbaciSpremuForma;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -36,6 +35,7 @@ public class MainForma extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("GLAVNI MENI");
+        setResizable(false);
         jLabelUlogovani.setText(sesija.Sesija.getInstance().getUlogovani().toString());
         postaviTabelu();
 
@@ -73,7 +73,7 @@ public class MainForma extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Dobrodosli nazad ");
 
-        jLabelUlogovani.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabelUlogovani.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabelUlogovani.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabelUlogovani.setText("jLabel2");
 
@@ -88,6 +88,11 @@ public class MainForma extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTableNalozi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableNaloziMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableNalozi);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -203,9 +208,9 @@ public class MainForma extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
+                        .addGap(370, 370, 370)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelUlogovani, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -301,6 +306,29 @@ public class MainForma extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jTableNaloziMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableNaloziMouseClicked
+        // TODO add your handling code here:
+        int row = jTableNalozi.rowAtPoint(evt.getPoint());
+        int col = jTableNalozi.columnAtPoint(evt.getPoint());
+
+        if (col == 2 || col == 3 || col == 6) {
+            Object vrednost = jTableNalozi.getValueAt(row, col);
+            if (vrednost != null) {
+                String prikazi = vrednost.toString();
+                // Ako je tekst duži od npr. 20 karaktera, prikaži JOptionPane
+                if (prikazi.length() > 20) {
+                    String nazivKolone = jTableNalozi.getColumnName(col);
+                    JOptionPane.showMessageDialog(
+                            this,
+                            nazivKolone + ":\n" + prikazi,
+                            "Pun tekst",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                }
+            }
+        }
+    }//GEN-LAST:event_jTableNaloziMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -335,11 +363,31 @@ public class MainForma extends javax.swing.JFrame {
 
         try {
             nalozi = ClientController.getInstance().getNalozi(nalog);
+            nalozi.sort((n1, n2) -> {
+                // Prvo uporedim status
+                int cmpStatus = n1.getStatus().toString().compareToIgnoreCase(n2.getStatus().toString());
+                if (cmpStatus != 0) {
+                    return cmpStatus;
+                }
+                // Ako su statusi isti poredim datum utovara
+                return n1.getDatumUtovara().compareTo(n2.getDatumUtovara());
+            });
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Nisu uspesno vraceni nalozi za danasnji datum!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }
 
         ModelTabelePrikaziNaloge mt = new ModelTabelePrikaziNaloge(nalozi);
         jTableNalozi.setModel(mt);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        for (int i = 0; i < jTableNalozi.getColumnCount(); i++) {
+            jTableNalozi.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) jTableNalozi.getTableHeader().getDefaultRenderer();
+        headerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jTableNalozi.getTableHeader().setDefaultRenderer(headerRenderer);
     }
 }

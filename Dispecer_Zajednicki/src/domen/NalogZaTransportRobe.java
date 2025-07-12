@@ -6,16 +6,12 @@ package domen;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -175,64 +171,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 
     @Override
     public ArrayList<ApstraktniDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException {
-        //Prva varijanta
 
-//        ArrayList<ApstraktniDomenskiObjekat> lista = new ArrayList<>();
-//
-//        while (rs.next()) {
-//            int idDispecera = rs.getInt("idDispecera");
-//            String imeDispecera = rs.getString("imeDispecera");
-//            String prezimeDispecera = rs.getString("prezimeDispecera");
-//            String emailDispecera = rs.getString("emailDispecera");
-//            String telefonDispecera = rs.getString("telefonDispecera");
-//            String userName = rs.getString("korisnickoIme");
-//            String pass = rs.getString("lozinka");
-//
-//            Dispecer d = new Dispecer(idDispecera, imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, userName, pass);
-//
-//            int idMesta = rs.getShort("lozinka");
-//            String nazivMesta = rs.getString("nazivMesta");
-//            String drzava = rs.getString("drzava");
-//            int postanskiBroj = rs.getInt("postanskiBroj");
-//
-//            Mesto m = new Mesto(idMesta, nazivMesta, drzava, postanskiBroj);
-//
-//            int idPoslovnogPartnera = rs.getInt("idPoslovnogPartnera");
-//            String nazivPoslovnogPartnera = rs.getString("nazivPartnera");
-//            int pib = rs.getInt("pib");
-//            String adresaPoslovnogPartnera = rs.getString("adresaPartnera");
-//            String emailPoslovnogPartnera = rs.getString("emailPartnera");
-//
-//            PoslovniPartner pp = new PoslovniPartner(idPoslovnogPartnera, nazivPoslovnogPartnera, pib, adresaPoslovnogPartnera, emailPoslovnogPartnera, m);
-//
-//            int idNaloga = rs.getInt("idNaloga");
-//
-//            java.sql.Date datumU = rs.getDate("datumUtovara");
-//            java.util.Date datumUtovara = new java.util.Date(datumU.getTime());
-//
-//            java.sql.Date datumI = rs.getDate("datumIstovara");
-//            java.util.Date datumIstovara = new java.util.Date(datumI.getTime());
-//
-//            String adresaUtovara = rs.getString("adresaUtovara");
-//            String adresaIstovara = rs.getString("adresaIstovara");
-//            StatusNaloga status = StatusNaloga.valueOf("nazivStatusa");
-//            Float ukupanIznos = rs.getFloat("ukupanIznosPosla");
-//
-//            NalogZaTransportRobe nalog = new NalogZaTransportRobe();
-//            nalog.setIdNaloga(idNaloga);
-//            nalog.setDatumKreiranja(datumUtovara);
-//            nalog.setDatumIzvrsenja(datumIstovara);
-//            nalog.setAdresaUtovara(adresaUtovara);
-//            nalog.setAdresaIstovara(adresaIstovara);
-//            nalog.setStatus(status);
-//            nalog.setUkupanIznosPosla(ukupanIznos);
-//            nalog.setDispecer(d);
-//            nalog.setPoslovniPartner(pp);
-//            nalog.setStavke(null);
-//
-//            lista.add(nalog);
-//        }
-        //Druga varijanta
         ArrayList<ApstraktniDomenskiObjekat> lista = new ArrayList<>();
         Map<Integer, NalogZaTransportRobe> nalozi = new HashMap<>();
 
@@ -443,10 +382,6 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
         }
 
         if (status != null) {
-
-//            if (uslov.length() == 0) {
-//                uslov.append(" WHERE ");
-//            }
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
@@ -455,10 +390,6 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
         }
 
         if (datumUtovara != null) {
-
-//            if (uslov.length() == 0) {
-//                uslov.append(" WHERE ");
-//            }
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
@@ -466,10 +397,6 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
         }
 
         if (datumIstovara != null) {
-
-//            if (uslov.length() == 0) {
-//                uslov.append(" WHERE ");
-//            }
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
@@ -479,20 +406,12 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
         if (poslovniPartner != null) {
 
             if (poslovniPartner.getNazivPartnera() != null && !poslovniPartner.getNazivPartnera().isBlank()) {
-
-//                if (uslov.length() == 0) {
-//                    uslov.append(" WHERE ");
-//                }
                 if (uslov.length() > 0) {
                     uslov.append(" AND ");
                 }
                 uslov.append("pp.nazivPartnera LIKE '%").append(poslovniPartner.getNazivPartnera()).append("%'");
             }
             if (poslovniPartner.getPib() != null && !poslovniPartner.getPib().isEmpty()) {
-
-//                if (uslov.length() == 0) {
-//                    uslov.append(" WHERE ");
-//                }
                 if (uslov.length() > 0) {
                     uslov.append(" AND ");
                 }
@@ -502,20 +421,12 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
             if (poslovniPartner.getMesto() != null) {
 
                 if (poslovniPartner.getMesto().getNazivMesta() != null && !poslovniPartner.getMesto().getNazivMesta().isBlank()) {
-
-//                    if (uslov.length() == 0) {
-//                        uslov.append(" WHERE ");
-//                    }
                     if (uslov.length() > 0) {
                         uslov.append(" AND ");
                     }
                     uslov.append("m.nazivMesta LIKE '%").append(poslovniPartner.getMesto().getNazivMesta()).append("%'");
                 }
                 if (poslovniPartner.getMesto().getDrzava() != null && !poslovniPartner.getMesto().getDrzava().isBlank()) {
-
-//                    if (uslov.length() == 0) {
-//                        uslov.append(" WHERE ");
-//                    }
                     if (uslov.length() > 0) {
                         uslov.append(" AND ");
                     }
@@ -537,7 +448,6 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                         + "    WHERE sn2.roba = ").append(stavkaNaloga.getRoba().getIdRobe()).append(")");
             }
         }
-
         if (uslov.length() > 0) {
             pocetak.append(" WHERE ").append(uslov.toString());
         }

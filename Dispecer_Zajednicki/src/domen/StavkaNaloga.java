@@ -269,7 +269,6 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
         if (roba != null && roba.getIdRobe() != -1) {
             uslov.append(" AND ").append("roba = ").append(roba.getIdRobe());
         }
-//        return "nalog = " + nalog.getIdNaloga();
         return uslov.toString();
     }
 

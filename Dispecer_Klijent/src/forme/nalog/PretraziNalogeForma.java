@@ -18,10 +18,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import modeli.nalog.ModelTabelePrikaziNaloge;
 import sesija.Sesija;
 
@@ -41,6 +40,7 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
         initComponents();
         setTitle("PRETRAGA NALOGA");
         setLocationRelativeTo(null);
+        setResizable(false);
         try {
             postaviTabelu();
             pripremiFormu();
@@ -145,6 +145,11 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTableNalozi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableNaloziMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTableNalozi);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -377,12 +382,12 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
         if (Sesija.getInstance().getUlogovani().getRola() == Rola.ADMINISTRATOR) {
             jComboBoxDispecer.setEnabled(true);
             jComboBoxDispecer.setSelectedIndex(-1);
-//            jComboBoxDispecer.setSelectedItem(Sesija.getInstance().getUlogovani());
+
         } else {
             jComboBoxDispecer.setEnabled(false);
             jComboBoxDispecer.setSelectedItem(Sesija.getInstance().getUlogovani());
         }
-//        jComboBoxDispecer.setSelectedItem(Sesija.getInstance().getUlogovani());
+
 
     }//GEN-LAST:event_jRadioButtonNalogActionPerformed
 
@@ -472,7 +477,7 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
                 jTextFieldDatumIstovara.setText("");
 
             }
-//
+
             if (jRadioButtonPartner.isSelected()) {
 
                 PoslovniPartner pp = new PoslovniPartner();
@@ -495,7 +500,7 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
                 if (Sesija.getInstance().getUlogovani().getRola() == Rola.KORISNIK) {
                     nalog.setDispecer((Dispecer) jComboBoxDispecer.getSelectedItem());
                 }
-                
+
                 jTextFieldMesto.setText("");
                 jTextFieldNazivPartnera.setText("");
                 jTextFieldPIBpartnera.setText("");
@@ -517,16 +522,37 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
                 if (Sesija.getInstance().getUlogovani().getRola() == Rola.KORISNIK) {
                     nalog.setDispecer((Dispecer) jComboBoxDispecer.getSelectedItem());
                 }
-                
+
                 jComboBoxRoba.setSelectedIndex(-1);
             }
 
             ArrayList<NalogZaTransportRobe> pretrazeniNalozi = ClientController.getInstance().filtrirajNaloge(nalog);
 
+            pretrazeniNalozi.sort((n1, n2) -> {
+                // Prvo uporedi status
+                int cmpStatus = n1.getStatus().toString().compareToIgnoreCase(n2.getStatus().toString());
+                if (cmpStatus != 0) {
+                    return cmpStatus;
+                }
+                // Ako su statusi isti, poredi datum utovara
+                return n1.getDatumUtovara().compareTo(n2.getDatumUtovara());
+            });
+
             JOptionPane.showMessageDialog(this, "Sistem je nasao naloge za transport robe po zadatim kriterijumima!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
 
             ModelTabelePrikaziNaloge mt = new ModelTabelePrikaziNaloge(pretrazeniNalozi);
             jTableNalozi.setModel(mt);
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+            for (int i = 0; i < jTableNalozi.getColumnCount(); i++) {
+                jTableNalozi.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
+
+            DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) jTableNalozi.getTableHeader().getDefaultRenderer();
+            headerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            jTableNalozi.getTableHeader().setDefaultRenderer(headerRenderer);
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje naloge za transport robe po zadatim kriterijumima!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
@@ -557,6 +583,29 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje nalog za transport robe!", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonPrikaziActionPerformed
+
+    private void jTableNaloziMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableNaloziMouseClicked
+        // TODO add your handling code here:
+        int row = jTableNalozi.rowAtPoint(evt.getPoint());
+        int col = jTableNalozi.columnAtPoint(evt.getPoint());
+
+        if (col == 2 || col == 3 || col == 6) {
+            Object vrednost = jTableNalozi.getValueAt(row, col);
+            if (vrednost != null) {
+                String prikazi = vrednost.toString();
+                // Ako je tekst duži od npr. 20 karaktera, prikaži JOptionPane
+                if (prikazi.length() > 20) {
+                    String nazivKolone = jTableNalozi.getColumnName(col);
+                    JOptionPane.showMessageDialog(
+                            this,
+                            nazivKolone + ":\n" + prikazi,
+                            "Pun tekst",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                }
+            }
+        }
+    }//GEN-LAST:event_jTableNaloziMouseClicked
 
     /**
      * @param args the command line arguments
@@ -604,14 +653,15 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
             nalog.setDispecer(Sesija.getInstance().getUlogovani());
 
             nalozi = ClientController.getInstance().getNalozi(nalog);
-//            if (Sesija.getInstance().getUlogovani().getRola() == Rola.ADMINISTRATOR) {
-//                nalozi = ClientController.getInstance().getNaloziZaSve();
-//            } else {
-//                NalogZaTransportRobe nalog = new NalogZaTransportRobe();
-//                nalog.setDispecer(Sesija.getInstance().getUlogovani());
-//
-//                nalozi = ClientController.getInstance().getNaloziZaUlogovanog(nalog);
-//            }
+            nalozi.sort((n1, n2) -> {
+                // Prvo uporedi status
+                int cmpStatus = n1.getStatus().toString().compareToIgnoreCase(n2.getStatus().toString());
+                if (cmpStatus != 0) {
+                    return cmpStatus;
+                }
+                // Ako su statusi isti, poredi datum utovara
+                return n1.getDatumUtovara().compareTo(n2.getDatumUtovara());
+            });
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Nisu uspesno vraceni nalozi!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
             throw new Exception();
@@ -619,6 +669,17 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
 
         ModelTabelePrikaziNaloge mtp = new ModelTabelePrikaziNaloge(nalozi);
         jTableNalozi.setModel(mtp);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        for (int i = 0; i < jTableNalozi.getColumnCount(); i++) {
+            jTableNalozi.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) jTableNalozi.getTableHeader().getDefaultRenderer();
+        headerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jTableNalozi.getTableHeader().setDefaultRenderer(headerRenderer);
     }
 
     private void pripremiFormu() throws Exception {
@@ -653,7 +714,6 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
         }
 
         jComboBoxStatus.setSelectedIndex(-1);
-//        jComboBoxDispecer.setSelectedIndex(-1);
         jComboBoxRoba.setSelectedIndex(-1);
 
         jRadioButtonNalog.doClick();
@@ -662,5 +722,9 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
     private void postaviPraznuTabelu() {
         ModelTabelePrikaziNaloge mtp = new ModelTabelePrikaziNaloge();
         jTableNalozi.setModel(mtp);
+
+        DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) jTableNalozi.getTableHeader().getDefaultRenderer();
+        headerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jTableNalozi.getTableHeader().setDefaultRenderer(headerRenderer);
     }
 }

@@ -6,7 +6,6 @@ package operacija.partner;
 
 import baza.DBBroker;
 import domen.ApstraktniDomenskiObjekat;
-import domen.Mesto;
 import domen.PoslovniPartner;
 import java.util.ArrayList;
 import operacija.ApstraktnaSistemskaOperacija;

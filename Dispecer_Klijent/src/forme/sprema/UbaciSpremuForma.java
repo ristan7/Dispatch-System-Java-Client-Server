@@ -25,6 +25,7 @@ public class UbaciSpremuForma extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("DODAVANJE STRUCNE SPREME");
+        setResizable(false);
 
     }
 

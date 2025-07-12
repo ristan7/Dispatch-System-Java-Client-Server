@@ -24,6 +24,7 @@ public class LoginForma extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("LOGIN FORMA");
+        setResizable(false);
     }
 
     /**
@@ -46,8 +47,6 @@ public class LoginForma extends javax.swing.JFrame {
 
         jLabel2.setText("Lozinka : ");
 
-        jTextFieldUserName.setText("anica");
-
         jButtonOtkazi.setText("OTKAZI");
         jButtonOtkazi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -61,8 +60,6 @@ public class LoginForma extends javax.swing.JFrame {
                 jButtonUlogujSeActionPerformed(evt);
             }
         });
-
-        jPasswordField.setText("lozinkaAna1!");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,15 +130,11 @@ public class LoginForma extends javax.swing.JFrame {
 
         } catch (NullPointerException e) {
             Logger.getLogger(Sesija.class.getName()).log(Level.INFO, "Neuspesno logovanje...");
-//            ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Korisnicko ime i sifra nisu ispravni.", "GRESKA", JOptionPane.ERROR_MESSAGE);
             this.dispose();
-
         } catch (Exception ex) {
             Logger.getLogger(Sesija.class.getName()).log(Level.INFO, "Neuspesno logovanje...");
-//            ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Korisnicko ime i sifra nisu ispravni.", "GRESKA", JOptionPane.ERROR_MESSAGE);
-
         }
     }//GEN-LAST:event_jButtonUlogujSeActionPerformed
 

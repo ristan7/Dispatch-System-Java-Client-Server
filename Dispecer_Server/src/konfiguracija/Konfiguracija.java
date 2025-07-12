@@ -25,8 +25,8 @@ public class Konfiguracija {
             konfiguracija = new Properties();
             konfiguracija.load(new FileInputStream("C:\\Users\\mikir\\Documents\\NetBeansProjects\\SeminarskiSoftveri\\Dispecer_Server\\config\\config.properties"));
         } catch (IOException ex) {
-            ex.printStackTrace();
-            Logger.getLogger(Konfiguracija.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Konfiguracija.class.getName())
+                    .log(Level.WARNING, "Greska prilikom ucitavanja konfiguracije...");
         }
     }
 
@@ -49,8 +49,8 @@ public class Konfiguracija {
         try {
             konfiguracija.store(new FileOutputStream("C:\\Users\\mikir\\Documents\\NetBeansProjects\\SeminarskiSoftveri\\Dispecer_Server\\config\\config.properties"), null);
         } catch (IOException ex) {
-            ex.printStackTrace();
-            Logger.getLogger(Konfiguracija.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Konfiguracija.class.getName())
+                    .log(Level.WARNING, "Greska prilikom cuvanja konfiguracije...");
         }
     }
 }

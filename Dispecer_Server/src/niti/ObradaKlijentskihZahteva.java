@@ -10,7 +10,6 @@ import domen.Mesto;
 import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
 import domen.Roba;
-import domen.StavkaNaloga;
 import domen.StrucnaSprema;
 import java.io.IOException;
 import java.net.*;
@@ -39,7 +38,6 @@ public class ObradaKlijentskihZahteva extends Thread {
         this.socket = socket;
         this.posiljalac = new Posiljalac(socket);
         this.primalac = new Primalac(socket);
-
     }
 
     @Override
@@ -50,7 +48,6 @@ public class ObradaKlijentskihZahteva extends Thread {
                 try {
                     zahtev = (KlijentskiZahtev) primalac.primi();
                 } catch (Exception ex) {
-                    //Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
                     Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.INFO, "Soket je zatvoren, nije moguce primiti zahtev..");
                     return;
                 }
@@ -67,7 +64,6 @@ public class ObradaKlijentskihZahteva extends Thread {
             }
         }
         zatvoriSoket();
-
     }
 
     private ServerskiOdgovor obradiZahtev(KlijentskiZahtev zahtev) {
@@ -80,9 +76,6 @@ public class ObradaKlijentskihZahteva extends Thread {
 
                 case Operacija.LOGIN:
                     return obradiLoginOperaciju(zahtev);
-
-//                case Operacija.VRATI_NALOGE_PO_DATUMU:
-//                    return obradiVratiNalogePremaDatumu(zahtev);
 
                 case Operacija.VRATI_MESTA:
                     return obradiVratiMesta(zahtev);
@@ -116,12 +109,6 @@ public class ObradaKlijentskihZahteva extends Thread {
 
                 case Operacija.DODAJ_NALOG:
                     return obradiDodajNalog(zahtev);
-
-                case Operacija.VRATI_SVE_NALOGE:
-                    return obradiVratiSveNaloge(zahtev);
-
-//                case Operacija.VRATI_NALOGE_ZA_ULOGOVANOG:
-//                    return obradiVratiNalogeZaUlogovanog(zahtev);
 
                 case Operacija.FILTRIRAJ_NALOGE:
                     return obradiFiltrirajNaloge(zahtev);
@@ -158,12 +145,6 @@ public class ObradaKlijentskihZahteva extends Thread {
         Dispecer dispecer = ServerController.getInstance().login(d);
         return new ServerskiOdgovor(dispecer, null, VrstaOdgovora.USPESNO);
     }
-
-//    private ServerskiOdgovor obradiVratiNalogePremaDatumu(KlijentskiZahtev zahtev) throws Exception {
-//        NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
-//        ArrayList<NalogZaTransportRobe> naloziPoDatumu = ServerController.getInstance().naloziPoDatumu(nalog);
-//        return new ServerskiOdgovor(naloziPoDatumu, null, VrstaOdgovora.USPESNO);
-//    }
 
     private ServerskiOdgovor obradiVratiMesta(KlijentskiZahtev zahtev) throws Exception {
         Mesto mesto = new Mesto();
@@ -228,34 +209,9 @@ public class ObradaKlijentskihZahteva extends Thread {
 
     private ServerskiOdgovor obradiDodajNalog(KlijentskiZahtev zahtev) throws Exception {
         NalogZaTransportRobe noviNalog = (NalogZaTransportRobe) zahtev.getParametar();
-//        ArrayList<Integer> brojeviDodatih = new ArrayList<>();
-
         Map<Integer, Integer> mapaDodatih = ServerController.getInstance().dodajNalog(noviNalog);
-//        brojeviDodatih.add(brojDodatih);
-
-//        noviNalog.setIdNaloga(brojDodatih);
-//        if (noviNalog.getStavke().size() != 0) {
-//            for (int i = 0; i < noviNalog.getStavke().size(); i++) {
-//                noviNalog.getStavke().get(i).setNalog(noviNalog);
-//            }
-//            int brojDodatihStavki = ServerController.getInstance().dodajStavke(noviNalog.getStavke());
-//
-//            brojeviDodatih.add(brojDodatihStavki);
-//        }
         return new ServerskiOdgovor(mapaDodatih, null, VrstaOdgovora.USPESNO);
     }
-
-    private ServerskiOdgovor obradiVratiSveNaloge(KlijentskiZahtev zahtev) throws Exception {
-        NalogZaTransportRobe nalog = new NalogZaTransportRobe();
-        ArrayList<NalogZaTransportRobe> nalozi = ServerController.getInstance().vratiNaloge(nalog);
-        return new ServerskiOdgovor(nalozi, null, VrstaOdgovora.USPESNO);
-    }
-
-//    private ServerskiOdgovor obradiVratiNalogeZaUlogovanog(KlijentskiZahtev zahtev) throws Exception {
-//        NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
-//        ArrayList<NalogZaTransportRobe> nalozi = ServerController.getInstance().vratiNalogeZaUlogovanog(nalog);
-//        return new ServerskiOdgovor(nalozi, null, VrstaOdgovora.USPESNO);
-//    }
 
     private ServerskiOdgovor obradiFiltrirajNaloge(KlijentskiZahtev zahtev) throws Exception {
         NalogZaTransportRobe n = (NalogZaTransportRobe) zahtev.getParametar();
@@ -266,17 +222,6 @@ public class ObradaKlijentskihZahteva extends Thread {
     private ServerskiOdgovor obradiAzurirajNalog(KlijentskiZahtev zahtev) throws Exception {
         NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
         ServerController.getInstance().azurirajNalog(nalog);
-
-//        StavkaNaloga stavkaZaBrisanje = new StavkaNaloga(nalog, 0, new Roba());
-//
-//        System.out.println("Kreirao stavku");
-
-//        ServerController.getInstance().obrisiStavkeNaloga(stavkaZaBrisanje);
-
-//        if (nalog.getStavke().size() != 0) {
-//
-//            int brojDodatihStavki = ServerController.getInstance().dodajStavke(nalog.getStavke());
-//        }
         return new ServerskiOdgovor(true, null, VrstaOdgovora.USPESNO);
     }
 

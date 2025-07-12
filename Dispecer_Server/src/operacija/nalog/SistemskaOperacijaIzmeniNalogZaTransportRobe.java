@@ -131,7 +131,6 @@ public class SistemskaOperacijaIzmeniNalogZaTransportRobe extends ApstraktnaSist
         } else {
             System.out.println("Nema stavki");
             DBBroker.getInstance().delete(stavka);
-
         }
 
     }
