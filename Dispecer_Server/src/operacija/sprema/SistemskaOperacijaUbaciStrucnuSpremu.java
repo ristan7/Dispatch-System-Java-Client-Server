@@ -30,7 +30,7 @@ public class SistemskaOperacijaUbaciStrucnuSpremu extends ApstraktnaSistemskaOpe
             throw new Exception("Naziv strucne spreme mora biti unet!!");
         }
 
-        ArrayList<StrucnaSprema> spreme = (ArrayList<StrucnaSprema>) (ArrayList<?>) DBBroker.getInstance().vratiSve(ado);
+        ArrayList<StrucnaSprema> spreme = (ArrayList<StrucnaSprema>) (ArrayList<?>) DBBroker.getInstance().select(ss);
 
         for (StrucnaSprema sprema : spreme) {
             if (sprema.equals(ss)) {

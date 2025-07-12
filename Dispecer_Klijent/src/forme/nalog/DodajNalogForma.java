@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -41,6 +42,9 @@ public class DodajNalogForma extends javax.swing.JFrame {
      */
     public DodajNalogForma(ModForme modForme) throws Exception {
         initComponents();
+        setLocationRelativeTo(null);
+        setTitle("DODAVANJE/IZMENA NALOGA");
+
         this.modForme = modForme;
         noviNalog = new NalogZaTransportRobe();
         stavkeNovogNaloga = new ArrayList<>();
@@ -92,8 +96,8 @@ public class DodajNalogForma extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextFieldDatumKreiranja = new javax.swing.JTextField();
-        jTextFieldDatumIzvrsenja = new javax.swing.JTextField();
+        jTextFieldDatumUtovara = new javax.swing.JTextField();
+        jTextFieldDatumIstovara = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jTextFieldAdresaUtovara = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -124,9 +128,9 @@ public class DodajNalogForma extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Unesite podatke o nalogu:");
 
-        jLabel2.setText("Datum kreiranja:");
+        jLabel2.setText("Datum utovara:");
 
-        jLabel3.setText("Datum izvrsenja :");
+        jLabel3.setText("Datum istovara :");
 
         jLabel4.setText("Adresa utovara :");
 
@@ -291,8 +295,8 @@ public class DodajNalogForma extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jTextFieldAdresaUtovara, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-                            .addComponent(jTextFieldDatumIzvrsenja, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldDatumKreiranja, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldDatumIstovara, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldDatumUtovara, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldAdresaIstovara))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -315,11 +319,11 @@ public class DodajNalogForma extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel2)
-                                    .addComponent(jTextFieldDatumKreiranja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTextFieldDatumUtovara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel3)
-                                    .addComponent(jTextFieldDatumIzvrsenja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTextFieldDatumIstovara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jTextFieldAdresaUtovara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -425,23 +429,23 @@ public class DodajNalogForma extends javax.swing.JFrame {
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
             sdf.setLenient(false);
 
-            String datumKreiranjaText = jTextFieldDatumKreiranja.getText().trim();
-            Date datumKreiranja = null;
+            String datumUtovaraText = jTextFieldDatumUtovara.getText().trim();
+            Date datumUtovara = null;
 
             try {
-                datumKreiranja = sdf.parse(datumKreiranjaText);
+                datumUtovara = sdf.parse(datumUtovaraText);
             } catch (ParseException pex) {
-                JOptionPane.showMessageDialog(this, "Nepravilno unet datum kreiranja naloga!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Nepravilno unet datum utovara!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            String datumIzvrsenjaText = jTextFieldDatumIzvrsenja.getText().trim();
-            Date datumIzvrsenja = null;
+            String datumIstovaraText = jTextFieldDatumIstovara.getText().trim();
+            Date datumIstovara = null;
 
             try {
-                datumIzvrsenja = sdf.parse(datumIzvrsenjaText);
+                datumIstovara = sdf.parse(datumIstovaraText);
             } catch (ParseException pex) {
-                JOptionPane.showMessageDialog(this, "Nepravilno unet datum izvrsenja naloga!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Nepravilno unet datum istovara!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             Date danasnjiDatum = null;
@@ -452,13 +456,13 @@ public class DodajNalogForma extends javax.swing.JFrame {
                 return;
             }
 
-            if (datumKreiranja.before(danasnjiDatum)) {
-                JOptionPane.showMessageDialog(this, "Nepravilno unet datum kreiranja naloga!! Datum kreiranja mora biti u buducnosti!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+            if (danasnjiDatum.after(datumUtovara)) {
+                JOptionPane.showMessageDialog(this, "Nepravilno unet datum utovara!! Datum utovara mora biti u danas ili u buducnosti!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            if (datumIzvrsenja.before(datumKreiranja)) {
-                JOptionPane.showMessageDialog(this, "Nepravilno unet datum izvrsenja naloga!! Datum izvrsenja mora biti pre datuma kreiranja naloga!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+            if (datumUtovara.after(datumIstovara)) {
+                JOptionPane.showMessageDialog(this, "Nepravilno unet datum istovara!! Datum istovara mora biti posle datuma utovara ili isti dan!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -491,8 +495,8 @@ public class DodajNalogForma extends javax.swing.JFrame {
             noviNalog.setPoslovniPartner(pp);
             noviNalog.setAdresaUtovara(adresaUtovara);
             noviNalog.setAdresaIstovara(adressaIstovara);
-            noviNalog.setDatumKreiranja(datumKreiranja);
-            noviNalog.setDatumIzvrsenja(datumIzvrsenja);
+            noviNalog.setDatumUtovara(datumUtovara);
+            noviNalog.setDatumIstovara(datumIstovara);
             noviNalog.setStatus(status);
             noviNalog.setIdNaloga(-1);
 
@@ -504,26 +508,33 @@ public class DodajNalogForma extends javax.swing.JFrame {
                 noviNalog.izracunajUkupneTroskovePosla();
             }
 
-            ArrayList<Integer> brojeviDodatih = ClientController.getInstance().dodajNalog(noviNalog);
+            Map<Integer, Integer> mapaDodatih = ClientController.getInstance().dodajNalog(noviNalog);
 
-            if (brojeviDodatih.get(0) > 0) {
-                if (brojeviDodatih.size() == 2) {
-                    if (brojeviDodatih.get(1) > 0) {
-                        JOptionPane.showMessageDialog(this, "Sistem je zapamtio nalog za transport robe!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
-                        this.dispose();
-                        return;
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti nalog za transport robe!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
-                        return;
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Sistem je zapamtio nalog za transport robe!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
-                    this.dispose();
-                }
-
+            if (mapaDodatih.get(1) > 0 && mapaDodatih.get(2) >= 0) {
+                JOptionPane.showMessageDialog(this, "Sistem je zapamtio nalog za transport robe!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti nalog za transport robe!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
             }
+
+//            if (brojeviDodatih.get(0) > 0) {
+//                if (brojeviDodatih.size() == 2) {
+//                    if (brojeviDodatih.get(1) > 0) {
+//                        JOptionPane.showMessageDialog(this, "Sistem je zapamtio nalog za transport robe!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
+//                        this.dispose();
+//                        return;
+//                    } else {
+//                        JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti nalog za transport robe!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+//                        return;
+//                    }
+//                } else {
+//                    JOptionPane.showMessageDialog(this, "Sistem je zapamtio nalog za transport robe!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
+//                    this.dispose();
+//                }
+//
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti nalog za transport robe!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+//            }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti nalog za transport robe!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
         }
@@ -535,7 +546,8 @@ public class DodajNalogForma extends javax.swing.JFrame {
 
         jButtonOmoguciIzmene.setEnabled(false);
 
-        jTextFieldDatumIzvrsenja.setEnabled(true);
+        jTextFieldDatumUtovara.setEnabled(true);
+        jTextFieldDatumIstovara.setEnabled(true);
         jTextFieldAdresaUtovara.setEnabled(true);
         jTextFieldAdresaIstovara.setEnabled(true);
         jTextFieldKolicina.setEnabled(true);
@@ -553,6 +565,8 @@ public class DodajNalogForma extends javax.swing.JFrame {
         jButtonObrisiStavku.setEnabled(true);
 
         jTableStavke.setEnabled(true);
+
+        proveriDatume();
     }//GEN-LAST:event_jButtonOmoguciIzmeneActionPerformed
 
     private void jButtonAzurirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAzurirajActionPerformed
@@ -562,23 +576,23 @@ public class DodajNalogForma extends javax.swing.JFrame {
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
             sdf.setLenient(false);
 
-            String datumKreiranjaText = jTextFieldDatumKreiranja.getText().trim();
-            Date datumKreiranja = null;
+            String datumUtovaraText = jTextFieldDatumUtovara.getText().trim();
+            Date datumUtovara = null;
 
             try {
-                datumKreiranja = sdf.parse(datumKreiranjaText);
+                datumUtovara = sdf.parse(datumUtovaraText);
             } catch (ParseException pex) {
-                JOptionPane.showMessageDialog(this, "Nepravilno unet datum kreiranja naloga!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Nepravilno unet datum utovara!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            String datumIzvrsenjaText = jTextFieldDatumIzvrsenja.getText().trim();
-            Date datumIzvrsenja = null;
+            String datumIstovaraText = jTextFieldDatumIstovara.getText().trim();
+            Date datumIstovara = null;
 
             try {
-                datumIzvrsenja = sdf.parse(datumIzvrsenjaText);
+                datumIstovara = sdf.parse(datumIstovaraText);
             } catch (ParseException pex) {
-                JOptionPane.showMessageDialog(this, "Nepravilno unet datum izvrsenja naloga!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Nepravilno unet datum istovara!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             Date danasnjiDatum = null;
@@ -589,9 +603,18 @@ public class DodajNalogForma extends javax.swing.JFrame {
                 return;
             }
 
-            if (datumIzvrsenja.before(datumKreiranja)) {
-                JOptionPane.showMessageDialog(this, "Nepravilno unet datum izvrsenja naloga!! Datum izvrsenja mora biti pre datuma kreiranja naloga!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
-                return;
+            if (jTextFieldDatumUtovara.isEnabled()) {
+                if (danasnjiDatum.after(datumUtovara)) {
+                    JOptionPane.showMessageDialog(this, "Nepravilno unet datum utovara!! Datum utovara mora biti u danas ili u buducnosti!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+            }
+
+            if (jTextFieldDatumIstovara.isEnabled()) {
+                if (datumUtovara.after(datumIstovara) && danasnjiDatum.after(datumIstovara)) {
+                    JOptionPane.showMessageDialog(this, "Nepravilno unet datum istovara!! Datum istovara mora biti posle datuma utovara ili isti dan!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
             }
 
             String adresaUtovara = jTextFieldAdresaUtovara.getText().trim();
@@ -623,7 +646,8 @@ public class DodajNalogForma extends javax.swing.JFrame {
             noviNalog.setPoslovniPartner(pp);
             noviNalog.setAdresaUtovara(adresaUtovara);
             noviNalog.setAdresaIstovara(adressaIstovara);
-            noviNalog.setDatumIzvrsenja(datumIzvrsenja);
+            noviNalog.setDatumUtovara(datumUtovara);
+            noviNalog.setDatumIstovara(datumIstovara);
             noviNalog.setStatus(status);
 
             noviNalog.setStavke(stavkeNovogNaloga);
@@ -685,8 +709,8 @@ public class DodajNalogForma extends javax.swing.JFrame {
     private javax.swing.JTable jTableStavke;
     private javax.swing.JTextField jTextFieldAdresaIstovara;
     private javax.swing.JTextField jTextFieldAdresaUtovara;
-    private javax.swing.JTextField jTextFieldDatumIzvrsenja;
-    private javax.swing.JTextField jTextFieldDatumKreiranja;
+    private javax.swing.JTextField jTextFieldDatumIstovara;
+    private javax.swing.JTextField jTextFieldDatumUtovara;
     private javax.swing.JTextField jTextFieldKolicina;
     // End of variables declaration//GEN-END:variables
 
@@ -751,11 +775,11 @@ public class DodajNalogForma extends javax.swing.JFrame {
     }
 
     private void pokupiPodatke() {
-        jTextFieldDatumKreiranja.setText(new SimpleDateFormat("dd.MM.yyy.").format(noviNalog.getDatumKreiranja()));
-        jTextFieldDatumKreiranja.setEnabled(false);
+        jTextFieldDatumUtovara.setText(new SimpleDateFormat("dd.MM.yyy.").format(noviNalog.getDatumUtovara()));
+        jTextFieldDatumUtovara.setEnabled(false);
 
-        jTextFieldDatumIzvrsenja.setText(new SimpleDateFormat("dd.MM.yyy.").format(noviNalog.getDatumIzvrsenja()));
-        jTextFieldDatumIzvrsenja.setEnabled(false);
+        jTextFieldDatumIstovara.setText(new SimpleDateFormat("dd.MM.yyy.").format(noviNalog.getDatumIstovara()));
+        jTextFieldDatumIstovara.setEnabled(false);
 
         jTextFieldAdresaUtovara.setText(noviNalog.getAdresaUtovara());
         jTextFieldAdresaIstovara.setText(noviNalog.getAdresaIstovara());
@@ -781,5 +805,72 @@ public class DodajNalogForma extends javax.swing.JFrame {
         jTableStavke.setModel(mts);
 
         jTableStavke.setEnabled(false);
+    }
+
+    private void proveriDatume() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
+        sdf.setLenient(false);
+
+//        String datumUtovaraText = jTextFieldDatumUtovara.getText().trim();
+//        Date datumUtovara = null;
+//        try {
+//            datumUtovara = sdf.parse(datumUtovaraText);
+//        } catch (ParseException pex) {
+//            JOptionPane.showMessageDialog(this, "Nepravilno unet datum utovara!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
+//        String datumIstovaraText = jTextFieldDatumIstovara.getText().trim();
+//        Date datumIstovara = null;
+//
+//        try {
+//            datumIstovara = sdf.parse(datumIstovaraText);
+//        } catch (ParseException pex) {
+//            JOptionPane.showMessageDialog(this, "Nepravilno unet datum istovara!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
+        Date danasnjiDatum = null;
+        try {
+            danasnjiDatum = sdf.parse(sdf.format(new Date()));
+        } catch (ParseException ex) {
+            Logger.getLogger(DodajNalogForma.class.getName()).log(Level.INFO, "Neuspesno parsiranje danasnjeg datuma...");
+            return;
+        }
+
+        try {
+            if (danasnjiDatum.after(sdf.parse(sdf.format(noviNalog.getDatumUtovara())))) {
+                jTextFieldDatumUtovara.setEnabled(false);
+
+                jTableStavke.setEnabled(false);
+
+                jButtonDodajStavku.setEnabled(false);
+                jButtonObrisiStavku.setEnabled(false);
+
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(DodajNalogForma.class.getName()).log(Level.INFO, "Neuspesno parsiranje datuma utovara...");
+            return;
+        }
+
+        try {
+            if (danasnjiDatum.after(sdf.parse(sdf.format(noviNalog.getDatumIstovara())))) {
+                jTextFieldDatumIstovara.setEnabled(false);
+                jTextFieldDatumUtovara.setEnabled(false);
+                jTextFieldAdresaUtovara.setEnabled(false);
+                jTextFieldAdresaIstovara.setEnabled(false);
+                jTextFieldKolicina.setEnabled(false);
+
+                jTableStavke.setEnabled(false);
+
+                jButtonDodajStavku.setEnabled(false);
+                jButtonObrisiStavku.setEnabled(false);
+
+                jComboBoxPoslovniPartner.setEnabled(false);
+                jComboBoxRoba.setEnabled(false);
+                jComboBoxDispecer.setEnabled(false);
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(DodajNalogForma.class.getName()).log(Level.INFO, "Neuspesno parsiranje datuma istovara...");
+            return;
+        }
     }
 }

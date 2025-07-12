@@ -200,29 +200,51 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
     @Override
     public String uslovZaSelect() {
         StringBuilder uslov = new StringBuilder();
+        StringBuilder pocetak = new StringBuilder();
+
+        if (idPoslovnogPartnera == -1) {
+            return "";
+        }
 
         if (nazivPartnera != null && !nazivPartnera.isEmpty()) {
             uslov.append("pp.nazivPartnera LIKE '%").append(nazivPartnera).append("%'");
         }
         if (pib != null && !pib.isEmpty()) {
+
+//            if (uslov.length() == 0) {
+//                uslov.append(" WHERE ");
+//            }
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
             uslov.append("pp.pib = '").append(pib).append("'");
         }
         if (mesto != null && mesto.getNazivMesta() != null && !mesto.getNazivMesta().isEmpty()) {
+
+//            if (uslov.length() == 0) {
+//                uslov.append(" WHERE ");
+//            }
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
             uslov.append("m.nazivMesta LIKE '%").append(mesto.getNazivMesta()).append("%'");
         }
         if (mesto != null && mesto.getDrzava() != null && !mesto.getDrzava().isEmpty()) {
+
+//            if (uslov.length() == 0) {
+//                uslov.append(" WHERE ");
+//            }
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
             uslov.append("m.drzava LIKE '%").append(mesto.getDrzava()).append("%'");
         }
-        return uslov.toString();
+
+        if (uslov.length() > 0) {
+            pocetak.append(" WHERE ").append(uslov.toString());
+        }
+
+        return pocetak.toString();
 
     }
 

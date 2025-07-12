@@ -65,9 +65,9 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
         jComboBoxDispecer = new javax.swing.JComboBox<>();
         jComboBoxRoba = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        jTextFieldDatumKreiranja = new javax.swing.JTextField();
+        jTextFieldDatumUtovara = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextFieldDatumIzvrsenja = new javax.swing.JTextField();
+        jTextFieldDatumIstovara = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jComboBoxStatus = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
@@ -104,9 +104,9 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setText("Podaci o robi:");
 
-        jLabel5.setText("Datum kreiranja:");
+        jLabel5.setText("Datum utovara:");
 
-        jLabel6.setText("Datum izvrsenja:");
+        jLabel6.setText("Datum istovara:");
 
         jLabel7.setText("Status:");
 
@@ -238,8 +238,8 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
                                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addGap(36, 36, 36)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextFieldDatumKreiranja, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldDatumIzvrsenja, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldDatumUtovara, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldDatumIstovara, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(52, 52, 52)
@@ -306,11 +306,11 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
                             .addComponent(jLabel12)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldDatumKreiranja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldDatumUtovara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldDatumIzvrsenja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldDatumIstovara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -361,8 +361,8 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
     private void jRadioButtonNalogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonNalogActionPerformed
         // TODO add your handling code here:
 
-        jTextFieldDatumIzvrsenja.setEnabled(true);
-        jTextFieldDatumKreiranja.setEnabled(true);
+        jTextFieldDatumIstovara.setEnabled(true);
+        jTextFieldDatumUtovara.setEnabled(true);
         jComboBoxStatus.setEnabled(true);
 
         jComboBoxStatus.setSelectedIndex(-1);
@@ -376,12 +376,13 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
 
         if (Sesija.getInstance().getUlogovani().getRola() == Rola.ADMINISTRATOR) {
             jComboBoxDispecer.setEnabled(true);
+            jComboBoxDispecer.setSelectedIndex(-1);
 //            jComboBoxDispecer.setSelectedItem(Sesija.getInstance().getUlogovani());
         } else {
             jComboBoxDispecer.setEnabled(false);
-//            jComboBoxDispecer.setSelectedItem(Sesija.getInstance().getUlogovani());
+            jComboBoxDispecer.setSelectedItem(Sesija.getInstance().getUlogovani());
         }
-        jComboBoxDispecer.setSelectedItem(Sesija.getInstance().getUlogovani());
+//        jComboBoxDispecer.setSelectedItem(Sesija.getInstance().getUlogovani());
 
     }//GEN-LAST:event_jRadioButtonNalogActionPerformed
 
@@ -393,8 +394,8 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
         jTextFieldMesto.setEnabled(false);
         jTextFieldDrzava.setEnabled(false);
 
-        jTextFieldDatumIzvrsenja.setEnabled(false);
-        jTextFieldDatumKreiranja.setEnabled(false);
+        jTextFieldDatumIstovara.setEnabled(false);
+        jTextFieldDatumUtovara.setEnabled(false);
         jComboBoxStatus.setEnabled(false);
 
         jComboBoxDispecer.setEnabled(false);
@@ -407,8 +408,8 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
     private void jRadioButtonPartnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonPartnerActionPerformed
         // TODO add your handling code here:
 
-        jTextFieldDatumIzvrsenja.setEnabled(false);
-        jTextFieldDatumKreiranja.setEnabled(false);
+        jTextFieldDatumIstovara.setEnabled(false);
+        jTextFieldDatumUtovara.setEnabled(false);
         jComboBoxStatus.setEnabled(false);
 
         jComboBoxRoba.setEnabled(false);
@@ -429,25 +430,25 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
                 sdf.setLenient(false);
 
-                String datumKreiranjaText = jTextFieldDatumKreiranja.getText().trim();
-                Date datumKreiranja = null;
-                if (datumKreiranjaText != null && !datumKreiranjaText.isBlank()) {
+                String datumUtovaraText = jTextFieldDatumUtovara.getText().trim();
+                Date datumUtovara = null;
+                if (datumUtovaraText != null && !datumUtovaraText.isBlank()) {
                     try {
-                        datumKreiranja = sdf.parse(datumKreiranjaText);
+                        datumUtovara = sdf.parse(datumUtovaraText);
                     } catch (ParseException pex) {
-                        JOptionPane.showMessageDialog(this, "Nepravilno unet datum kreiranja naloga!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Nepravilno unet datum utovara!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
                         return;
                     }
                 }
 
-                String datumIzvrsenjaText = jTextFieldDatumIzvrsenja.getText().trim();
-                Date datumIzvrsenja = null;
+                String datumIstovaraText = jTextFieldDatumIstovara.getText().trim();
+                Date datumIstovara = null;
 
-                if (datumIzvrsenjaText != null && !datumIzvrsenjaText.isBlank()) {
+                if (datumIstovaraText != null && !datumIstovaraText.isBlank()) {
                     try {
-                        datumIzvrsenja = sdf.parse(datumIzvrsenjaText);
+                        datumIstovara = sdf.parse(datumIstovaraText);
                     } catch (ParseException pex) {
-                        JOptionPane.showMessageDialog(this, "Nepravilno unet datum izvrsenja naloga!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Nepravilno unet datum istovara!! Datum se mora uneti u formatu: dd.MM.yyyy.\nNa primer: 22.05.2025.", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
                         return;
                     }
                 }
@@ -456,10 +457,19 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
 
                 Dispecer d = (Dispecer) jComboBoxDispecer.getSelectedItem();
 
-                nalog.setDatumKreiranja(datumKreiranja);
-                nalog.setDatumIzvrsenja(datumIzvrsenja);
+                nalog.setDatumUtovara(datumUtovara);
+                nalog.setDatumIstovara(datumIstovara);
                 nalog.setStatus(status);
                 nalog.setDispecer(d);
+
+                if (Sesija.getInstance().getUlogovani().getRola() == Rola.ADMINISTRATOR) {
+                    jComboBoxDispecer.setSelectedIndex(-1);
+                }
+
+                jComboBoxStatus.setSelectedIndex(-1);
+
+                jTextFieldDatumUtovara.setText("");
+                jTextFieldDatumIstovara.setText("");
 
             }
 //
@@ -485,6 +495,11 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
                 if (Sesija.getInstance().getUlogovani().getRola() == Rola.KORISNIK) {
                     nalog.setDispecer((Dispecer) jComboBoxDispecer.getSelectedItem());
                 }
+                
+                jTextFieldMesto.setText("");
+                jTextFieldNazivPartnera.setText("");
+                jTextFieldPIBpartnera.setText("");
+                jTextFieldDrzava.setText("");
             }
 
             if (jRadioButtonRoba.isSelected()) {
@@ -502,6 +517,8 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
                 if (Sesija.getInstance().getUlogovani().getRola() == Rola.KORISNIK) {
                     nalog.setDispecer((Dispecer) jComboBoxDispecer.getSelectedItem());
                 }
+                
+                jComboBoxRoba.setSelectedIndex(-1);
             }
 
             ArrayList<NalogZaTransportRobe> pretrazeniNalozi = ClientController.getInstance().filtrirajNaloge(nalog);
@@ -572,8 +589,8 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButtonRoba;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableNalozi;
-    private javax.swing.JTextField jTextFieldDatumIzvrsenja;
-    private javax.swing.JTextField jTextFieldDatumKreiranja;
+    private javax.swing.JTextField jTextFieldDatumIstovara;
+    private javax.swing.JTextField jTextFieldDatumUtovara;
     private javax.swing.JTextField jTextFieldDrzava;
     private javax.swing.JTextField jTextFieldMesto;
     private javax.swing.JTextField jTextFieldNazivPartnera;
@@ -582,14 +599,19 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
 
     public void postaviTabelu() throws Exception {
         try {
-            if (Sesija.getInstance().getUlogovani().getRola() == Rola.ADMINISTRATOR) {
-                nalozi = ClientController.getInstance().getNaloziZaSve();
-            } else {
-                NalogZaTransportRobe nalog = new NalogZaTransportRobe();
-                nalog.setDispecer(Sesija.getInstance().getUlogovani());
+            NalogZaTransportRobe nalog = new NalogZaTransportRobe();
+            nalog.setIdNaloga(-1);
+            nalog.setDispecer(Sesija.getInstance().getUlogovani());
 
-                nalozi = ClientController.getInstance().getNaloziZaUlogovanog(nalog);
-            }
+            nalozi = ClientController.getInstance().getNalozi(nalog);
+//            if (Sesija.getInstance().getUlogovani().getRola() == Rola.ADMINISTRATOR) {
+//                nalozi = ClientController.getInstance().getNaloziZaSve();
+//            } else {
+//                NalogZaTransportRobe nalog = new NalogZaTransportRobe();
+//                nalog.setDispecer(Sesija.getInstance().getUlogovani());
+//
+//                nalozi = ClientController.getInstance().getNaloziZaUlogovanog(nalog);
+//            }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Nisu uspesno vraceni nalozi!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
             throw new Exception();

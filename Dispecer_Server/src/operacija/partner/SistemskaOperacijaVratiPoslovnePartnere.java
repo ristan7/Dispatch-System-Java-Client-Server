@@ -26,7 +26,8 @@ public class SistemskaOperacijaVratiPoslovnePartnere extends ApstraktnaSistemska
 
     @Override
     protected void izvrsi(ApstraktniDomenskiObjekat ado) throws Exception {
-        lista = (ArrayList<PoslovniPartner>) (ArrayList<?>) DBBroker.getInstance().vratiSve(ado);
+        PoslovniPartner pp = (PoslovniPartner) ado;
+        lista = (ArrayList<PoslovniPartner>) (ArrayList<?>) DBBroker.getInstance().select(pp);
 
         if (lista == null) {
             lista = new ArrayList<>();

@@ -15,7 +15,8 @@ public class PodaciOProjektuForma extends javax.swing.JFrame {
      */
     public PodaciOProjektuForma() {
         initComponents();
-        setTitle("Podaci o projektu");
+        setTitle("PODACI O PROJEKTU");
+        setLocationRelativeTo(null);
     }
 
     /**

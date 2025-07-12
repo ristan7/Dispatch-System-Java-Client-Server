@@ -23,7 +23,7 @@ public class LoginForma extends javax.swing.JFrame {
     public LoginForma() {
         initComponents();
         setLocationRelativeTo(null);
-        setTitle("Login forma");
+        setTitle("LOGIN FORMA");
     }
 
     /**

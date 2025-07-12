@@ -14,7 +14,7 @@ import operacija.ApstraktnaSistemskaOperacija;
  *
  * @author mikir
  */
-public class SistemskaOperacijaVratiNalogeZaUlogovanog extends ApstraktnaSistemskaOperacija {
+public class SistemskaOperacijaVratiNalogeZaTransportRobe extends ApstraktnaSistemskaOperacija {
 
     private ArrayList<NalogZaTransportRobe> lista;
 
@@ -26,21 +26,17 @@ public class SistemskaOperacijaVratiNalogeZaUlogovanog extends ApstraktnaSistems
 
         NalogZaTransportRobe n = (NalogZaTransportRobe) ado;
 
-        if (n.getDispecer() == null) {
-            throw new Exception("Nalog, kao ni dispecer koji ga je napravio nisu postojeci!!");
+        if (n.getIdNaloga() == -1 && n.getDispecer() == null) {
+             throw new Exception("Nalog, kao ni dispecer koji ga je napravio nisu postojeci!!");
         }
+
     }
 
     @Override
     protected void izvrsi(ApstraktniDomenskiObjekat ado) throws Exception {
         NalogZaTransportRobe n = (NalogZaTransportRobe) ado;
-
-        String uslov = String.format(
-                "nr.dispecer = %d",
-                n.getDispecer().getIdDispecera()
-        );
-
-        lista = (ArrayList<NalogZaTransportRobe>) (ArrayList<?>) DBBroker.getInstance().vratiZaUslov(ado, uslov);
+        
+        lista = (ArrayList<NalogZaTransportRobe>) (ArrayList<?>) DBBroker.getInstance().select(n);
 
         if (lista == null) {
             lista = new ArrayList<>();

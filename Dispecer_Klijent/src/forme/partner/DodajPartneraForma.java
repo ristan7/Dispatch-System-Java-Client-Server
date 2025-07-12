@@ -28,6 +28,8 @@ public class DodajPartneraForma extends javax.swing.JFrame {
      */
     public DodajPartneraForma(ModForme mod) throws Exception {
         initComponents();
+        setLocationRelativeTo(null);
+        setTitle("DODAVANJE/IZMENA PARTNERA");
         jButtonAzuriraj.setVisible(false);
         jButtonOmoguciIzmenu.setVisible(false);
         try {

@@ -27,7 +27,8 @@ public class SistemskaOperacijaVratiRobu extends ApstraktnaSistemskaOperacija {
 
     @Override
     protected void izvrsi(ApstraktniDomenskiObjekat ado) throws Exception {
-        lista = (ArrayList<Roba>) (ArrayList<?>) DBBroker.getInstance().vratiSve(ado);
+        Roba r = (Roba) ado;
+        lista = (ArrayList<Roba>) (ArrayList<?>) DBBroker.getInstance().select(r);
 
         if (lista == null) {
             lista = new ArrayList<>();

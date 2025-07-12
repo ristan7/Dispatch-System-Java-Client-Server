@@ -6,10 +6,8 @@ package operacija.nalog;
 
 import baza.DBBroker;
 import domen.ApstraktniDomenskiObjekat;
-import domen.Dispecer;
 import domen.NalogZaTransportRobe;
-import domen.PoslovniPartner;
-import domen.StatusNaloga;
+import domen.Roba;
 import domen.StavkaNaloga;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,17 +15,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import operacija.ApstraktnaSistemskaOperacija;
 
 /**
  *
  * @author mikir
  */
-public class SistemskaOperacijaDodajNalogZaTransportRobe extends ApstraktnaSistemskaOperacija {
-
-    private int brojDodatih;
-    private int brojacStavki = 0;
+public class SistemskaOperacijaIzmeniNalogZaTransportRobe extends ApstraktnaSistemskaOperacija {
 
     @Override
     protected void validiraj(ApstraktniDomenskiObjekat ado) throws Exception {
@@ -52,15 +46,8 @@ public class SistemskaOperacijaDodajNalogZaTransportRobe extends ApstraktnaSiste
             throw new Exception("Datum utovara nije unet!!");
         }
 
-        if (danasnjiDatum.after(noviNalog.getDatumUtovara())) {
-            throw new Exception("Datum utovara mora biti u buducnosti!!");
-        }
-
         if (noviNalog.getDatumIstovara() == null) {
             throw new Exception("Datum istovara nije unet!!");
-        }
-        if (noviNalog.getDatumUtovara().after(noviNalog.getDatumIstovara())) {
-            throw new Exception("Datum istovara mora biti posle datuma utovara ili isti dan!!");
         }
 
         if (noviNalog.getAdresaUtovara() == null || noviNalog.getAdresaUtovara().isBlank()) {
@@ -73,14 +60,6 @@ public class SistemskaOperacijaDodajNalogZaTransportRobe extends ApstraktnaSiste
 
         if (noviNalog.getPoslovniPartner() == null) {
             throw new Exception("Nije izabran poslovni partner!!");
-        }
-
-        ArrayList<NalogZaTransportRobe> nalozi = (ArrayList<NalogZaTransportRobe>) (ArrayList<?>) DBBroker.getInstance().select(noviNalog);
-
-        for (NalogZaTransportRobe nalog : nalozi) {
-            if (nalog.equals(noviNalog)) {
-                throw new Exception("Nalog za transport robe vec postoji!!");
-            }
         }
 
         if (noviNalog.getStavke().size() != 0) {
@@ -96,45 +75,65 @@ public class SistemskaOperacijaDodajNalogZaTransportRobe extends ApstraktnaSiste
                 if (stavkaNaloga.getKolicina() == 0) {
                     throw new Exception("Kolicina mora biti uneta!!");
                 }
-
-                ArrayList<StavkaNaloga> stavke = (ArrayList<StavkaNaloga>) (ArrayList<?>) DBBroker.getInstance().select(stavkaNaloga);
-
-                for (StavkaNaloga stavka : stavke) {
-                    if (stavka.equals(stavkaNaloga)) {
-                        throw new Exception("Stavka naloga vec postoji!!");
-                    }
-                }
             }
         }
-
     }
 
     @Override
     protected void izvrsi(ApstraktniDomenskiObjekat ado) throws Exception {
-        NalogZaTransportRobe noviNalog = (NalogZaTransportRobe) ado;
-        brojDodatih = DBBroker.getInstance().insert(noviNalog);
+        NalogZaTransportRobe nalog = (NalogZaTransportRobe) ado;
+        DBBroker.getInstance().update(nalog);
 
-        noviNalog.setIdNaloga(brojDodatih);
-        if (noviNalog.getStavke().size() != 0) {
-            for (int i = 0; i < noviNalog.getStavke().size(); i++) {
-                noviNalog.getStavke().get(i).setNalog(noviNalog);
-                int brojStavke = DBBroker.getInstance().insert(noviNalog.getStavke().get(i));
-                brojacStavki += brojStavke;
+        System.out.println("Sada cu raditi stavke");
+
+        StavkaNaloga stavka = new StavkaNaloga(nalog, 0, new Roba(-1, null, null, 0));
+
+        ArrayList<StavkaNaloga> stavkeUBazi = (ArrayList<StavkaNaloga>) (ArrayList<?>) DBBroker.getInstance().select(stavka);
+        System.out.println(stavkeUBazi);
+
+        ArrayList<StavkaNaloga> stavkeKojeSeMenjaju = new ArrayList<>();
+        ArrayList<StavkaNaloga> stavkeKojeSeBrisu = new ArrayList<>();
+        ArrayList<StavkaNaloga> stavkeKojeSuNove = new ArrayList<>();
+
+        if (nalog.getStavke().size() != 0) {
+            for (StavkaNaloga stavkaUBazi : stavkeUBazi) {
+                if (!nalog.getStavke().contains(stavkaUBazi)) {
+                    stavkeKojeSeBrisu.add(stavkaUBazi);
+                    System.out.println("Brisace se stavka: " + stavkaUBazi);
+                }
             }
 
+            for (StavkaNaloga stavkaUNalogu : nalog.getStavke()) {
+                if (!stavkeUBazi.contains(stavkaUNalogu)) {
+                    stavkeKojeSuNove.add(stavkaUNalogu);
+                    System.out.println("Stavka koja je nova:" + stavkaUNalogu);
+                } else {
+                    stavkeKojeSeMenjaju.add(stavkaUNalogu);
+                    System.out.println("Menja se stavka: " + stavkaUNalogu);
+                }
+            }
+
+            for (StavkaNaloga novaStavka : stavkeKojeSuNove) {
+                int brojUbacene = DBBroker.getInstance().insert(novaStavka);
+                System.out.println(brojUbacene);
+            }
+
+            for (StavkaNaloga stavkaZaBrisanje : stavkeKojeSeBrisu) {
+                DBBroker.getInstance().delete(stavkaZaBrisanje);
+                System.out.println("Obrisana");
+            }
+
+            for (StavkaNaloga stavkaZaMenjanje : stavkeKojeSeMenjaju) {
+                DBBroker.getInstance().update(stavkaZaMenjanje);
+                System.out.println("Promenjeno");
+            }
+
+        } else {
+            System.out.println("Nema stavki");
+            DBBroker.getInstance().delete(stavka);
+
         }
-    }
 
-    public int getBrojDodatih() {
-        return brojDodatih;
-    }
-
-    public int getBrojacStavki() {
-        return brojacStavki;
-    }
-
-    public void setBrojacStavki(int brojacStavki) {
-        this.brojacStavki = brojacStavki;
     }
 
 }

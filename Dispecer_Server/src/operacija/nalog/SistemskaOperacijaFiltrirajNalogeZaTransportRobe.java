@@ -15,7 +15,7 @@ import operacija.ApstraktnaSistemskaOperacija;
  *
  * @author mikir
  */
-public class SistemskaOperacijaFiltrirajNaloge extends ApstraktnaSistemskaOperacija {
+public class SistemskaOperacijaFiltrirajNalogeZaTransportRobe extends ApstraktnaSistemskaOperacija {
 
     ArrayList<NalogZaTransportRobe> lista;
 
@@ -38,7 +38,7 @@ public class SistemskaOperacijaFiltrirajNaloge extends ApstraktnaSistemskaOperac
                 throw new Exception("Naziv partnera, PIB, naziv mesta ili drzava su neophodni za pretragu naloga po partnerima!");
             }
         } else {
-            if (n.getDatumKreiranja() == null && n.getDatumIzvrsenja() == null && n.getStatus() == null && n.getDispecer() == null) {
+            if (n.getDatumUtovara()== null && n.getDatumIstovara()== null && n.getStatus() == null && n.getDispecer() == null) {
                 throw new Exception("Datum kreiranja naloga, datum izvrsenja naloga, status naloga ili dispecer su neophodni za pretragu naloga!");
             }
         }
