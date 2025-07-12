@@ -6,6 +6,7 @@ package domen;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,8 +24,8 @@ import java.util.Objects;
 public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 
     private int idNaloga;
-    private Date datumKreiranja;
-    private Date datumIzvrsenja;
+    private Date datumUtovara;
+    private Date datumIstovara;
     private String adresaUtovara;
     private String adresaIstovara;
     private StatusNaloga status;
@@ -43,20 +46,20 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
         this.idNaloga = idNaloga;
     }
 
-    public Date getDatumKreiranja() {
-        return datumKreiranja;
+    public Date getDatumUtovara() {
+        return datumUtovara;
     }
 
-    public void setDatumKreiranja(Date datumKreiranja) {
-        this.datumKreiranja = datumKreiranja;
+    public void setDatumUtovara(Date datumUtovara) {
+        this.datumUtovara = datumUtovara;
     }
 
-    public Date getDatumIzvrsenja() {
-        return datumIzvrsenja;
+    public Date getDatumIstovara() {
+        return datumIstovara;
     }
 
-    public void setDatumIzvrsenja(Date datumIzvrsenja) {
-        this.datumIzvrsenja = datumIzvrsenja;
+    public void setDatumIstovara(Date datumIstovara) {
+        this.datumIstovara = datumIstovara;
     }
 
     public String getAdresaUtovara() {
@@ -136,21 +139,30 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
         if (Float.floatToIntBits(this.ukupanIznosPosla) != Float.floatToIntBits(other.ukupanIznosPosla)) {
             return false;
         }
-        if (!Objects.equals(this.datumKreiranja, other.datumKreiranja)) {
+        if (!Objects.equals(this.adresaUtovara, other.adresaUtovara)) {
             return false;
         }
-        if (!Objects.equals(this.datumIzvrsenja, other.datumIzvrsenja)) {
+        if (!Objects.equals(this.adresaIstovara, other.adresaIstovara)) {
+            return false;
+        }
+        if (!Objects.equals(this.datumUtovara, other.datumUtovara)) {
+            return false;
+        }
+        if (!Objects.equals(this.datumIstovara, other.datumIstovara)) {
             return false;
         }
         if (!Objects.equals(this.dispecer, other.dispecer)) {
             return false;
         }
-        return Objects.equals(this.poslovniPartner, other.poslovniPartner);
+        if (!Objects.equals(this.poslovniPartner, other.poslovniPartner)) {
+            return false;
+        }
+        return Objects.equals(this.stavke, other.stavke);
     }
 
     @Override
     public String toString() {
-        return "Nalog izmedju " + dispecer + " i " + poslovniPartner + ", zakljucen dana " + datumKreiranja + ", planiran da se izvrsi dana " + datumIzvrsenja;
+        return "Nalog izmedju " + dispecer + " i " + poslovniPartner + ", utovar zakazan za  " + datumUtovara + ", planiran da se izvrsi dana " + datumIstovara;
     }
 
     public void izracunajUkupneTroskovePosla() {
@@ -195,11 +207,11 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 //
 //            int idNaloga = rs.getInt("idNaloga");
 //
-//            java.sql.Date datumK = rs.getDate("datumKreiranja");
-//            java.util.Date datumKreiranja = new java.util.Date(datumK.getTime());
+//            java.sql.Date datumU = rs.getDate("datumUtovara");
+//            java.util.Date datumUtovara = new java.util.Date(datumU.getTime());
 //
-//            java.sql.Date datumI = rs.getDate("datumIzvrsenja");
-//            java.util.Date datumIzvrsenja = new java.util.Date(datumI.getTime());
+//            java.sql.Date datumI = rs.getDate("datumIstovara");
+//            java.util.Date datumIstovara = new java.util.Date(datumI.getTime());
 //
 //            String adresaUtovara = rs.getString("adresaUtovara");
 //            String adresaIstovara = rs.getString("adresaIstovara");
@@ -208,8 +220,8 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 //
 //            NalogZaTransportRobe nalog = new NalogZaTransportRobe();
 //            nalog.setIdNaloga(idNaloga);
-//            nalog.setDatumKreiranja(datumKreiranja);
-//            nalog.setDatumIzvrsenja(datumIzvrsenja);
+//            nalog.setDatumKreiranja(datumUtovara);
+//            nalog.setDatumIzvrsenja(datumIstovara);
 //            nalog.setAdresaUtovara(adresaUtovara);
 //            nalog.setAdresaIstovara(adresaIstovara);
 //            nalog.setStatus(status);
@@ -234,13 +246,13 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                 nalog = new NalogZaTransportRobe();
                 nalog.setIdNaloga(idNaloga);
 
-                java.sql.Date datumK = rs.getDate("datumKreiranja");
-                java.util.Date datumKreiranja = new java.util.Date(datumK.getTime());
-                nalog.setDatumKreiranja(datumKreiranja);
+                java.sql.Date datumU = rs.getDate("datumUtovara");
+                java.util.Date datumUtovara = new java.util.Date(datumU.getTime());
+                nalog.setDatumUtovara(datumUtovara);
 
-                java.sql.Date datumI = rs.getDate("datumIzvrsenja");
-                java.util.Date datumIzvrsenja = new java.util.Date(datumI.getTime());
-                nalog.setDatumIzvrsenja(datumIzvrsenja);
+                java.sql.Date datumI = rs.getDate("datumIstovara");
+                java.util.Date datumIstovara = new java.util.Date(datumI.getTime());
+                nalog.setDatumIstovara(datumIstovara);
 
                 nalog.setAdresaUtovara(rs.getString("adresaUtovara"));
                 nalog.setAdresaIstovara(rs.getString("adresaIstovara"));
@@ -331,15 +343,14 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiKoloneZaInsert() {
-        return " (datumKreiranja, datumIzvrsenja, adresaUtovara, adresaIstovara, status, ukupanIznosPosla, dispecer, poslovni_partner) ";
+        return " (datumUtovara, datumIstovara, adresaUtovara, adresaIstovara, status, ukupanIznosPosla, dispecer, poslovni_partner) ";
     }
 
     @Override
     public String vratiVrednostiZaInsert() {
-        return String.format(
-                "'%s', '%s', '%s', '%s', %d, %.2f, %d, %d",
-                new SimpleDateFormat("yyyy-MM-dd").format(datumKreiranja),
-                new SimpleDateFormat("yyyy-MM-dd").format(datumIzvrsenja),
+        return String.format("'%s', '%s', '%s', '%s', %d, %.2f, %d, %d",
+                new SimpleDateFormat("yyyy-MM-dd").format(datumUtovara),
+                new SimpleDateFormat("yyyy-MM-dd").format(datumIstovara),
                 adresaUtovara,
                 adresaIstovara,
                 status.ordinal() + 1,
@@ -352,10 +363,9 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        return String.format(
-                "datumKreiranja = '%s', datumIzvrsenja = '%s', adresaUtovara = '%s', adresaIstovara = '%s', status = %d, ukupanIznosPosla = %.2f, dispecer = %d, poslovni_partner = %d",
-                new SimpleDateFormat("yyyy-MM-dd").format(datumKreiranja),
-                new SimpleDateFormat("yyyy-MM-dd").format(datumIzvrsenja),
+        return String.format("datumUtovara = '%s', datumIstovara = '%s', adresaUtovara = '%s', adresaIstovara = '%s', status = %d, ukupanIznosPosla = %.2f, dispecer = %d, poslovni_partner = %d",
+                new SimpleDateFormat("yyyy-MM-dd").format(datumUtovara),
+                new SimpleDateFormat("yyyy-MM-dd").format(datumIstovara),
                 adresaUtovara,
                 adresaIstovara,
                 status.ordinal() + 1,
@@ -392,12 +402,51 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
     public String uslovZaSelect() {
 
         StringBuilder uslov = new StringBuilder();
+        StringBuilder pocetak = new StringBuilder();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(false);
+
+        String danasnjiDatum = sdf.format(new Date());
+
+        if (datumUtovara != null && datumIstovara != null) {
+
+            String datumUtovara = sdf.format(this.datumUtovara);
+            String datumIstovara = sdf.format(this.datumUtovara);
+
+            if (datumUtovara.equals(danasnjiDatum) && datumIstovara.equals(danasnjiDatum)) {
+                uslov.append(" WHERE ");
+                uslov.append(String.format(
+                        "nr.dispecer = %d AND (nr.datumUtovara = '%s' OR nr.datumIstovara = '%s')",
+                        dispecer.getIdDispecera(), danasnjiDatum, danasnjiDatum
+                ));
+                return uslov.toString();
+
+            }
+        }
+        if (dispecer != null) {
+            if (dispecer.getRola() == Rola.KORISNIK && idNaloga == -1) {
+                uslov.append(" WHERE ");
+                uslov.append(String.format(
+                        "nr.dispecer = %d",
+                        dispecer.getIdDispecera()
+                ));
+                return uslov.toString();
+            }
+            if (dispecer.getRola() == Rola.ADMINISTRATOR && idNaloga == -1) {
+                return "";
+            }
+        }
 
         if (dispecer != null && dispecer.getIdDispecera() > 0) {
             uslov.append("nr.dispecer = ").append(dispecer.getIdDispecera());
         }
 
         if (status != null) {
+
+//            if (uslov.length() == 0) {
+//                uslov.append(" WHERE ");
+//            }
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
@@ -405,29 +454,45 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
             uslov.append("st.nazivStatusa = '").append(status.name()).append("'");
         }
 
-        if (datumKreiranja != null) {
+        if (datumUtovara != null) {
+
+//            if (uslov.length() == 0) {
+//                uslov.append(" WHERE ");
+//            }
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
-            uslov.append("nr.datumKreiranja = '").append(new SimpleDateFormat("yyyy-MM-dd").format(datumKreiranja)).append("'");
+            uslov.append("nr.datumUtovara = '").append(new SimpleDateFormat("yyyy-MM-dd").format(datumUtovara)).append("'");
         }
 
-        if (datumIzvrsenja != null) {
+        if (datumIstovara != null) {
+
+//            if (uslov.length() == 0) {
+//                uslov.append(" WHERE ");
+//            }
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
-            uslov.append("nr.datumIzvrsenja = '").append(new SimpleDateFormat("yyyy-MM-dd").format(datumIzvrsenja)).append("'");
+            uslov.append("nr.datumIstovara = '").append(new SimpleDateFormat("yyyy-MM-dd").format(datumIstovara)).append("'");
         }
 
         if (poslovniPartner != null) {
 
             if (poslovniPartner.getNazivPartnera() != null && !poslovniPartner.getNazivPartnera().isBlank()) {
+
+//                if (uslov.length() == 0) {
+//                    uslov.append(" WHERE ");
+//                }
                 if (uslov.length() > 0) {
                     uslov.append(" AND ");
                 }
                 uslov.append("pp.nazivPartnera LIKE '%").append(poslovniPartner.getNazivPartnera()).append("%'");
             }
             if (poslovniPartner.getPib() != null && !poslovniPartner.getPib().isEmpty()) {
+
+//                if (uslov.length() == 0) {
+//                    uslov.append(" WHERE ");
+//                }
                 if (uslov.length() > 0) {
                     uslov.append(" AND ");
                 }
@@ -437,12 +502,20 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
             if (poslovniPartner.getMesto() != null) {
 
                 if (poslovniPartner.getMesto().getNazivMesta() != null && !poslovniPartner.getMesto().getNazivMesta().isBlank()) {
+
+//                    if (uslov.length() == 0) {
+//                        uslov.append(" WHERE ");
+//                    }
                     if (uslov.length() > 0) {
                         uslov.append(" AND ");
                     }
                     uslov.append("m.nazivMesta LIKE '%").append(poslovniPartner.getMesto().getNazivMesta()).append("%'");
                 }
                 if (poslovniPartner.getMesto().getDrzava() != null && !poslovniPartner.getMesto().getDrzava().isBlank()) {
+
+//                    if (uslov.length() == 0) {
+//                        uslov.append(" WHERE ");
+//                    }
                     if (uslov.length() > 0) {
                         uslov.append(" AND ");
                     }
@@ -453,6 +526,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
         }
 
         if (stavke.size() != 0) {
+
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
@@ -464,7 +538,11 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
             }
         }
 
-        return uslov.toString();
+        if (uslov.length() > 0) {
+            pocetak.append(" WHERE ").append(uslov.toString());
+        }
+
+        return pocetak.toString();
     }
 
 }

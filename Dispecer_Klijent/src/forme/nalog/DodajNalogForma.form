@@ -54,8 +54,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Component id="jTextFieldAdresaUtovara" alignment="0" pref="257" max="32767" attributes="0"/>
-                          <Component id="jTextFieldDatumIzvrsenja" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jTextFieldDatumKreiranja" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jTextFieldDatumIstovara" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jTextFieldDatumUtovara" alignment="0" max="32767" attributes="0"/>
                           <Component id="jTextFieldAdresaIstovara" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
@@ -84,12 +84,12 @@
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldDatumKreiranja" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldDatumUtovara" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldDatumIzvrsenja" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldDatumIstovara" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
@@ -144,17 +144,17 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Datum kreiranja:"/>
+        <Property name="text" type="java.lang.String" value="Datum utovara:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Datum izvrsenja :"/>
+        <Property name="text" type="java.lang.String" value="Datum istovara :"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextFieldDatumKreiranja">
+    <Component class="javax.swing.JTextField" name="jTextFieldDatumUtovara">
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextFieldDatumIzvrsenja">
+    <Component class="javax.swing.JTextField" name="jTextFieldDatumIstovara">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>

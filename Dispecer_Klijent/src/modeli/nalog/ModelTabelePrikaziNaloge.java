@@ -20,7 +20,7 @@ import javax.swing.table.AbstractTableModel;
 public class ModelTabelePrikaziNaloge extends AbstractTableModel {
 
     private ArrayList<NalogZaTransportRobe> lista;
-    private String[] kolone = {"Datum kreiranja", "Datum izvršenja", "Adresa utovara", "Adresa istovara", "Status", "Iznos", "Poslovni partner"};
+    private String[] kolone = {"Datum utovara", "Datum istovara", "Adresa utovara", "Adresa istovara", "Status", "Iznos", "Poslovni partner"};
 
     public ModelTabelePrikaziNaloge(ArrayList<NalogZaTransportRobe> lista) {
         this.lista = lista;
@@ -52,9 +52,9 @@ public class ModelTabelePrikaziNaloge extends AbstractTableModel {
 
         switch (columnIndex) {
             case 0:
-                return sdf.format(nalog.getDatumKreiranja());
+                return sdf.format(nalog.getDatumUtovara());
             case 1:
-                return sdf.format(nalog.getDatumIzvrsenja());
+                return sdf.format(nalog.getDatumIstovara());
             case 2:
                 return nalog.getAdresaUtovara();
             case 3:

@@ -57,8 +57,9 @@ public class SistemskaOperacijaDodajPartnera extends ApstraktnaSistemskaOperacij
         if (!noviPartner.getEmailPartnera().contains("@")) {
             throw new Exception("Nepravilan format email-a partnera!!");
         }
+               
 
-        ArrayList<PoslovniPartner> partneri = (ArrayList<PoslovniPartner>) (ArrayList<?>) DBBroker.getInstance().vratiSve(ado);
+        ArrayList<PoslovniPartner> partneri = (ArrayList<PoslovniPartner>) (ArrayList<?>) DBBroker.getInstance().select(noviPartner);
 
         for (PoslovniPartner poslovniPartner : partneri) {
             if (poslovniPartner.equals(noviPartner)) {

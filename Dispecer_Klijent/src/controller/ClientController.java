@@ -14,6 +14,7 @@ import domen.StrucnaSprema;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import komunikacija.KlijentskiZahtev;
 import komunikacija.Operacija;
 import komunikacija.ServerskiOdgovor;
@@ -190,11 +191,11 @@ public class ClientController {
         }
     }
 
-    public ArrayList<Integer> dodajNalog(NalogZaTransportRobe noviNalog) throws Exception {
+    public Map<Integer, Integer> dodajNalog(NalogZaTransportRobe noviNalog) throws Exception {
         posaljiZahtev(Operacija.DODAJ_NALOG, noviNalog);
         ServerskiOdgovor so = primiOdgovor();
         if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
-            return (ArrayList<Integer>) so.getOdgovor();
+            return (Map<Integer, Integer>) so.getOdgovor();
         } else {
             System.err.println("Greska prilikom dodavanja novog naloga: " + so.getEx().getMessage());
             throw so.getEx();
@@ -245,6 +246,17 @@ public class ClientController {
             return (boolean) so.getOdgovor();
         } else {
             System.err.println("Greska prilikom azuriranja naloga: " + so.getEx().getMessage());
+            throw so.getEx();
+        }
+    }
+
+    public ArrayList<NalogZaTransportRobe> getNalozi(NalogZaTransportRobe nalog) throws Exception {
+        posaljiZahtev(Operacija.VRATI_NALOGE, nalog);
+        ServerskiOdgovor so = primiOdgovor();
+        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
+            return (ArrayList<NalogZaTransportRobe>) so.getOdgovor();
+        } else {
+            System.err.println("Greska prilikom ucitavanja svih naloga: " + so.getEx().getMessage());
             throw so.getEx();
         }
     }

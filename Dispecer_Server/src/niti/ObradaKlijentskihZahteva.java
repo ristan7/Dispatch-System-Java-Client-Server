@@ -15,6 +15,7 @@ import domen.StrucnaSprema;
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import komunikacija.KlijentskiZahtev;
@@ -80,8 +81,8 @@ public class ObradaKlijentskihZahteva extends Thread {
                 case Operacija.LOGIN:
                     return obradiLoginOperaciju(zahtev);
 
-                case Operacija.VRATI_NALOGE_PO_DATUMU:
-                    return obradiVratiNalogePremaDatumu(zahtev);
+//                case Operacija.VRATI_NALOGE_PO_DATUMU:
+//                    return obradiVratiNalogePremaDatumu(zahtev);
 
                 case Operacija.VRATI_MESTA:
                     return obradiVratiMesta(zahtev);
@@ -119,14 +120,17 @@ public class ObradaKlijentskihZahteva extends Thread {
                 case Operacija.VRATI_SVE_NALOGE:
                     return obradiVratiSveNaloge(zahtev);
 
-                case Operacija.VRATI_NALOGE_ZA_ULOGOVANOG:
-                    return obradiVratiNalogeZaUlogovanog(zahtev);
+//                case Operacija.VRATI_NALOGE_ZA_ULOGOVANOG:
+//                    return obradiVratiNalogeZaUlogovanog(zahtev);
 
                 case Operacija.FILTRIRAJ_NALOGE:
                     return obradiFiltrirajNaloge(zahtev);
 
                 case Operacija.AZURIRAJ_NALOG:
                     return obradiAzurirajNalog(zahtev);
+
+                case Operacija.VRATI_NALOGE:
+                    return obradiVratiNaloge(zahtev);
 
                 default:
                     return new ServerskiOdgovor(null, new Exception("Nije poznata operacija!"), VrstaOdgovora.NEUSPESNO);
@@ -155,11 +159,11 @@ public class ObradaKlijentskihZahteva extends Thread {
         return new ServerskiOdgovor(dispecer, null, VrstaOdgovora.USPESNO);
     }
 
-    private ServerskiOdgovor obradiVratiNalogePremaDatumu(KlijentskiZahtev zahtev) throws Exception {
-        NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
-        ArrayList<NalogZaTransportRobe> naloziPoDatumu = ServerController.getInstance().naloziPoDatumu(nalog);
-        return new ServerskiOdgovor(naloziPoDatumu, null, VrstaOdgovora.USPESNO);
-    }
+//    private ServerskiOdgovor obradiVratiNalogePremaDatumu(KlijentskiZahtev zahtev) throws Exception {
+//        NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
+//        ArrayList<NalogZaTransportRobe> naloziPoDatumu = ServerController.getInstance().naloziPoDatumu(nalog);
+//        return new ServerskiOdgovor(naloziPoDatumu, null, VrstaOdgovora.USPESNO);
+//    }
 
     private ServerskiOdgovor obradiVratiMesta(KlijentskiZahtev zahtev) throws Exception {
         Mesto mesto = new Mesto();
@@ -181,6 +185,7 @@ public class ObradaKlijentskihZahteva extends Thread {
 
     private ServerskiOdgovor obradiVratiPoslovnePartnere(KlijentskiZahtev zahtev) throws Exception {
         PoslovniPartner pp = new PoslovniPartner();
+        pp.setIdPoslovnogPartnera(-1);
         ArrayList<PoslovniPartner> partneri = ServerController.getInstance().vratiPartnere(pp);
         return new ServerskiOdgovor(partneri, null, VrstaOdgovora.USPESNO);
     }
@@ -223,22 +228,21 @@ public class ObradaKlijentskihZahteva extends Thread {
 
     private ServerskiOdgovor obradiDodajNalog(KlijentskiZahtev zahtev) throws Exception {
         NalogZaTransportRobe noviNalog = (NalogZaTransportRobe) zahtev.getParametar();
-        ArrayList<Integer> brojeviDodatih = new ArrayList<>();
+//        ArrayList<Integer> brojeviDodatih = new ArrayList<>();
 
-        int brojDodatih = ServerController.getInstance().dodajNalog(noviNalog);
-        brojeviDodatih.add(brojDodatih);
+        Map<Integer, Integer> mapaDodatih = ServerController.getInstance().dodajNalog(noviNalog);
+//        brojeviDodatih.add(brojDodatih);
 
-        noviNalog.setIdNaloga(brojDodatih);
-        if (noviNalog.getStavke().size() != 0) {
-            for (int i = 0; i < noviNalog.getStavke().size(); i++) {
-                noviNalog.getStavke().get(i).setNalog(noviNalog);
-            }
-            int brojDodatihStavki = ServerController.getInstance().dodajStavke(noviNalog.getStavke());
-
-            brojeviDodatih.add(brojDodatihStavki);
-        }
-
-        return new ServerskiOdgovor(brojeviDodatih, null, VrstaOdgovora.USPESNO);
+//        noviNalog.setIdNaloga(brojDodatih);
+//        if (noviNalog.getStavke().size() != 0) {
+//            for (int i = 0; i < noviNalog.getStavke().size(); i++) {
+//                noviNalog.getStavke().get(i).setNalog(noviNalog);
+//            }
+//            int brojDodatihStavki = ServerController.getInstance().dodajStavke(noviNalog.getStavke());
+//
+//            brojeviDodatih.add(brojDodatihStavki);
+//        }
+        return new ServerskiOdgovor(mapaDodatih, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor obradiVratiSveNaloge(KlijentskiZahtev zahtev) throws Exception {
@@ -247,11 +251,11 @@ public class ObradaKlijentskihZahteva extends Thread {
         return new ServerskiOdgovor(nalozi, null, VrstaOdgovora.USPESNO);
     }
 
-    private ServerskiOdgovor obradiVratiNalogeZaUlogovanog(KlijentskiZahtev zahtev) throws Exception {
-        NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
-        ArrayList<NalogZaTransportRobe> nalozi = ServerController.getInstance().vratiNalogeZaUlogovanog(nalog);
-        return new ServerskiOdgovor(nalozi, null, VrstaOdgovora.USPESNO);
-    }
+//    private ServerskiOdgovor obradiVratiNalogeZaUlogovanog(KlijentskiZahtev zahtev) throws Exception {
+//        NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
+//        ArrayList<NalogZaTransportRobe> nalozi = ServerController.getInstance().vratiNalogeZaUlogovanog(nalog);
+//        return new ServerskiOdgovor(nalozi, null, VrstaOdgovora.USPESNO);
+//    }
 
     private ServerskiOdgovor obradiFiltrirajNaloge(KlijentskiZahtev zahtev) throws Exception {
         NalogZaTransportRobe n = (NalogZaTransportRobe) zahtev.getParametar();
@@ -262,19 +266,24 @@ public class ObradaKlijentskihZahteva extends Thread {
     private ServerskiOdgovor obradiAzurirajNalog(KlijentskiZahtev zahtev) throws Exception {
         NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
         ServerController.getInstance().azurirajNalog(nalog);
-        
-        
-        StavkaNaloga stavkaZaBrisanje = new StavkaNaloga(nalog, 0, new Roba());
-        
-        System.out.println("Kreirao stavku");
 
-        ServerController.getInstance().obrisiStavkeNaloga(stavkaZaBrisanje);
+//        StavkaNaloga stavkaZaBrisanje = new StavkaNaloga(nalog, 0, new Roba());
+//
+//        System.out.println("Kreirao stavku");
 
-        if (nalog.getStavke().size() != 0) {
+//        ServerController.getInstance().obrisiStavkeNaloga(stavkaZaBrisanje);
 
-            int brojDodatihStavki = ServerController.getInstance().dodajStavke(nalog.getStavke());
-        }
+//        if (nalog.getStavke().size() != 0) {
+//
+//            int brojDodatihStavki = ServerController.getInstance().dodajStavke(nalog.getStavke());
+//        }
         return new ServerskiOdgovor(true, null, VrstaOdgovora.USPESNO);
+    }
+
+    private ServerskiOdgovor obradiVratiNaloge(KlijentskiZahtev zahtev) throws Exception {
+        NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
+        ArrayList<NalogZaTransportRobe> nalozi = ServerController.getInstance().vratiNaloge(nalog);
+        return new ServerskiOdgovor(nalozi, null, VrstaOdgovora.USPESNO);
     }
 
 }

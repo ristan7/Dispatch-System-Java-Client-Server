@@ -99,12 +99,6 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
             return false;
         }
         final StavkaNaloga other = (StavkaNaloga) obj;
-        if (Float.floatToIntBits(this.iznos) != Float.floatToIntBits(other.iznos)) {
-            return false;
-        }
-        if (!Objects.equals(this.nalog, other.nalog)) {
-            return false;
-        }
         return Objects.equals(this.roba, other.roba);
     }
 
@@ -154,11 +148,11 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
 
             int idNaloga = rs.getInt("idNaloga");
 
-            java.sql.Date datumK = rs.getDate("datumKreiranja");
-            java.util.Date datumKreiranja = new java.util.Date(datumK.getTime());
+            java.sql.Date datumU = rs.getDate("datumUtovara");
+            java.util.Date datumUtovara = new java.util.Date(datumU.getTime());
 
-            java.sql.Date datumI = rs.getDate("datumIzvrsenja");
-            java.util.Date datumIzvrsenja = new java.util.Date(datumI.getTime());
+            java.sql.Date datumI = rs.getDate("datumIstovara");
+            java.util.Date datumIstovara = new java.util.Date(datumI.getTime());
 
             String adresaUtovara = rs.getString("adresaUtovara");
             String adresaIstovara = rs.getString("adresaIstovara");
@@ -167,8 +161,8 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
 
             NalogZaTransportRobe nalog = new NalogZaTransportRobe();
             nalog.setIdNaloga(idNaloga);
-            nalog.setDatumKreiranja(datumKreiranja);
-            nalog.setDatumIzvrsenja(datumIzvrsenja);
+            nalog.setDatumUtovara(datumUtovara);
+            nalog.setDatumIstovara(datumIstovara);
             nalog.setAdresaUtovara(adresaUtovara);
             nalog.setAdresaIstovara(adresaIstovara);
             nalog.setStatus(status);
@@ -268,12 +262,20 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
 
     @Override
     public String uslov() {
-        return "nalog = " + nalog.getIdNaloga();
+        StringBuilder uslov = new StringBuilder();
+
+        uslov.append("nalog = ").append(nalog.getIdNaloga());
+
+        if (roba != null && roba.getIdRobe() != -1) {
+            uslov.append(" AND ").append("roba = ").append(roba.getIdRobe());
+        }
+//        return "nalog = " + nalog.getIdNaloga();
+        return uslov.toString();
     }
 
     @Override
     public String uslovZaSelect() {
-        return "nr.idNaloga = " + nalog.getIdNaloga();
+        return " WHERE nr.idNaloga = " + nalog.getIdNaloga();
     }
 
 }

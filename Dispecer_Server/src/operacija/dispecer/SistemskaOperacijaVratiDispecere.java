@@ -28,7 +28,8 @@ public class SistemskaOperacijaVratiDispecere extends ApstraktnaSistemskaOperaci
 
     @Override
     protected void izvrsi(ApstraktniDomenskiObjekat ado) throws Exception {
-        lista = (ArrayList<Dispecer>) (ArrayList<?>) DBBroker.getInstance().vratiSve(ado);
+        Dispecer d = (Dispecer) ado;
+        lista = (ArrayList<Dispecer>) (ArrayList<?>) DBBroker.getInstance().select(d);
 
         if (lista == null) {
             lista = new ArrayList<>();

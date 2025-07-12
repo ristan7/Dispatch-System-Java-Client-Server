@@ -35,6 +35,7 @@ public class MainForma extends javax.swing.JFrame {
     public MainForma() {
         initComponents();
         setLocationRelativeTo(null);
+        setTitle("GLAVNI MENI");
         jLabelUlogovani.setText(sesija.Sesija.getInstance().getUlogovani().toString());
         postaviTabelu();
 
@@ -328,12 +329,12 @@ public class MainForma extends javax.swing.JFrame {
     private void postaviTabelu() {
         NalogZaTransportRobe nalog = new NalogZaTransportRobe();
         Date danas = new Date();
-        nalog.setDatumIzvrsenja(danas);
-        nalog.setDatumKreiranja(danas);
+        nalog.setDatumUtovara(danas);
+        nalog.setDatumIstovara(danas);
         nalog.setDispecer(sesija.Sesija.getInstance().getUlogovani());
 
         try {
-            nalozi = ClientController.getInstance().getNalogeZaDatum(nalog);
+            nalozi = ClientController.getInstance().getNalozi(nalog);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Nisu uspesno vraceni nalozi za danasnji datum!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }

@@ -54,7 +54,7 @@ public class DBBroker {
     }
 
     public ArrayList<ApstraktniDomenskiObjekat> select(ApstraktniDomenskiObjekat ado) throws SQLException {
-        String upit = "SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join() + " WHERE " + ado.uslovZaSelect();
+        String upit = "SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join() + ado.uslovZaSelect();
         System.out.println(upit);
         Statement s = connection.createStatement();
         ResultSet rs = s.executeQuery(upit);
@@ -98,19 +98,19 @@ public class DBBroker {
         s.executeUpdate(naredba);
     }
 
-    public ArrayList<ApstraktniDomenskiObjekat> vratiZaUslov(ApstraktniDomenskiObjekat ado, String uslov) throws SQLException {
-        String upit = "SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join() + " WHERE " + uslov;
-        System.out.println(upit);
-        Statement s = connection.createStatement();
-        ResultSet rs = s.executeQuery(upit);
-        return ado.vratiListu(rs);
-    }
+//    public ArrayList<ApstraktniDomenskiObjekat> vratiZaUslov(ApstraktniDomenskiObjekat ado, String uslov) throws SQLException {
+//        String upit = "SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join() + " WHERE " + uslov;
+//        System.out.println(upit);
+//        Statement s = connection.createStatement();
+//        ResultSet rs = s.executeQuery(upit);
+//        return ado.vratiListu(rs);
+//    }
 
-    public ArrayList<ApstraktniDomenskiObjekat> vratiSve(ApstraktniDomenskiObjekat ado) throws SQLException {
-        String upit = "SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join();
-        System.out.println(upit);
-        Statement s = connection.createStatement();
-        ResultSet rs = s.executeQuery(upit);
-        return ado.vratiListu(rs);
-    }
+//    public ArrayList<ApstraktniDomenskiObjekat> vratiSve(ApstraktniDomenskiObjekat ado) throws SQLException {
+//        String upit = "SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join();
+//        System.out.println(upit);
+//        Statement s = connection.createStatement();
+//        ResultSet rs = s.executeQuery(upit);
+//        return ado.vratiListu(rs);
+//    }
 }

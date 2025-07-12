@@ -12,15 +12,16 @@ import domen.Roba;
 import domen.StavkaNaloga;
 import domen.StrucnaSprema;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import operacija.dispecer.SistemskaOperacijaVratiDispecere;
 import operacija.login.SistemskaOperacijaLogin;
 import operacija.mesto.SistemskaOperacijaVratiMesta;
 import operacija.nalog.SistemskaOperacijaDodajNalogZaTransportRobe;
-import operacija.nalog.SistemskaOperacijaFiltrirajNaloge;
-import operacija.nalog.SistemskaOperacijaIzmeniNalog;
-import operacija.nalog.SistemskaOperacijaVratiNalogePoDatumu;
-import operacija.nalog.SistemskaOperacijaVratiNalogeZaUlogovanog;
-import operacija.nalog.SistemskaOperacijaVratiSveNaloge;
+import operacija.nalog.SistemskaOperacijaFiltrirajNalogeZaTransportRobe;
+import operacija.nalog.SistemskaOperacijaIzmeniNalogZaTransportRobe;
+
+import operacija.nalog.SistemskaOperacijaVratiNalogeZaTransportRobe;
 import operacija.partner.SistemskaOperacijaDodajPartnera;
 import operacija.partner.SistemskaOperacijaFiltrirajPoslovnePartnere;
 import operacija.partner.SistemskaOperacijaIzmeniPoslovnogPartnera;
@@ -28,8 +29,8 @@ import operacija.partner.SistemskaOperacijaObrisiPoslovnogPartnera;
 import operacija.partner.SistemskaOperacijaVratiPoslovnePartnere;
 import operacija.roba.SistemskaOperacijaVratiRobu;
 import operacija.sprema.SistemskaOperacijaUbaciStrucnuSpremu;
-import operacija.stavka.SistemskaOperacijaDodajStavkeNaloga;
-import operacija.stavka.SistemskaOperacijaObrisiStavkeNaloga;
+//import operacija.stavka.SistemskaOperacijaDodajStavkeNaloga;
+//import operacija.stavka.SistemskaOperacijaObrisiStavkeNaloga;
 
 /**
  *
@@ -65,11 +66,13 @@ public class ServerController {
         return so.getUlogovani();
     }
 
-    public ArrayList<NalogZaTransportRobe> naloziPoDatumu(NalogZaTransportRobe nalog) throws Exception {
-        SistemskaOperacijaVratiNalogePoDatumu so = new SistemskaOperacijaVratiNalogePoDatumu();
-        so.templateIzvrsi(nalog);
-        return so.getLista();
-    }
+//    public ArrayList<NalogZaTransportRobe> naloziPoDatumu(NalogZaTransportRobe nalog) throws Exception {
+//        SistemskaOperacijaVratiNalogeZaTransportRobe so = new SistemskaOperacijaVratiNalogeZaTransportRobe();
+//        so.templateIzvrsi(nalog);
+////        SistemskaOperacijaVratiNalogePoDatumu so = new SistemskaOperacijaVratiNalogePoDatumu();
+////        so.templateIzvrsi(nalog);
+//        return so.getLista();
+//    }
 
     public ArrayList<Mesto> vratiMesta(Mesto mesto) throws Exception {
         SistemskaOperacijaVratiMesta so = new SistemskaOperacijaVratiMesta();
@@ -139,53 +142,56 @@ public class ServerController {
         return so.getLista();
     }
 
-    public int dodajNalog(NalogZaTransportRobe noviNalog) throws Exception {
+    public Map<Integer, Integer> dodajNalog(NalogZaTransportRobe noviNalog) throws Exception {
+        Map<Integer, Integer> mapaDodatih = new HashMap<>();
         SistemskaOperacijaDodajNalogZaTransportRobe so = new SistemskaOperacijaDodajNalogZaTransportRobe();
         so.templateIzvrsi(noviNalog);
-        return so.getBrojDodatih();
+        mapaDodatih.put(1, so.getBrojDodatih());
+        mapaDodatih.put(2, so.getBrojacStavki());
+        return mapaDodatih;
     }
 
-    public int dodajStavke(ArrayList<StavkaNaloga> stavke) throws Exception {
-        int brojac = 0;
-
-        for (StavkaNaloga stavkaNaloga : stavke) {
-            SistemskaOperacijaDodajStavkeNaloga so = new SistemskaOperacijaDodajStavkeNaloga();
-            so.templateIzvrsi(stavkaNaloga);
-            brojac += so.getBrojDodatih();
-        }
-        return brojac;
-    }
+//    public int dodajStavke(ArrayList<StavkaNaloga> stavke) throws Exception {
+//        int brojac = 0;
+//
+//        for (StavkaNaloga stavkaNaloga : stavke) {
+//            SistemskaOperacijaDodajStavkeNaloga so = new SistemskaOperacijaDodajStavkeNaloga();
+//            so.templateIzvrsi(stavkaNaloga);
+//            brojac += so.getBrojDodatih();
+//        }
+//        return brojac;
+//    }
 
     public ArrayList<NalogZaTransportRobe> vratiNaloge(NalogZaTransportRobe nalog) throws Exception {
-        SistemskaOperacijaVratiSveNaloge so = new SistemskaOperacijaVratiSveNaloge();
+        SistemskaOperacijaVratiNalogeZaTransportRobe so = new SistemskaOperacijaVratiNalogeZaTransportRobe();
         so.templateIzvrsi(nalog);
         return so.getLista();
     }
 
-    public ArrayList<NalogZaTransportRobe> vratiNalogeZaUlogovanog(NalogZaTransportRobe nalog) throws Exception {
-        SistemskaOperacijaVratiNalogeZaUlogovanog so = new SistemskaOperacijaVratiNalogeZaUlogovanog();
-        so.templateIzvrsi(nalog);
-        return so.getLista();
-    }
+//    public ArrayList<NalogZaTransportRobe> vratiNalogeZaUlogovanog(NalogZaTransportRobe nalog) throws Exception {
+//        SistemskaOperacijaVratiNalogeZaUlogovanog so = new SistemskaOperacijaVratiNalogeZaUlogovanog();
+//        so.templateIzvrsi(nalog);
+//        return so.getLista();
+//    }
 
     public void resetujListe() {
         ulogovaniDispeceri.clear();
     }
 
     public ArrayList<NalogZaTransportRobe> filtrirajNaloge(NalogZaTransportRobe n) throws Exception {
-        SistemskaOperacijaFiltrirajNaloge so = new SistemskaOperacijaFiltrirajNaloge();
+        SistemskaOperacijaFiltrirajNalogeZaTransportRobe so = new SistemskaOperacijaFiltrirajNalogeZaTransportRobe();
         so.templateIzvrsi(n);
         return so.getLista();
     }
 
     public void azurirajNalog(NalogZaTransportRobe nalog) throws Exception {
-        SistemskaOperacijaIzmeniNalog so = new SistemskaOperacijaIzmeniNalog();
+        SistemskaOperacijaIzmeniNalogZaTransportRobe so = new SistemskaOperacijaIzmeniNalogZaTransportRobe();
         so.templateIzvrsi(nalog);
     }
 
-    public void obrisiStavkeNaloga(StavkaNaloga stavkaZaBrisanje) throws Exception {
-        System.out.println("Usao u brisanje!!");
-        SistemskaOperacijaObrisiStavkeNaloga so = new SistemskaOperacijaObrisiStavkeNaloga();
-        so.templateIzvrsi(stavkaZaBrisanje);
-    }
+//    public void obrisiStavkeNaloga(StavkaNaloga stavkaZaBrisanje) throws Exception {
+//        System.out.println("Usao u brisanje!!");
+//        SistemskaOperacijaObrisiStavkeNaloga so = new SistemskaOperacijaObrisiStavkeNaloga();
+//        so.templateIzvrsi(stavkaZaBrisanje);
+//    }
 }
