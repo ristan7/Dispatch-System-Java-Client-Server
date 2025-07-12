@@ -159,22 +159,4 @@ public class Mesto implements ApstraktniDomenskiObjekat {
 
         return "";
     }
-//        StringBuilder uslov = new StringBuilder();
-//        if (nazivMesta != null && !nazivMesta.isEmpty()) {
-//            uslov.append(" WHERE m.nazivMesta LIKE '%").append(nazivMesta).append("%'");
-//        }
-//        if (drzava != null && !drzava.isEmpty()) {
-//
-//            if (uslov.length() == 0) {
-//                uslov.append(" WHERE ");
-//            }
-//
-//            if (uslov.length() > 0) {
-//                uslov.append(" AND ");
-//            }
-//            uslov.append("m.drzava LIKE '%").append(drzava).append("%'");
-//        }
-//        return uslov.toString();
-//    }
-
 }

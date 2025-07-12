@@ -8,11 +8,8 @@ import controller.ClientController;
 import domen.Mesto;
 import domen.PoslovniPartner;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import forme.ModForme;
-import modeli.partner.ModelTabelePrikaziPoslovnePartnere;
 
 /**
  *
@@ -30,6 +27,8 @@ public class DodajPartneraForma extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("DODAVANJE/IZMENA PARTNERA");
+        setResizable(false);
+
         jButtonAzuriraj.setVisible(false);
         jButtonOmoguciIzmenu.setVisible(false);
         try {
@@ -52,12 +51,12 @@ public class DodajPartneraForma extends javax.swing.JFrame {
         jTextFieldEmail.setText(partner.getEmailPartnera());
         jTextFieldPib.setText(partner.getPib());
         jTextFieldAdresa.setText(partner.getAdresaPartnera());
-        
+
         jTextFieldNaziv.setEnabled(false);
         jTextFieldPib.setEnabled(false);
         jTextFieldEmail.setEnabled(false);
         jTextFieldAdresa.setEnabled(false);
-        
+
         try {
             popuniMesto();
         } catch (Exception ex) {
@@ -276,11 +275,9 @@ public class DodajPartneraForma extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
             }
-
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
         }
-
     }//GEN-LAST:event_jButtonDodajActionPerformed
 
     private void jButtonAzurirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAzurirajActionPerformed
@@ -310,7 +307,6 @@ public class DodajPartneraForma extends javax.swing.JFrame {
                         return;
                     }
                 }
-
             }
 
             String adresaPartnera = jTextFieldAdresa.getText().trim();
@@ -345,8 +341,6 @@ public class DodajPartneraForma extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Sistem je zapamtio poslovnog partnera!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
                 pretraziForma.postaviTabelu();
-//                ModelTabelePrikaziPoslovnePartnere model = (ModelTabelePrikaziPoslovnePartnere) pretraziForma.getTabela().getModel();
-//                model.fireTableDataChanged();
             } else {
                 JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
             }
@@ -363,10 +357,10 @@ public class DodajPartneraForma extends javax.swing.JFrame {
         jTextFieldEmail.setEnabled(true);
         jTextFieldAdresa.setEnabled(true);
         jComboBoxMesto.setEnabled(true);
-        
+
         jButtonAzuriraj.setEnabled(true);
         jButtonOmoguciIzmenu.setEnabled(false);
-        
+
     }//GEN-LAST:event_jButtonOmoguciIzmenuActionPerformed
 
     /**

@@ -18,6 +18,8 @@ public class FormaKonfiguracijeBaze extends javax.swing.JDialog {
     public FormaKonfiguracijeBaze(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setTitle("KONFIGURACIJA BAZE");
+        setResizable(false);
         setLocationRelativeTo(null);
         jTextFieldUrl.setText(konfiguracija.Konfiguracija.getInstance().getProperty("url"));
         jTextFieldUserName.setText(konfiguracija.Konfiguracija.getInstance().getProperty("username"));
@@ -128,7 +130,6 @@ public class FormaKonfiguracijeBaze extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Uspesno upisivanje u property fajl!!", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
         } catch (Exception e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Greska prilikom cuvanja u property fajl!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonSacuvajActionPerformed

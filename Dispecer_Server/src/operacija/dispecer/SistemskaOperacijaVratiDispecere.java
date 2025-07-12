@@ -7,7 +7,6 @@ package operacija.dispecer;
 import baza.DBBroker;
 import domen.ApstraktniDomenskiObjekat;
 import domen.Dispecer;
-import domen.PoslovniPartner;
 import java.util.ArrayList;
 import operacija.ApstraktnaSistemskaOperacija;
 

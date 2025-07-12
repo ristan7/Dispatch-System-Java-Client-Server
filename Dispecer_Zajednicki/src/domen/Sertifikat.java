@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -200,30 +199,7 @@ public class Sertifikat implements ApstraktniDomenskiObjekat {
 
     @Override
     public String uslovZaSelect() {
-
         return "";
-
-//        List<String> uslovi = new ArrayList<>();
-//
-//        //Uslov za dispecera
-//        if (dispecer != null && dispecer.getIdDispecera() > 0) {
-//            uslovi.add("s.dispecer = " + dispecer.getIdDispecera());
-//        }
-//
-//        //Uslov za datum izdavanja
-//        if (datumIzdavanja != null) {
-//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//            String formatiranDatum = sdf.format(datumIzdavanja);
-//            uslovi.add("s.datumIzdavanja = '" + formatiranDatum + "'");
-//        }
-//
-//        //Nema kriterijuma
-//        if (uslovi.isEmpty()) {
-//            System.out.println("Upozorenje: uslovZaPretragu() - Nema filtera, vraća se prazan string!");
-//            return "";
-//        }
-//
-//        return String.join(" AND ", uslovi);
     }
 
 }

@@ -6,10 +6,7 @@ package operacija.nalog;
 
 import baza.DBBroker;
 import domen.ApstraktniDomenskiObjekat;
-import domen.Dispecer;
 import domen.NalogZaTransportRobe;
-import domen.PoslovniPartner;
-import domen.StatusNaloga;
 import domen.StavkaNaloga;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import operacija.ApstraktnaSistemskaOperacija;
 
 /**

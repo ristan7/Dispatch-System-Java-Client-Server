@@ -25,7 +25,8 @@ public class ServerskaForma extends javax.swing.JFrame {
         jButtonZaustaviServer.setEnabled(false);
         jLabel1.setVisible(false);
         postaviText("");
-        setTitle("Serverska forma");
+        setTitle("SERVERSKI PROGRAM");
+        setResizable(false);
     }
 
     /**
@@ -149,11 +150,7 @@ public class ServerskaForma extends javax.swing.JFrame {
             jLabelStatus.setForeground(new Color(139, 0, 0));
             jButtonPokreniServer1.setEnabled(true);
             jButtonZaustaviServer.setEnabled(false);
-            //this.dispose();
-            //System.exit(0);
-
         }
-
     }//GEN-LAST:event_jButtonZaustaviServerActionPerformed
 
     /**

@@ -9,11 +9,9 @@ import domen.Mesto;
 import domen.NalogZaTransportRobe;
 import domen.PoslovniPartner;
 import domen.Roba;
-import domen.StavkaNaloga;
 import domen.StrucnaSprema;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import komunikacija.KlijentskiZahtev;
 import komunikacija.Operacija;
@@ -58,19 +56,6 @@ public class ClientController {
             System.err.println("Greska prilikom logovanja dispecera: " + so.getEx().getMessage());
             throw so.getEx();
         }
-
-    }
-
-    public ArrayList<NalogZaTransportRobe> getNalogeZaDatum(NalogZaTransportRobe nalog) throws Exception {
-        posaljiZahtev(Operacija.VRATI_NALOGE_PO_DATUMU, nalog);
-        ServerskiOdgovor so = primiOdgovor();
-        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
-            return (ArrayList<NalogZaTransportRobe>) so.getOdgovor();
-        } else {
-            System.err.println("Greska prilikom ucitavanja naloga za odredjeni datum: " + so.getEx().getMessage());
-            throw so.getEx();
-        }
-
     }
 
     public ArrayList<Mesto> getMesta() throws Exception {
@@ -198,29 +183,6 @@ public class ClientController {
             return (Map<Integer, Integer>) so.getOdgovor();
         } else {
             System.err.println("Greska prilikom dodavanja novog naloga: " + so.getEx().getMessage());
-            throw so.getEx();
-        }
-    }
-
-    public ArrayList<NalogZaTransportRobe> getNaloziZaSve() throws Exception {
-        posaljiZahtev(Operacija.VRATI_SVE_NALOGE, null);
-        ServerskiOdgovor so = primiOdgovor();
-        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
-            return (ArrayList<NalogZaTransportRobe>) so.getOdgovor();
-        } else {
-            System.err.println("Greska prilikom ucitavanja svih naloga: " + so.getEx().getMessage());
-            throw so.getEx();
-        }
-
-    }
-
-    public ArrayList<NalogZaTransportRobe> getNaloziZaUlogovanog(NalogZaTransportRobe nalog) throws Exception {
-        posaljiZahtev(Operacija.VRATI_NALOGE_ZA_ULOGOVANOG, nalog);
-        ServerskiOdgovor so = primiOdgovor();
-        if (so.getVrstaOdgovora().equals(VrstaOdgovora.USPESNO)) {
-            return (ArrayList<NalogZaTransportRobe>) so.getOdgovor();
-        } else {
-            System.err.println("Greska prilikom ucitavanja svih naloga: " + so.getEx().getMessage());
             throw so.getEx();
         }
     }

@@ -152,11 +152,7 @@ public class StrucnaSprema implements ApstraktniDomenskiObjekat {
 
     @Override
     public String uslovZaSelect() {
-
         return "";
-
-        //Da li treba brisati ts
-//        return "ts.nazivTipaSpreme LIKE '%" + tip.name() + "%'";
     }
 
 }

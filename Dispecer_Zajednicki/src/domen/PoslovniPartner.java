@@ -210,30 +210,18 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
             uslov.append("pp.nazivPartnera LIKE '%").append(nazivPartnera).append("%'");
         }
         if (pib != null && !pib.isEmpty()) {
-
-//            if (uslov.length() == 0) {
-//                uslov.append(" WHERE ");
-//            }
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
             uslov.append("pp.pib = '").append(pib).append("'");
         }
         if (mesto != null && mesto.getNazivMesta() != null && !mesto.getNazivMesta().isEmpty()) {
-
-//            if (uslov.length() == 0) {
-//                uslov.append(" WHERE ");
-//            }
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
             uslov.append("m.nazivMesta LIKE '%").append(mesto.getNazivMesta()).append("%'");
         }
         if (mesto != null && mesto.getDrzava() != null && !mesto.getDrzava().isEmpty()) {
-
-//            if (uslov.length() == 0) {
-//                uslov.append(" WHERE ");
-//            }
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
