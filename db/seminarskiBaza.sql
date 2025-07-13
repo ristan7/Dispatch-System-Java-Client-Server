@@ -28,18 +28,21 @@ CREATE TABLE `dispecer` (
   `telefonDispecera` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `korisnickoIme` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `lozinka` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`idDispecera`)
+  `rola` bigint NOT NULL,
+  PRIMARY KEY (`idDispecera`),
+  KEY `rola` (`rola`),
+  CONSTRAINT `dispecer_ibfk_1` FOREIGN KEY (`rola`) REFERENCES `rola` (`idRole`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `dispecer` */
 
-insert  into `dispecer`(`idDispecera`,`imeDispecera`,`prezimeDispecera`,`emailDispecera`,`telefonDispecera`,`korisnickoIme`,`lozinka`) values 
-(1,'Ana','Anic','ana.anic@example.com','0601234567','anica','lozinkaAna1!'),
-(2,'Marko','Markovic','marko.markovic@example.com','0649876543','markom','tajnaMarko22!'),
-(3,'Jovan','Jovanovic','jovan.jovanovic@example.com','0612223334','jovanj','jovanSifra#33'),
-(4,'Maja','Mijic','maja.majic@example.com','0651122334','majam','majaPass44!'),
-(5,'Milos','Milosevic','milos.milosevic@example.com','0623344556','milosm','Milos@12345'),
-(6,'Mina','Petrovic','mina.petrovic@gmail.com','0607896100','minaP','minaP');
+insert  into `dispecer`(`idDispecera`,`imeDispecera`,`prezimeDispecera`,`emailDispecera`,`telefonDispecera`,`korisnickoIme`,`lozinka`,`rola`) values 
+(1,'Ana','Anic','ana.anic@example.com','0601234567','anica','anica',1),
+(2,'Marko','Markovic','marko.markovic@example.com','0649876543','markom','tajnaMarko22!',2),
+(3,'Jovan','Jovanovic','jovan.jovanovic@example.com','0612233334','jovanj','jovanSifra#33',1),
+(4,'Maja','Majic','maja.majic@example.com','0651122334','majam','majaPass44!',2),
+(5,'Milos','Milosevic','milos.milosevic@example.com','0623344556','milosm','Milos@12345',2),
+(6,'Mina','Petrovic','mina.petrovic@gmail.com','0607896100','minaP','minaP',1);
 
 /*Table structure for table `jedinica_mere` */
 
@@ -75,7 +78,7 @@ CREATE TABLE `mesto` (
   `drzava` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `postanskiBroj` int NOT NULL,
   PRIMARY KEY (`idMesta`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `mesto` */
 
@@ -88,7 +91,8 @@ insert  into `mesto`(`idMesta`,`nazivMesta`,`drzava`,`postanskiBroj`) values
 (6,'Cacak','Srbija',32000),
 (7,'Novi Pazar','Srbija',36300),
 (8,'Amsterdam','Holandija',1012),
-(9,'Sarajevo','BiH',71000);
+(9,'Sarajevo','BiH',71000),
+(10,'Belin','Nemacka',10115);
 
 /*Table structure for table `nalog_za_transport_robe` */
 
@@ -96,8 +100,8 @@ DROP TABLE IF EXISTS `nalog_za_transport_robe`;
 
 CREATE TABLE `nalog_za_transport_robe` (
   `idNaloga` bigint NOT NULL AUTO_INCREMENT,
-  `datumKreiranja` date NOT NULL,
-  `datumIzvrsenja` date NOT NULL,
+  `datumUtovara` date NOT NULL,
+  `datumIstovara` date NOT NULL,
   `adresaUtovara` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `adresaIstovara` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` bigint NOT NULL,
@@ -111,13 +115,24 @@ CREATE TABLE `nalog_za_transport_robe` (
   CONSTRAINT `nalog_za_transport_robe_ibfk_1` FOREIGN KEY (`dispecer`) REFERENCES `dispecer` (`idDispecera`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `nalog_za_transport_robe_ibfk_2` FOREIGN KEY (`poslovni_partner`) REFERENCES `poslovni_partner` (`idPoslovnogPartnera`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `nalog_za_transport_robe_ibfk_3` FOREIGN KEY (`status`) REFERENCES `status_naloga` (`idStatusaNaloga`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `nalog_za_transport_robe` */
 
-insert  into `nalog_za_transport_robe`(`idNaloga`,`datumKreiranja`,`datumIzvrsenja`,`adresaUtovara`,`adresaIstovara`,`status`,`ukupanIznosPosla`,`dispecer`,`poslovni_partner`) values 
-(1,'2025-06-08','2025-06-20','Bulevar Milutina Milankovica 13/6, Beograd','Bulevar Vojvode Putnika 17/2, Cacak',1,135000,1,1),
-(2,'2025-05-15','2025-06-08','Bulevar Oslobodjenja 164, Beograd','Majke Jugovica 15/22 , Novi Pazar',2,58026,1,4);
+insert  into `nalog_za_transport_robe`(`idNaloga`,`datumUtovara`,`datumIstovara`,`adresaUtovara`,`adresaIstovara`,`status`,`ukupanIznosPosla`,`dispecer`,`poslovni_partner`) values 
+(1,'2025-07-01','2025-07-12','Bulevar Milutina Milankovica 13/6, Beograd','Bulevar Vojvode Putnika 17/2, Cacak',1,135000,1,1),
+(2,'2025-06-11','2025-07-01','Bulevar Oslobodjenja 164, Beograd','Majke Jugovica 15/22 , Novi Pazar',3,323300,4,4),
+(23,'2025-07-25','2025-07-28','Bulevar Oslobodjenja 114 Beograd','Mike Mikica 55 Cajetina',1,466750,4,1),
+(25,'2025-07-12','2025-07-20','Prvoboraca 35a Beograd','Mikinih boraca 99/5 Cajetina',2,318600,2,5),
+(26,'2025-07-10','2025-07-18','17. oktobra 51 Beograd','Svetog Save 135 Zvornik',2,135600,6,5),
+(27,'2025-07-12','2025-07-22','Bulevar Nikole Pasica 130 Novi Sad','Prvoboraca 36 Beograd',2,403150,1,5),
+(28,'2025-07-13','2025-07-17','Bon Jovi 136B','Visokog sada 135 Brcko',1,1433000,6,22),
+(29,'2025-08-14','2025-08-30','Hill Marc 147/25B Roterdam','Djurdja Stupara 77 Segedin',2,484285,4,22),
+(30,'2025-09-10','2025-09-20','Majke Jugovica 13 Doboj','Bon Jovi 136B',1,1782500,1,22),
+(31,'2025-07-12','2025-07-15','Holand Airport','Bulevar Vojvode Misica 147 Novi Sad',1,0,1,22),
+(32,'2025-08-18','2025-08-25','Bulevar Oslobodjenja 148 Beograd','Holand Airport',1,470640,5,22),
+(33,'2025-07-13','2025-07-20','Mikinih 18 Cajetina','Svetog Save 150 Bijeljina',2,1350000,3,3),
+(34,'2025-08-16','2025-08-19','Miki MIkica 130 Beograd','Brace Jerkovic 48 Sarajevo',1,650250,1,7);
 
 /*Table structure for table `poslovni_partner` */
 
@@ -133,20 +148,21 @@ CREATE TABLE `poslovni_partner` (
   PRIMARY KEY (`idPoslovnogPartnera`),
   KEY `mesto` (`mesto`),
   CONSTRAINT `poslovni_partner_ibfk_1` FOREIGN KEY (`mesto`) REFERENCES `mesto` (`idMesta`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `poslovni_partner` */
 
 insert  into `poslovni_partner`(`idPoslovnogPartnera`,`nazivPartnera`,`pib`,`adresaPartnera`,`emailPartnera`,`mesto`) values 
 (1,'DELHAIZE SERBIA d.o.o.','100032989','Bulevar Milutina Milankovica 11b','info@delhaize.rs',1),
-(2,'Imlek a.d.','070044415','Micka Antica 2','office@imlek.rs',1),
-(3,'Frikom a.d.','100298204','Autoput za Novi Sad 120','info@frikom.rs',1),
-(4,'Carnex d.o.o.','086259754','Industrijska 3','office@carnex.com',2),
-(5,'Swisslion-Takovo d.o.o.','101983611','Save Kovacevica 30','office@swisslion.com',5),
+(2,'Imlek a.d.','070044416','Micka Antica 2/25','office@imlek.rs',2),
+(3,'Frikom a.d.','100298204','Autoput za Novi Sad 120/22','info@frikom.rs',1),
+(4,'Carnex d.o.o.','086259757','Industrijska 3/5','office@carnex.com',2),
+(5,'Swisslion-Takovo d.o.o.','101983611','Save Kovacevica 38','office@swisslion.com',5),
 (6,'Mlekara Subotica','101234567','Beogradski put 23','info@mlekarasubotica.rs',4),
 (7,'Jaffa Crvenka','100677306','Bulevar 12. februar 9','office@jaffa.rs',3),
-(16,'Amsterdam Logistics BV','','Damrak 1/21','info@amsterdamlogistics.nl',8),
-(17,'Zlatiborac d.o.o','111000999','Manjak 12/50','rs@zlatiborac.rs',6);
+(22,'Amsterdam Logistics BVW','','Damrak 105/21','info@amsterdamlogistics.nl',8),
+(23,'BGT Distribution Berlin','','Stoun Heights 144B Berlin','bgt@officebgtdistribution.com',10),
+(27,'BPM Distribution BGD','888777994','17. oktobra 51 Beograd','office@bppmdistributiobgd.com',1);
 
 /*Table structure for table `roba` */
 
@@ -176,6 +192,22 @@ insert  into `roba`(`idRobe`,`nazivRobe`,`jedinicaMere`,`cena`) values
 (9,'Jabuka crvena',2,98),
 (10,'Hleb beli',1,70);
 
+/*Table structure for table `rola` */
+
+DROP TABLE IF EXISTS `rola`;
+
+CREATE TABLE `rola` (
+  `idRole` bigint NOT NULL AUTO_INCREMENT,
+  `nazivRole` varchar(15) NOT NULL,
+  PRIMARY KEY (`idRole`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+/*Data for the table `rola` */
+
+insert  into `rola`(`idRole`,`nazivRole`) values 
+(1,'ADMINISTRATOR'),
+(2,'KORISNIK');
+
 /*Table structure for table `sertifikat` */
 
 DROP TABLE IF EXISTS `sertifikat`;
@@ -199,7 +231,7 @@ insert  into `sertifikat`(`idSertifikata`,`dispecer`,`strucnaSprema`,`nazivSerti
 (1,1,1,'Sertifikat za rad na racunaru','2022-09-01'),
 (2,1,8,'ADR Sertifikat (prevoz opasne robe)','2023-05-15'),
 (3,1,10,'Sertifikat iz logistike','2024-02-20'),
-(4,2,5,'Sertifikat iz osnova bezbednosti saobracaja','2021-11-12'),
+(4,1,5,'Sertifikat iz osnova bezbednosti saobracaja','2021-11-12'),
 (5,2,12,'Sertifikat za upravljanje transportom','2023-07-01'),
 (6,3,3,'Sertifikat za GPS pracenje voznog parka','2024-01-30'),
 (7,4,5,'Engleski jezik B2','2023-03-22'),
@@ -240,16 +272,45 @@ CREATE TABLE `stavka_naloga` (
   KEY `roba` (`roba`),
   CONSTRAINT `stavka_naloga_ibfk_1` FOREIGN KEY (`nalog`) REFERENCES `nalog_za_transport_robe` (`idNaloga`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `stavka_naloga_ibfk_2` FOREIGN KEY (`roba`) REFERENCES `roba` (`idRobe`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `stavka_naloga` */
 
 insert  into `stavka_naloga`(`nalog`,`rb`,`kolicina`,`cenaPoJedinici`,`iznos`,`roba`) values 
 (1,1,10,13500,135000,6),
-(2,2,3,450,1350,2),
-(2,3,10,150,1500,5),
-(2,4,12,98,1176,9),
-(2,5,4,13500,54000,6);
+(2,27,500,450,225000,2),
+(2,28,7,13500,94500,6),
+(2,29,10,380,3800,8),
+(23,21,14,125,1750,1),
+(23,22,6,13500,81000,6),
+(23,23,100,720,72000,7),
+(23,24,400,780,312000,4),
+(25,36,80,720,57600,7),
+(25,37,700,150,105000,5),
+(25,61,200,780,156000,4),
+(26,41,100,105,10500,3),
+(26,42,80,720,57600,7),
+(26,43,150,450,67500,2),
+(27,38,80,125,10000,1),
+(27,39,100,780,78000,4),
+(27,49,125,150,18750,5),
+(27,50,780,380,296400,8),
+(28,51,900,70,63000,10),
+(28,52,10000,98,980000,9),
+(28,63,500,780,390000,4),
+(29,56,500,380,190000,8),
+(29,57,16,13500,216000,6),
+(29,58,90,780,70200,4),
+(29,59,77,105,8085,3),
+(30,44,8000,150,1200000,5),
+(30,45,1000,380,380000,8),
+(30,46,15,13500,202500,6),
+(32,53,112,720,80640,7),
+(32,55,700,450,315000,2),
+(32,60,500,150,75000,5),
+(33,62,100,13500,1350000,6),
+(34,64,48,13500,648000,6),
+(34,65,18,125,2250,1);
 
 /*Table structure for table `strucna_sprema` */
 
@@ -262,7 +323,7 @@ CREATE TABLE `strucna_sprema` (
   PRIMARY KEY (`idStrucneSpreme`),
   KEY `tipStrucneSpreme` (`tipStrucneSpreme`),
   CONSTRAINT `strucna_sprema_ibfk_1` FOREIGN KEY (`tipStrucneSpreme`) REFERENCES `tip_strucne_spreme` (`idTipaSpreme`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `strucna_sprema` */
 
@@ -280,7 +341,7 @@ insert  into `strucna_sprema`(`idStrucneSpreme`,`nazivStrucneSpreme`,`tipStrucne
 (11,'Fakultet ekonomije',3),
 (12,'Master akademske studije',4),
 (13,'Doktorske studije',5),
-(33,'Visa ekonomska skola',2);
+(35,'Visa ekonomska skola',2);
 
 /*Table structure for table `tip_strucne_spreme` */
 
