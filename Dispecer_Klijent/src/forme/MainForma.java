@@ -262,8 +262,8 @@ public class MainForma extends javax.swing.JFrame {
             } catch (Exception ex) {
                 return;
             }
-            JOptionPane.showMessageDialog(this, "Sistem je kreirao poslovnog partnera!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
             dpf.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Sistem je kreirao poslovnog partnera!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
         }
@@ -288,8 +288,8 @@ public class MainForma extends javax.swing.JFrame {
             } catch (Exception ex) {
                 return;
             }
-            JOptionPane.showMessageDialog(this, "Sistem je kreirao nalog za transport robe!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
             dnf.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Sistem je kreirao nalog za transport robe!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira nalog za transport robe!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
         }
