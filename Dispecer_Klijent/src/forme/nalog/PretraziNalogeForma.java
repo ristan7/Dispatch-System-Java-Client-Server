@@ -538,8 +538,6 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
                 return n1.getDatumUtovara().compareTo(n2.getDatumUtovara());
             });
 
-            JOptionPane.showMessageDialog(this, "Sistem je nasao naloge za transport robe po zadatim kriterijumima!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
-
             ModelTabelePrikaziNaloge mt = new ModelTabelePrikaziNaloge(pretrazeniNalozi);
             jTableNalozi.setModel(mt);
 
@@ -553,6 +551,8 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
             DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) jTableNalozi.getTableHeader().getDefaultRenderer();
             headerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             jTableNalozi.getTableHeader().setDefaultRenderer(headerRenderer);
+
+            JOptionPane.showMessageDialog(this, "Sistem je nasao naloge za transport robe po zadatim kriterijumima!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje naloge za transport robe po zadatim kriterijumima!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
@@ -577,8 +577,8 @@ public class PretraziNalogeForma extends javax.swing.JFrame {
             } catch (Exception ex) {
                 return;
             }
-            JOptionPane.showMessageDialog(this, "Sistem je nasao nalog za transport robe!", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
             dnf.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Sistem je nasao nalog za transport robe!", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje nalog za transport robe!", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }

@@ -19,6 +19,7 @@ public class DodajPartneraForma extends javax.swing.JFrame {
 
     private PoslovniPartner noviPartner;
     private PretraziPoslovnogPartnera pretraziForma;
+    private ModForme mod;
 
     /**
      * Creates new form DodajPartneraForma
@@ -28,6 +29,7 @@ public class DodajPartneraForma extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("DODAVANJE/IZMENA PARTNERA");
         setResizable(false);
+        this.mod = mod;
 
         jButtonAzuriraj.setVisible(false);
         jButtonOmoguciIzmenu.setVisible(false);
@@ -41,8 +43,19 @@ public class DodajPartneraForma extends javax.swing.JFrame {
 
     public DodajPartneraForma(PretraziPoslovnogPartnera pretrazi, PoslovniPartner partner, ModForme mod) throws Exception {
         initComponents();
+        setLocationRelativeTo(null);
+        setTitle("DODAVANJE/IZMENA PARTNERA");
+        setResizable(false);
+        this.mod = mod;
+        
         jButtonDodaj.setVisible(false);
         jButtonAzuriraj.setEnabled(false);
+
+        if (mod == ModForme.OBRISI) {
+            jButtonAzuriraj.setText("POTVRDI BRISANJE");
+            jButtonAzuriraj.setEnabled(true);
+            jButtonOmoguciIzmenu.setVisible(false);
+        }
 
         noviPartner = partner;
         pretraziForma = pretrazi;
@@ -165,9 +178,9 @@ public class DodajPartneraForma extends javax.swing.JFrame {
                         .addComponent(jButtonOmoguciIzmenu)
                         .addGap(17, 17, 17)
                         .addComponent(jButtonAzuriraj)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jButtonDodaj)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,72 +294,87 @@ public class DodajPartneraForma extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDodajActionPerformed
 
     private void jButtonAzurirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAzurirajActionPerformed
-
-        try {
-            String nazivPartnera = jTextFieldNaziv.getText().trim();
-
-            if (nazivPartnera == null || nazivPartnera.isBlank()) {
-                JOptionPane.showMessageDialog(this, "Niste uneli naziv partnera!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
-                return;
+        if (mod == ModForme.OBRISI) {
+            try {
+                boolean uspesno = ClientController.getInstance().obrisiPartnera(noviPartner);
+                if (uspesno) {
+                    JOptionPane.showMessageDialog(this, "Sistem je obrisao poslovnog partnera!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
+                    pretraziForma.postaviTabelu();
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Sistem ne moze da obrise poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da obrise poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
             }
+        } else {
+            try {
+                String nazivPartnera = jTextFieldNaziv.getText().trim();
 
-            String pib = jTextFieldPib.getText().trim();
-
-            if (pib == null) {
-                return;
-            }
-
-            if (!pib.isBlank()) {
-                if (pib.length() != 9) {
-                    JOptionPane.showMessageDialog(this, "PIB moze imati tacno 9 cifara!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                if (nazivPartnera == null || nazivPartnera.isBlank()) {
+                    JOptionPane.showMessageDialog(this, "Niste uneli naziv partnera!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                for (char c : pib.toCharArray()) {
-                    if (!Character.isDigit(c)) {
-                        JOptionPane.showMessageDialog(this, "PIB sme da sadrzi samo cifre!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+
+                String pib = jTextFieldPib.getText().trim();
+
+                if (pib == null) {
+                    return;
+                }
+
+                if (!pib.isBlank()) {
+                    if (pib.length() != 9) {
+                        JOptionPane.showMessageDialog(this, "PIB moze imati tacno 9 cifara!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
+                    for (char c : pib.toCharArray()) {
+                        if (!Character.isDigit(c)) {
+                            JOptionPane.showMessageDialog(this, "PIB sme da sadrzi samo cifre!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                    }
                 }
-            }
 
-            String adresaPartnera = jTextFieldAdresa.getText().trim();
+                String adresaPartnera = jTextFieldAdresa.getText().trim();
 
-            if (adresaPartnera == null || adresaPartnera.isBlank()) {
-                JOptionPane.showMessageDialog(this, "Niste uneli adresu partnera!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+                if (adresaPartnera == null || adresaPartnera.isBlank()) {
+                    JOptionPane.showMessageDialog(this, "Niste uneli adresu partnera!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-            String emailPartnera = jTextFieldEmail.getText().trim();
+                String emailPartnera = jTextFieldEmail.getText().trim();
 
-            if (emailPartnera == null || emailPartnera.isBlank()) {
-                JOptionPane.showMessageDialog(this, "Niste uneli email partnera!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+                if (emailPartnera == null || emailPartnera.isBlank()) {
+                    JOptionPane.showMessageDialog(this, "Niste uneli email partnera!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-            if (!emailPartnera.contains("@")) {
-                JOptionPane.showMessageDialog(this, "Nepravilan format email-a!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+                if (!emailPartnera.contains("@")) {
+                    JOptionPane.showMessageDialog(this, "Nepravilan format email-a!!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-            Mesto mesto = (Mesto) jComboBoxMesto.getSelectedItem();
+                Mesto mesto = (Mesto) jComboBoxMesto.getSelectedItem();
 
-            noviPartner.setNazivPartnera(nazivPartnera);
-            noviPartner.setAdresaPartnera(adresaPartnera);
-            noviPartner.setEmailPartnera(emailPartnera);
-            noviPartner.setMesto(mesto);
-            noviPartner.setPib(pib);
+                noviPartner.setNazivPartnera(nazivPartnera);
+                noviPartner.setAdresaPartnera(adresaPartnera);
+                noviPartner.setEmailPartnera(emailPartnera);
+                noviPartner.setMesto(mesto);
+                noviPartner.setPib(pib);
 
-            boolean uspesno = ClientController.getInstance().azurirajPartnera(noviPartner);
-            if (uspesno) {
-                JOptionPane.showMessageDialog(this, "Sistem je zapamtio poslovnog partnera!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
-                pretraziForma.postaviTabelu();
-            } else {
+                boolean uspesno = ClientController.getInstance().azurirajPartnera(noviPartner);
+                if (uspesno) {
+                    JOptionPane.showMessageDialog(this, "Sistem je zapamtio poslovnog partnera!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                    pretraziForma.postaviTabelu();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
         }
+
 
     }//GEN-LAST:event_jButtonAzurirajActionPerformed
 

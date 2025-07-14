@@ -65,6 +65,9 @@ public class DodajNalogForma extends javax.swing.JFrame {
 
     public DodajNalogForma(PretraziNalogeForma pretrazi, NalogZaTransportRobe n, ModForme modForme) throws Exception {
         initComponents();
+        setLocationRelativeTo(null);
+        setTitle("DODAVANJE/IZMENA NALOGA");
+        setResizable(false);
         this.modForme = modForme;
         this.pretrazi = pretrazi;
 
@@ -829,10 +832,10 @@ public class DodajNalogForma extends javax.swing.JFrame {
 
         jComboBoxRoba.setEnabled(false);
         jTextFieldKolicina.setEnabled(false);
-        
+
         ArrayList<StavkaNaloga> stavkeNaloga = noviNalog.getStavke();
         stavkeNaloga.sort(Comparator.comparing(StavkaNaloga::getIznos).reversed());
-        
+
         ModelTabeleStavkaNaloga mts = new ModelTabeleStavkaNaloga(stavkeNaloga);
         jTableStavke.setModel(mts);
 
@@ -870,7 +873,7 @@ public class DodajNalogForma extends javax.swing.JFrame {
 
                 jButtonDodajStavku.setEnabled(false);
                 jButtonObrisiStavku.setEnabled(false);
-                
+
                 jTextFieldKolicina.setEnabled(false);
                 jComboBoxRoba.setEnabled(false);
 

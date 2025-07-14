@@ -289,8 +289,6 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
             ArrayList<PoslovniPartner> partneriPretrazeni = ClientController.getInstance().filtrirajPartnere(pp);
             partneriPretrazeni.sort(Comparator.comparing(partner -> partner.getMesto().getNazivMesta(), String.CASE_INSENSITIVE_ORDER));
 
-            JOptionPane.showMessageDialog(this, "Sistem je nasao poslovne partnere po zadatim kriterijumima!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
-
             ModelTabelePrikaziPoslovnePartnere mt = new ModelTabelePrikaziPoslovnePartnere(partneriPretrazeni);
             jTablePartneri.setModel(mt);
 
@@ -304,6 +302,8 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
             DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) jTablePartneri.getTableHeader().getDefaultRenderer();
             headerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             jTablePartneri.getTableHeader().setDefaultRenderer(headerRenderer);
+
+            JOptionPane.showMessageDialog(this, "Sistem je nasao poslovne partnere po zadatim kriterijumima!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
 
             jTextFieldNazivPartnera.setText("");
             jTextFieldPib.setText("");
@@ -331,8 +331,8 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
             } catch (Exception ex) {
                 return;
             }
-            JOptionPane.showMessageDialog(this, "Sistem je nasao poslovnog partnera!", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
             dpf.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Sistem je nasao poslovnog partnera!", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje poslovnog partnera!", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }
@@ -341,26 +341,26 @@ public class PretraziPoslovnogPartnera extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonpPrikaziActionPerformed
 
     private void jButtonObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonObrisiActionPerformed
-        try {
-            int selectedIndex = jTablePartneri.getSelectedRow();
-            if (selectedIndex < 0) {
-                JOptionPane.showMessageDialog(this, "Morate odabrati predmet za brisanje!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+
+        int selectedIndex = jTablePartneri.getSelectedRow();
+        if (selectedIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Morate odabrati predmet za brisanje!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        ModelTabelePrikaziPoslovnePartnere mtp = (ModelTabelePrikaziPoslovnePartnere) jTablePartneri.getModel();
+        PoslovniPartner pp = mtp.getLista().get(selectedIndex);
+
+        if (dpf == null || !dpf.isVisible()) {
+            try {
+                dpf = new DodajPartneraForma(this, pp, ModForme.OBRISI);
+            } catch (Exception ex) {
                 return;
             }
-            ModelTabelePrikaziPoslovnePartnere mtp = (ModelTabelePrikaziPoslovnePartnere) jTablePartneri.getModel();
-            PoslovniPartner pp = mtp.getLista().get(selectedIndex);
-
-            boolean uspesno = ClientController.getInstance().obrisiPartnera(pp);
-            if (uspesno) {
-                JOptionPane.showMessageDialog(this, "Sistem je obrisao poslovnog partnera!!", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
-                postaviTabelu();
-            } else {
-                JOptionPane.showMessageDialog(this, "Sistem ne moze da obrise poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Sistem ne moze da obrise poslovnog partnera!!", "UPOZORENJE", JOptionPane.WARNING_MESSAGE);
+            dpf.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Sistem je nasao poslovnog partnera!", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje poslovnog partnera!", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_jButtonObrisiActionPerformed
 
     private void jTablePartneriMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePartneriMouseClicked

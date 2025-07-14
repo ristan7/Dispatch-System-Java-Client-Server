@@ -131,10 +131,12 @@ public class LoginForma extends javax.swing.JFrame {
         } catch (NullPointerException e) {
             Logger.getLogger(Sesija.class.getName()).log(Level.INFO, "Neuspesno logovanje...");
             JOptionPane.showMessageDialog(this, "Korisnicko ime i sifra nisu ispravni.", "GRESKA", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ne moze da se otvori glavna forma i meni!", "GRESKA", JOptionPane.ERROR_MESSAGE);
             this.dispose();
         } catch (Exception ex) {
             Logger.getLogger(Sesija.class.getName()).log(Level.INFO, "Neuspesno logovanje...");
             JOptionPane.showMessageDialog(this, "Korisnicko ime i sifra nisu ispravni.", "GRESKA", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ne moze da se otvori glavna forma i meni!", "GRESKA", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonUlogujSeActionPerformed
 

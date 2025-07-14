@@ -9,5 +9,5 @@ package forme;
  * @author mikir
  */
 public enum ModForme {
-    DODAJ, PROMENI
+    DODAJ, PROMENI, OBRISI;
 }
