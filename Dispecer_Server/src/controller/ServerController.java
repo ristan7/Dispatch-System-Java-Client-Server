@@ -102,14 +102,16 @@ public class ServerController {
         return so.getLista();
     }
 
-    public void azurirajPartnera(PoslovniPartner partner) throws Exception {
+    public boolean azurirajPartnera(PoslovniPartner partner) throws Exception {
         SistemskaOperacijaIzmeniPoslovnogPartnera so = new SistemskaOperacijaIzmeniPoslovnogPartnera();
         so.templateIzvrsi(partner);
+        return so.isUspesno();
     }
 
-    public void obrisiPartnera(PoslovniPartner partner) throws Exception {
+    public boolean obrisiPartnera(PoslovniPartner partner) throws Exception {
         SistemskaOperacijaObrisiPoslovnogPartnera so = new SistemskaOperacijaObrisiPoslovnogPartnera();
         so.templateIzvrsi(partner);
+        return so.isUspesno();
     }
 
     public int dodajStrucnuSpremu(StrucnaSprema ss) throws Exception {
@@ -151,9 +153,10 @@ public class ServerController {
         return so.getLista();
     }
 
-    public void azurirajNalog(NalogZaTransportRobe nalog) throws Exception {
+    public boolean azurirajNalog(NalogZaTransportRobe nalog) throws Exception {
         SistemskaOperacijaIzmeniNalogZaTransportRobe so = new SistemskaOperacijaIzmeniNalogZaTransportRobe();
         so.templateIzvrsi(nalog);
+        return so.isUspesno();
     }
 
     public void resetujListe() {

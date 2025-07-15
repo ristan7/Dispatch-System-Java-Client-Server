@@ -15,6 +15,8 @@ import operacija.ApstraktnaSistemskaOperacija;
  */
 public class SistemskaOperacijaObrisiPoslovnogPartnera extends ApstraktnaSistemskaOperacija {
 
+    private boolean uspesno = false;
+
     @Override
     protected void validiraj(ApstraktniDomenskiObjekat ado) throws Exception {
         if (!(ado instanceof PoslovniPartner)) {
@@ -26,6 +28,11 @@ public class SistemskaOperacijaObrisiPoslovnogPartnera extends ApstraktnaSistems
     protected void izvrsi(ApstraktniDomenskiObjekat ado) throws Exception {
         PoslovniPartner p = (PoslovniPartner) ado;
         DBBroker.getInstance().delete(p);
+        uspesno = true;
+    }
+
+    public boolean isUspesno() {
+        return uspesno;
     }
 
 }

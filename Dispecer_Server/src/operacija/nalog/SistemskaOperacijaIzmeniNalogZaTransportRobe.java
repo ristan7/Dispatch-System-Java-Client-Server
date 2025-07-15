@@ -23,6 +23,8 @@ import operacija.ApstraktnaSistemskaOperacija;
  */
 public class SistemskaOperacijaIzmeniNalogZaTransportRobe extends ApstraktnaSistemskaOperacija {
 
+    private boolean uspesno = false;
+
     @Override
     protected void validiraj(ApstraktniDomenskiObjekat ado) throws Exception {
         if (!(ado instanceof NalogZaTransportRobe)) {
@@ -132,7 +134,13 @@ public class SistemskaOperacijaIzmeniNalogZaTransportRobe extends ApstraktnaSist
             System.out.println("Nema stavki");
             DBBroker.getInstance().delete(stavka);
         }
+        
+        uspesno = true;
 
+    }
+
+    public boolean isUspesno() {
+        return uspesno;
     }
 
 }

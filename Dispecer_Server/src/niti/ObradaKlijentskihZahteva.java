@@ -179,14 +179,14 @@ public class ObradaKlijentskihZahteva extends Thread {
 
     private ServerskiOdgovor obradiAzurirajPartnera(KlijentskiZahtev zahtev) throws Exception {
         PoslovniPartner partner = (PoslovniPartner) zahtev.getParametar();
-        ServerController.getInstance().azurirajPartnera(partner);
-        return new ServerskiOdgovor(true, null, VrstaOdgovora.USPESNO);
+        boolean uspesno = ServerController.getInstance().azurirajPartnera(partner);
+        return new ServerskiOdgovor(uspesno, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor obradiObrisiPartnera(KlijentskiZahtev zahtev) throws Exception {
         PoslovniPartner partner = (PoslovniPartner) zahtev.getParametar();
-        ServerController.getInstance().obrisiPartnera(partner);
-        return new ServerskiOdgovor(true, null, VrstaOdgovora.USPESNO);
+        boolean uspesno = ServerController.getInstance().obrisiPartnera(partner);
+        return new ServerskiOdgovor(uspesno, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor obradiUbaciSpremu(KlijentskiZahtev zahtev) throws Exception {
@@ -221,8 +221,8 @@ public class ObradaKlijentskihZahteva extends Thread {
 
     private ServerskiOdgovor obradiAzurirajNalog(KlijentskiZahtev zahtev) throws Exception {
         NalogZaTransportRobe nalog = (NalogZaTransportRobe) zahtev.getParametar();
-        ServerController.getInstance().azurirajNalog(nalog);
-        return new ServerskiOdgovor(true, null, VrstaOdgovora.USPESNO);
+        boolean uspesno = ServerController.getInstance().azurirajNalog(nalog);
+        return new ServerskiOdgovor(uspesno, null, VrstaOdgovora.USPESNO);
     }
 
     private ServerskiOdgovor obradiVratiNaloge(KlijentskiZahtev zahtev) throws Exception {
