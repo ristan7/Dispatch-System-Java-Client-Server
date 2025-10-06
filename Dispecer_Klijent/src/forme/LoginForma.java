@@ -122,7 +122,7 @@ public class LoginForma extends javax.swing.JFrame {
 
             Sesija.getInstance().setUlogovani(dispecer);
 
-            JOptionPane.showMessageDialog(this, "Korisnicko ime i sifra su ispravni.", "GRESKA", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Korisnicko ime i sifra su ispravni.", "USPESNO", JOptionPane.INFORMATION_MESSAGE);
 
             MainForma mf = new MainForma();
             mf.setVisible(true);
