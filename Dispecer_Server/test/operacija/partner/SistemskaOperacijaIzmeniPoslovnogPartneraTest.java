@@ -25,7 +25,6 @@ public class SistemskaOperacijaIzmeniPoslovnogPartneraTest {
     public void setUp() throws Exception {
         so = new SistemskaOperacijaIzmeniPoslovnogPartnera();
 
-        // Prvo kreiramo privremenog partnera nad kojim cemo raditi izmenu
         SistemskaOperacijaDodajPartnera dodaj = new SistemskaOperacijaDodajPartnera();
         long broj = System.nanoTime() % 1000000000L;
         PoslovniPartner noviPartner = new PoslovniPartner();

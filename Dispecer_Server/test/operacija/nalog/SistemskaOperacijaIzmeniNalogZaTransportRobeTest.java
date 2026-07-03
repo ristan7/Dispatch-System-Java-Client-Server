@@ -24,15 +24,15 @@ import static org.junit.Assert.*;
  *
  * @author mikir
  */
-public class SistemskaOperacijaDodajNalogZaTransportRobeTest {
+public class SistemskaOperacijaIzmeniNalogZaTransportRobeTest {
 
-    private SistemskaOperacijaDodajNalogZaTransportRobe so;
+    private SistemskaOperacijaIzmeniNalogZaTransportRobe so;
     private NalogZaTransportRobe nalog;
     private int idTestNaloga = -1;
 
     @Before
     public void setUp() {
-        so = new SistemskaOperacijaDodajNalogZaTransportRobe();
+        so = new SistemskaOperacijaIzmeniNalogZaTransportRobe();
 
         PoslovniPartner partner = new PoslovniPartner();
         partner.setIdPoslovnogPartnera(1);
@@ -43,9 +43,10 @@ public class SistemskaOperacijaDodajNalogZaTransportRobeTest {
         nalog = new NalogZaTransportRobe();
         nalog.setPoslovniPartner(partner);
         nalog.setDispecer(dispecer);
-        nalog.setAdresaUtovara("Bulevar Kralja Aleksandra 73, Beograd");
-        nalog.setAdresaIstovara("Bulevar Oslobodjenja 100, Novi Sad");
-        nalog.setUkupanIznosPosla(0);
+        nalog.setAdresaUtovara("Test adresa utovara 1");
+        nalog.setAdresaIstovara("Test adresa istovara 1");
+        nalog.setDatumUtovara(danOd(3));
+        nalog.setDatumIstovara(danOd(7));
     }
 
     @After
@@ -68,67 +69,60 @@ public class SistemskaOperacijaDodajNalogZaTransportRobeTest {
     }
 
     @Test(expected = Exception.class)
-    public void testValidirajDatumUtovaraUProslosti() throws Exception {
-        nalog.setDatumUtovara(danOd(-5));
-        nalog.setDatumIstovara(danOd(5));
+    public void testValidirajNedostajeDatumUtovara() throws Exception {
+        nalog.setDatumUtovara(null);
         so.validiraj(nalog);
     }
 
     @Test(expected = Exception.class)
-    public void testValidirajDatumIstovaraPreDatumaUtovara() throws Exception {
-        nalog.setDatumUtovara(danOd(10));
-        nalog.setDatumIstovara(danOd(2));
-        so.validiraj(nalog);
-    }
-
-    @Test(expected = Exception.class)
-    public void testValidirajNedostajeAdresaUtovara() throws Exception {
-        nalog.setAdresaUtovara("");
-        nalog.setDatumUtovara(danOd(3));
-        nalog.setDatumIstovara(danOd(7));
+    public void testValidirajNedostajeAdresaIstovara() throws Exception {
+        nalog.setAdresaIstovara("");
         so.validiraj(nalog);
     }
 
     @Test(expected = Exception.class)
     public void testValidirajNedostajePoslovniPartner() throws Exception {
         nalog.setPoslovniPartner(null);
-        nalog.setDatumUtovara(danOd(3));
-        nalog.setDatumIstovara(danOd(7));
-        so.validiraj(nalog);
-    }
-
-    @Test(expected = Exception.class)
-    public void testValidirajStavkaBezUneteKolicine() throws Exception {
-        nalog.setDatumUtovara(danOd(3));
-        nalog.setDatumIstovara(danOd(7));
-
-        Roba roba = new Roba(1, "Mleko 2.8% mm", JedinicaMere.LITAR_L, 125);
-        StavkaNaloga stavka = new StavkaNaloga(nalog, 0, roba);
-        ArrayList<StavkaNaloga> stavke = new ArrayList<>();
-        stavke.add(stavka);
-        nalog.setStavke(stavke);
-
         so.validiraj(nalog);
     }
 
     @Test
-    public void testIzvrsiUspesnoKreiranjeNaloga() throws Exception {
-        nalog.setDatumUtovara(danOd(3));
-        nalog.setDatumIstovara(danOd(7));
-        nalog.setStatus(StatusNaloga.U_PRIPREMI);
+    public void testValidirajDatumUtovaraMozeBitiUProslosti() throws Exception {
+        nalog.setDatumUtovara(danOd(-10));
+        so.validiraj(nalog);
+        assertTrue(true);
+    }
+
+    @Test
+    public void testIzvrsiUspesnaIzmenaNaloga() throws Exception {
+        SistemskaOperacijaDodajNalogZaTransportRobe dodaj = new SistemskaOperacijaDodajNalogZaTransportRobe();
+
+        NalogZaTransportRobe noviNalog = new NalogZaTransportRobe();
+        noviNalog.setPoslovniPartner(nalog.getPoslovniPartner());
+        noviNalog.setDispecer(nalog.getDispecer());
+        noviNalog.setAdresaUtovara("Adresa pre izmene");
+        noviNalog.setAdresaIstovara("Adresa istovara pre izmene");
+        noviNalog.setDatumUtovara(danOd(3));
+        noviNalog.setDatumIstovara(danOd(7));
+        noviNalog.setStatus(StatusNaloga.U_PRIPREMI);
 
         Roba roba = new Roba(1, "Mleko 2.8% mm", JedinicaMere.LITAR_L, 125);
-        StavkaNaloga stavka = new StavkaNaloga(nalog, 10, roba);
+        StavkaNaloga stavka = new StavkaNaloga(noviNalog, 5, roba);
         ArrayList<StavkaNaloga> stavke = new ArrayList<>();
         stavke.add(stavka);
-        nalog.setStavke(stavke);
-        nalog.izracunajUkupneTroskovePosla();
+        noviNalog.setStavke(stavke);
+        noviNalog.izracunajUkupneTroskovePosla();
+
+        dodaj.templateIzvrsi(noviNalog);
+        idTestNaloga = dodaj.getBrojDodatih();
+
+        nalog.setIdNaloga(idTestNaloga);
+        nalog.setAdresaUtovara("Nova adresa posle izmene");
+        nalog.setStavke(new ArrayList<>());
+        nalog.setStatus(StatusNaloga.U_TRANSPORTU);
 
         so.templateIzvrsi(nalog);
 
-        assertTrue(so.getBrojDodatih() > 0);
-        assertTrue(so.getBrojacStavki() > 0);
-
-        idTestNaloga = so.getBrojDodatih();
+        assertTrue(so.isUspesno());
     }
 }

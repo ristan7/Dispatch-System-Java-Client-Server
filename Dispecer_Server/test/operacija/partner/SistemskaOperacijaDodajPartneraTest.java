@@ -84,7 +84,7 @@ public class SistemskaOperacijaDodajPartneraTest {
         partner.setPib("100032989");
         partner.setAdresaPartnera("Bilo koja adresa");
         partner.setEmailPartnera("test@test.com");
-        partner.setMesto(new Mesto()); // prazno mesto - ne filtriramo po gradu/drzavi
+        partner.setMesto(new Mesto());
         so.validiraj(partner);
     }
 

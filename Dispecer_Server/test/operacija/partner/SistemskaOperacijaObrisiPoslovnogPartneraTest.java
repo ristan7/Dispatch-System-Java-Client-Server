@@ -35,7 +35,6 @@ public class SistemskaOperacijaObrisiPoslovnogPartneraTest {
 
     @Test
     public void testIzvrsiUspesnoBrisanjePartnera() throws Exception {
-        // Kreiramo partnera bez povezanih naloga da bismo mogli da ga obrisemo
         SistemskaOperacijaDodajPartnera dodaj = new SistemskaOperacijaDodajPartnera();
         long broj = System.nanoTime() % 1000000000L;
         PoslovniPartner noviPartner = new PoslovniPartner();
@@ -56,8 +55,6 @@ public class SistemskaOperacijaObrisiPoslovnogPartneraTest {
 
     @Test(expected = Exception.class)
     public void testIzvrsiBrisanjePartneraKojiImaNaloge() throws Exception {
-        // Partner id=1 (DELHAIZE) ima povezane naloge za transport robe,
-        // pa baza mora da odbije brisanje zbog stranog kljuca (FK constraint)
         PoslovniPartner partnerSaNalozima = new PoslovniPartner();
         partnerSaNalozima.setIdPoslovnogPartnera(1);
 
