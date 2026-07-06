@@ -132,22 +132,30 @@ public class Roba implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiVrednostiZaInsert() {
-        return String.format("'%s', %d, %.2f",
-                nazivRobe,
-                jedinicaMere.ordinal(),
-                cena
-        );
+        return "?, ?, ?";
+    }
 
+    @Override
+    public ArrayList<Object> parametriZaInsert() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(nazivRobe);
+        parametri.add(jedinicaMere.ordinal());
+        parametri.add(cena);
+        return parametri;
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        return String.format(
-                "nazivRobe = '%s', jedinicaMere = %d, cena = %.2f",
-                nazivRobe,
-                jedinicaMere.ordinal(),
-                cena
-        );
+        return "nazivRobe = ?, jedinicaMere = ?, cena = ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaUpdate() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(nazivRobe);
+        parametri.add(jedinicaMere.ordinal());
+        parametri.add(cena);
+        return parametri;
     }
 
     @Override
@@ -162,7 +170,14 @@ public class Roba implements ApstraktniDomenskiObjekat {
 
     @Override
     public String uslov() {
-        return "idRobe = " + idRobe;
+        return "idRobe = ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaUslov() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(idRobe);
+        return parametri;
     }
 
     @Override

@@ -177,12 +177,38 @@ public class Dispecer implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiVrednostiZaInsert() {
-        return String.format("'%s', '%s', '%s', '%s', '%s', '%s', %d", imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, korisnickoIme, lozinka, rola.ordinal());
+        return "?, ?, ?, ?, ?, ?, ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaInsert() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(imeDispecera);
+        parametri.add(prezimeDispecera);
+        parametri.add(emailDispecera);
+        parametri.add(telefonDispecera);
+        parametri.add(korisnickoIme);
+        parametri.add(lozinka);
+        parametri.add(rola.ordinal());
+        return parametri;
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        return String.format("imeDispecera = '%s', prezimeDispecera = '%s', emailDispecera = '%s', telefonDispecera = '%s', korisnickoIme = '%s', lozinka = '%s', rola = %d", imeDispecera, prezimeDispecera, emailDispecera, telefonDispecera, korisnickoIme, lozinka, rola.ordinal());
+        return "imeDispecera = ?, prezimeDispecera = ?, emailDispecera = ?, telefonDispecera = ?, korisnickoIme = ?, lozinka = ?, rola = ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaUpdate() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(imeDispecera);
+        parametri.add(prezimeDispecera);
+        parametri.add(emailDispecera);
+        parametri.add(telefonDispecera);
+        parametri.add(korisnickoIme);
+        parametri.add(lozinka);
+        parametri.add(rola.ordinal());
+        return parametri;
     }
 
     @Override
@@ -197,7 +223,14 @@ public class Dispecer implements ApstraktniDomenskiObjekat {
 
     @Override
     public String uslov() {
-        return "korisnickoIme = '" + korisnickoIme + "'";
+        return "korisnickoIme = ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaUslov() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(korisnickoIme);
+        return parametri;
     }
 
     @Override

@@ -160,26 +160,34 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiVrednostiZaInsert() {
-        return String.format("'%s', '%s', '%s', '%s', %d",
-                nazivPartnera,
-                pib,
-                adresaPartnera,
-                emailPartnera,
-                mesto.getIdMesta()
-        );
+        return "?, ?, ?, ?, ?";
+    }
 
+    @Override
+    public ArrayList<Object> parametriZaInsert() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(nazivPartnera);
+        parametri.add(pib);
+        parametri.add(adresaPartnera);
+        parametri.add(emailPartnera);
+        parametri.add(mesto.getIdMesta());
+        return parametri;
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        return String.format(
-                "nazivPartnera = '%s', pib = '%s', adresaPartnera = '%s', emailPartnera = '%s', mesto = %d",
-                nazivPartnera,
-                pib,
-                adresaPartnera,
-                emailPartnera,
-                mesto.getIdMesta()
-        );
+        return "nazivPartnera = ?, pib = ?, adresaPartnera = ?, emailPartnera = ?, mesto = ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaUpdate() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(nazivPartnera);
+        parametri.add(pib);
+        parametri.add(adresaPartnera);
+        parametri.add(emailPartnera);
+        parametri.add(mesto.getIdMesta());
+        return parametri;
     }
 
     @Override
@@ -194,7 +202,14 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
 
     @Override
     public String uslov() {
-        return "idPoslovnogPartnera = " + idPoslovnogPartnera;
+        return "idPoslovnogPartnera = ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaUslov() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(idPoslovnogPartnera);
+        return parametri;
     }
 
     @Override
@@ -207,25 +222,25 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
         }
 
         if (nazivPartnera != null && !nazivPartnera.isEmpty()) {
-            uslov.append("pp.nazivPartnera LIKE '%").append(nazivPartnera).append("%'");
+            uslov.append("pp.nazivPartnera LIKE ?");
         }
         if (pib != null && !pib.isEmpty()) {
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
-            uslov.append("pp.pib = '").append(pib).append("'");
+            uslov.append("pp.pib = ?");
         }
         if (mesto != null && mesto.getNazivMesta() != null && !mesto.getNazivMesta().isEmpty()) {
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
-            uslov.append("m.nazivMesta LIKE '%").append(mesto.getNazivMesta()).append("%'");
+            uslov.append("m.nazivMesta LIKE ?");
         }
         if (mesto != null && mesto.getDrzava() != null && !mesto.getDrzava().isEmpty()) {
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
             }
-            uslov.append("m.drzava LIKE '%").append(mesto.getDrzava()).append("%'");
+            uslov.append("m.drzava LIKE ?");
         }
 
         if (uslov.length() > 0) {
@@ -233,7 +248,30 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
         }
 
         return pocetak.toString();
+    }
 
+    @Override
+    public ArrayList<Object> parametriZaSelect() {
+        ArrayList<Object> parametri = new ArrayList<>();
+
+        if (idPoslovnogPartnera == -1) {
+            return parametri;
+        }
+
+        if (nazivPartnera != null && !nazivPartnera.isEmpty()) {
+            parametri.add("%" + nazivPartnera + "%");
+        }
+        if (pib != null && !pib.isEmpty()) {
+            parametri.add(pib);
+        }
+        if (mesto != null && mesto.getNazivMesta() != null && !mesto.getNazivMesta().isEmpty()) {
+            parametri.add("%" + mesto.getNazivMesta() + "%");
+        }
+        if (mesto != null && mesto.getDrzava() != null && !mesto.getDrzava().isEmpty()) {
+            parametri.add("%" + mesto.getDrzava() + "%");
+        }
+
+        return parametri;
     }
 
 }

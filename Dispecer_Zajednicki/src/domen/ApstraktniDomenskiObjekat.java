@@ -37,4 +37,22 @@ public interface ApstraktniDomenskiObjekat extends Serializable {
 
     public abstract String uslovZaSelect();
 
+    // NOVO: parametri koji odgovaraju "?" znacima u uslovZaSelect().
+    // Default je prazna lista - klase koje nemaju dinamicke vrednosti
+    // (npr. Sertifikat, Roba, StrucnaSprema...) ne moraju nista da menjaju.
+    public default ArrayList<Object> parametriZaSelect() {
+        return new ArrayList<>();
+    }
+
+    public default ArrayList<Object> parametriZaInsert() {
+        return new ArrayList<>();
+    }
+
+    public default ArrayList<Object> parametriZaUpdate() {
+        return new ArrayList<>();
+    }
+
+    public default ArrayList<Object> parametriZaUslov() {
+        return new ArrayList<>();
+    }
 }

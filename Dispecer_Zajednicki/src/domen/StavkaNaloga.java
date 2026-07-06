@@ -222,25 +222,34 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiVrednostiZaInsert() {
-        return String.format("%d, %.2f, %.2f, %.2f, %d",
-                nalog.getIdNaloga(),
-                kolicina,
-                cenaPoJedinici,
-                iznos,
-                roba.getIdRobe()
-        );
+        return "?, ?, ?, ?, ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaInsert() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(nalog.getIdNaloga());
+        parametri.add(kolicina);
+        parametri.add(cenaPoJedinici);
+        parametri.add(iznos);
+        parametri.add(roba.getIdRobe());
+        return parametri;
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        return String.format(
-                "nalog = %d, kolicina = %.2f, cenaPoJedinici = %.2f, iznos = %.2f, roba = %d",
-                nalog.getIdNaloga(),
-                kolicina,
-                cenaPoJedinici,
-                iznos,
-                roba.getIdRobe()
-        );
+        return "nalog = ?, kolicina = ?, cenaPoJedinici = ?, iznos = ?, roba = ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaUpdate() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(nalog.getIdNaloga());
+        parametri.add(kolicina);
+        parametri.add(cenaPoJedinici);
+        parametri.add(iznos);
+        parametri.add(roba.getIdRobe());
+        return parametri;
     }
 
     @Override
@@ -263,18 +272,33 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
     @Override
     public String uslov() {
         StringBuilder uslov = new StringBuilder();
-
-        uslov.append("nalog = ").append(nalog.getIdNaloga());
-
+        uslov.append("nalog = ?");
         if (roba != null && roba.getIdRobe() != -1) {
-            uslov.append(" AND ").append("roba = ").append(roba.getIdRobe());
+            uslov.append(" AND roba = ?");
         }
         return uslov.toString();
     }
 
     @Override
+    public ArrayList<Object> parametriZaUslov() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(nalog.getIdNaloga());
+        if (roba != null && roba.getIdRobe() != -1) {
+            parametri.add(roba.getIdRobe());
+        }
+        return parametri;
+    }
+
+    @Override
     public String uslovZaSelect() {
-        return " WHERE nr.idNaloga = " + nalog.getIdNaloga();
+        return " WHERE nr.idNaloga = ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaSelect() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(nalog.getIdNaloga());
+        return parametri;
     }
 
 }

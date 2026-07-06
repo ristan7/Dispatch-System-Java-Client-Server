@@ -126,17 +126,30 @@ public class Mesto implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiVrednostiZaInsert() {
-        return String.format("'%s', '%s', %d", nazivMesta, drzava, postanskiBroj);
+        return "?, ?, ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaInsert() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(nazivMesta);
+        parametri.add(drzava);
+        parametri.add(postanskiBroj);
+        return parametri;
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        return String.format(
-                "nazivMesta = '%s', drzava = '%s', postanskiBroj = %d",
-                nazivMesta,
-                drzava,
-                postanskiBroj
-        );
+        return "nazivMesta = ?, drzava = ?, postanskiBroj = ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaUpdate() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(nazivMesta);
+        parametri.add(drzava);
+        parametri.add(postanskiBroj);
+        return parametri;
     }
 
     @Override

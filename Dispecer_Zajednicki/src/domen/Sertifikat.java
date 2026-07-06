@@ -160,24 +160,32 @@ public class Sertifikat implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiVrednostiZaInsert() {
-        return String.format(
-                "%d, %d, '%s', '%s'",
-                dispecer.getIdDispecera(),
-                strucnaSprema.getIdStrucneSpreme(),
-                nazivSertifikata,
-                new SimpleDateFormat("yyyy-MM-dd").format(datumIzdavanja)
-        );
+        return "?, ?, ?, ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaInsert() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(dispecer.getIdDispecera());
+        parametri.add(strucnaSprema.getIdStrucneSpreme());
+        parametri.add(nazivSertifikata);
+        parametri.add(new SimpleDateFormat("yyyy-MM-dd").format(datumIzdavanja));
+        return parametri;
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        return String.format(
-                "dispecer = %d, strucnaSprema = %d, nazivSertifikata = '%s', datumIzdavanja = '%s'",
-                dispecer.getIdDispecera(),
-                strucnaSprema.getIdStrucneSpreme(),
-                nazivSertifikata,
-                new SimpleDateFormat("yyyy-MM-dd").format(datumIzdavanja)
-        );
+        return "dispecer = ?, strucnaSprema = ?, nazivSertifikata = ?, datumIzdavanja = ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaUpdate() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(dispecer.getIdDispecera());
+        parametri.add(strucnaSprema.getIdStrucneSpreme());
+        parametri.add(nazivSertifikata);
+        parametri.add(new SimpleDateFormat("yyyy-MM-dd").format(datumIzdavanja));
+        return parametri;
     }
 
     @Override
@@ -194,7 +202,14 @@ public class Sertifikat implements ApstraktniDomenskiObjekat {
 
     @Override
     public String uslov() {
-        return "idSertifikata = " + idSertifikata;
+        return "idSertifikata = ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaUslov() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(idSertifikata);
+        return parametri;
     }
 
     @Override

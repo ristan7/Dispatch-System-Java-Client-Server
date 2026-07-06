@@ -120,19 +120,28 @@ public class StrucnaSprema implements ApstraktniDomenskiObjekat {
 
     @Override
     public String vratiVrednostiZaInsert() {
-        return String.format("'%s', %d",
-                nazivStrucneSpreme,
-                tip.ordinal() + 1
-        );
+        return "?, ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaInsert() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(nazivStrucneSpreme);
+        parametri.add(tip.ordinal() + 1);
+        return parametri;
     }
 
     @Override
     public String vratiVrednostiZaUpdate() {
-        return String.format(
-                "nazivStrucneSpreme = '%s', tipStrucneSpreme = %d",
-                nazivStrucneSpreme,
-                tip.ordinal()
-        );
+        return "nazivStrucneSpreme = ?, tipStrucneSpreme = ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaUpdate() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(nazivStrucneSpreme);
+        parametri.add(tip.ordinal());
+        return parametri;
     }
 
     @Override
@@ -147,7 +156,14 @@ public class StrucnaSprema implements ApstraktniDomenskiObjekat {
 
     @Override
     public String uslov() {
-        return "idStrucneSpreme = " + idStrucneSpreme;
+        return "idStrucneSpreme = ?";
+    }
+
+    @Override
+    public ArrayList<Object> parametriZaUslov() {
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.add(idStrucneSpreme);
+        return parametri;
     }
 
     @Override

@@ -56,8 +56,14 @@ public class DBBroker {
     public ArrayList<ApstraktniDomenskiObjekat> select(ApstraktniDomenskiObjekat ado) throws SQLException {
         String upit = "SELECT * FROM " + ado.vratiNazivTabele() + " " + ado.alijas() + " " + ado.join() + ado.uslovZaSelect();
         System.out.println(upit);
-        Statement s = connection.createStatement();
-        ResultSet rs = s.executeQuery(upit);
+
+        PreparedStatement ps = connection.prepareStatement(upit);
+        ArrayList<Object> parametri = ado.parametriZaSelect();
+        for (int i = 0; i < parametri.size(); i++) {
+            ps.setObject(i + 1, parametri.get(i));
+        }
+
+        ResultSet rs = ps.executeQuery();
         return ado.vratiListu(rs);
     }
 
@@ -65,6 +71,12 @@ public class DBBroker {
         String naredba = "INSERT INTO " + ado.vratiNazivTabele() + " " + ado.vratiKoloneZaInsert() + " VALUES(" + ado.vratiVrednostiZaInsert() + ")";
         System.out.println(naredba);
         PreparedStatement ps = connection.prepareStatement(naredba, Statement.RETURN_GENERATED_KEYS);
+
+        ArrayList<Object> parametri = ado.parametriZaInsert();
+        for (int i = 0; i < parametri.size(); i++) {
+            ps.setObject(i + 1, parametri.get(i));
+        }
+
         int brojDodatihRedova = ps.executeUpdate();
         System.out.println("Broj dodatih redova: " + brojDodatihRedova);
 
@@ -87,14 +99,29 @@ public class DBBroker {
     public void update(ApstraktniDomenskiObjekat ado) throws SQLException {
         String naredba = "UPDATE " + ado.vratiNazivTabele() + " SET " + ado.vratiVrednostiZaUpdate() + " WHERE " + ado.uslov();
         System.out.println(naredba);
-        Statement s = connection.createStatement();
-        s.executeUpdate(naredba);
+        PreparedStatement ps = connection.prepareStatement(naredba);
+
+        ArrayList<Object> parametri = new ArrayList<>();
+        parametri.addAll(ado.parametriZaUpdate());
+        parametri.addAll(ado.parametriZaUslov());
+
+        for (int i = 0; i < parametri.size(); i++) {
+            ps.setObject(i + 1, parametri.get(i));
+        }
+
+        ps.executeUpdate();
     }
 
     public void delete(ApstraktniDomenskiObjekat ado) throws SQLException {
         String naredba = "DELETE FROM " + ado.vratiNazivTabele() + " WHERE " + ado.uslov();
         System.out.println(naredba);
-        Statement s = connection.createStatement();
-        s.executeUpdate(naredba);
+        PreparedStatement ps = connection.prepareStatement(naredba);
+
+        ArrayList<Object> parametri = ado.parametriZaUslov();
+        for (int i = 0; i < parametri.size(); i++) {
+            ps.setObject(i + 1, parametri.get(i));
+        }
+
+        ps.executeUpdate();
     }
 }
