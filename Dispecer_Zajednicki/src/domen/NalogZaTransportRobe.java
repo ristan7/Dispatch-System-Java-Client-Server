@@ -19,6 +19,8 @@ import java.util.Objects;
  */
 public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 
+    private static final String FORMAT_DATUMA = "yyyy-MM-dd";
+
     private int idNaloga;
     private Date datumUtovara;
     private Date datumIstovara;
@@ -293,8 +295,8 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
     @Override
     public ArrayList<Object> parametriZaInsert() {
         ArrayList<Object> parametri = new ArrayList<>();
-        parametri.add(new SimpleDateFormat("yyyy-MM-dd").format(datumUtovara));
-        parametri.add(new SimpleDateFormat("yyyy-MM-dd").format(datumIstovara));
+        parametri.add(new SimpleDateFormat(FORMAT_DATUMA).format(datumUtovara));
+        parametri.add(new SimpleDateFormat(FORMAT_DATUMA).format(datumIstovara));
         parametri.add(adresaUtovara);
         parametri.add(adresaIstovara);
         parametri.add(status.ordinal() + 1);
@@ -311,16 +313,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 
     @Override
     public ArrayList<Object> parametriZaUpdate() {
-        ArrayList<Object> parametri = new ArrayList<>();
-        parametri.add(new SimpleDateFormat("yyyy-MM-dd").format(datumUtovara));
-        parametri.add(new SimpleDateFormat("yyyy-MM-dd").format(datumIstovara));
-        parametri.add(adresaUtovara);
-        parametri.add(adresaIstovara);
-        parametri.add(status.ordinal() + 1);
-        parametri.add(ukupanIznosPosla);
-        parametri.add(dispecer.getIdDispecera());
-        parametri.add(poslovniPartner.getIdPoslovnogPartnera());
-        return parametri;
+        return parametriZaInsert();
     }
 
     @Override
@@ -359,17 +352,17 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
         StringBuilder uslov = new StringBuilder();
         StringBuilder pocetak = new StringBuilder();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATUMA);
         sdf.setLenient(false);
 
         String danasnjiDatum = sdf.format(new Date());
 
         if (datumUtovara != null && datumIstovara != null) {
 
-            String datumUtovara = sdf.format(this.datumUtovara);
-            String datumIstovara = sdf.format(this.datumIstovara);
+            String datumUtovaraFormatiran = sdf.format(this.datumUtovara);
+            String datumIstovaraFormatiran = sdf.format(this.datumIstovara);
 
-            if (datumUtovara.equals(danasnjiDatum) && datumIstovara.equals(danasnjiDatum)) {
+            if (datumUtovaraFormatiran.equals(danasnjiDatum) && datumIstovaraFormatiran.equals(danasnjiDatum)) {
                 uslov.append(" WHERE nr.dispecer = ? AND (nr.datumUtovara = ? OR nr.datumIstovara = ?)");
                 return uslov.toString();
             }
@@ -442,7 +435,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
             }
         }
 
-        if (stavke.size() != 0) {
+        if (!stavke.isEmpty()) {
 
             if (uslov.length() > 0) {
                 uslov.append(" AND ");
@@ -465,17 +458,17 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
     public ArrayList<Object> parametriZaSelect() {
         ArrayList<Object> parametri = new ArrayList<>();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATUMA);
         sdf.setLenient(false);
 
         String danasnjiDatum = sdf.format(new Date());
 
         if (datumUtovara != null && datumIstovara != null) {
 
-            String datumUtovara = sdf.format(this.datumUtovara);
-            String datumIstovara = sdf.format(this.datumIstovara);
+            String datumUtovaraFormatiran = sdf.format(this.datumUtovara);
+            String datumIstovaraFormatiran = sdf.format(this.datumIstovara);
 
-            if (datumUtovara.equals(danasnjiDatum) && datumIstovara.equals(danasnjiDatum)) {
+            if (datumUtovaraFormatiran.equals(danasnjiDatum) && datumIstovaraFormatiran.equals(danasnjiDatum)) {
                 parametri.add(dispecer.getIdDispecera());
                 parametri.add(danasnjiDatum);
                 parametri.add(danasnjiDatum);
@@ -501,11 +494,11 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
         }
 
         if (datumUtovara != null) {
-            parametri.add(new SimpleDateFormat("yyyy-MM-dd").format(datumUtovara));
+            parametri.add(sdf.format(datumUtovara));
         }
 
         if (datumIstovara != null) {
-            parametri.add(new SimpleDateFormat("yyyy-MM-dd").format(datumIstovara));
+            parametri.add(sdf.format(datumIstovara));
         }
 
         if (poslovniPartner != null) {
@@ -528,7 +521,7 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
             }
         }
 
-        if (stavke.size() != 0) {
+        if (!stavke.isEmpty()) {
             for (StavkaNaloga stavkaNaloga : stavke) {
                 parametri.add(stavkaNaloga.getRoba().getIdRobe());
             }

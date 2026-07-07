@@ -181,13 +181,7 @@ public class PoslovniPartner implements ApstraktniDomenskiObjekat {
 
     @Override
     public ArrayList<Object> parametriZaUpdate() {
-        ArrayList<Object> parametri = new ArrayList<>();
-        parametri.add(nazivPartnera);
-        parametri.add(pib);
-        parametri.add(adresaPartnera);
-        parametri.add(emailPartnera);
-        parametri.add(mesto.getIdMesta());
-        return parametri;
+        return parametriZaInsert();
     }
 
     @Override

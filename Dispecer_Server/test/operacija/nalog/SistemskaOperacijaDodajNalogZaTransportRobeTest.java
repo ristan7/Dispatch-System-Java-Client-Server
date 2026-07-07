@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package operacija.nalog;
 
 import baza.DBBroker;
@@ -13,13 +9,18 @@ import domen.Roba;
 import domen.StatusNaloga;
 import domen.StavkaNaloga;
 import java.sql.Statement;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import util.VremenskiIzvor;
+
 /**
  *
  * @author mikir
@@ -32,6 +33,11 @@ public class SistemskaOperacijaDodajNalogZaTransportRobeTest {
 
     @Before
     public void setUp() {
+        VremenskiIzvor.postaviClock(Clock.fixed(
+                Instant.parse("2026-07-06T10:00:00Z"),
+                ZoneId.systemDefault()
+        ));
+
         so = new SistemskaOperacijaDodajNalogZaTransportRobe();
 
         PoslovniPartner partner = new PoslovniPartner();
@@ -59,12 +65,13 @@ public class SistemskaOperacijaDodajNalogZaTransportRobeTest {
         }
         so = null;
         nalog = null;
+        VremenskiIzvor.resetuj();
     }
 
     private Date danOd(int brojDana) {
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DAY_OF_MONTH, brojDana);
-        return c.getTime();
+        LocalDate osnovniDatum = VremenskiIzvor.sada().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate pomereniDatum = osnovniDatum.plusDays(brojDana);
+        return Date.from(pomereniDatum.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
     @Test(expected = Exception.class)

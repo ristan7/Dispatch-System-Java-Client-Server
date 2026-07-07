@@ -243,13 +243,7 @@ public class StavkaNaloga implements ApstraktniDomenskiObjekat {
 
     @Override
     public ArrayList<Object> parametriZaUpdate() {
-        ArrayList<Object> parametri = new ArrayList<>();
-        parametri.add(nalog.getIdNaloga());
-        parametri.add(kolicina);
-        parametri.add(cenaPoJedinici);
-        parametri.add(iznos);
-        parametri.add(roba.getIdRobe());
-        return parametri;
+        return parametriZaInsert();
     }
 
     @Override

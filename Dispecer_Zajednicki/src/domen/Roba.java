@@ -151,11 +151,7 @@ public class Roba implements ApstraktniDomenskiObjekat {
 
     @Override
     public ArrayList<Object> parametriZaUpdate() {
-        ArrayList<Object> parametri = new ArrayList<>();
-        parametri.add(nazivRobe);
-        parametri.add(jedinicaMere.ordinal());
-        parametri.add(cena);
-        return parametri;
+        return parametriZaInsert();
     }
 
     @Override

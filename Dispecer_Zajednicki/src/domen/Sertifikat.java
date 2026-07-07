@@ -180,12 +180,7 @@ public class Sertifikat implements ApstraktniDomenskiObjekat {
 
     @Override
     public ArrayList<Object> parametriZaUpdate() {
-        ArrayList<Object> parametri = new ArrayList<>();
-        parametri.add(dispecer.getIdDispecera());
-        parametri.add(strucnaSprema.getIdStrucneSpreme());
-        parametri.add(nazivSertifikata);
-        parametri.add(new SimpleDateFormat("yyyy-MM-dd").format(datumIzdavanja));
-        return parametri;
+        return parametriZaInsert();
     }
 
     @Override

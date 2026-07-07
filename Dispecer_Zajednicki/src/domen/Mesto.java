@@ -145,11 +145,7 @@ public class Mesto implements ApstraktniDomenskiObjekat {
 
     @Override
     public ArrayList<Object> parametriZaUpdate() {
-        ArrayList<Object> parametri = new ArrayList<>();
-        parametri.add(nazivMesta);
-        parametri.add(drzava);
-        parametri.add(postanskiBroj);
-        return parametri;
+        return parametriZaInsert();
     }
 
     @Override

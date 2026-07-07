@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import operacija.ApstraktnaSistemskaOperacija;
+import util.VremenskiIzvor;
 
 /**
  *
@@ -38,7 +39,7 @@ public class SistemskaOperacijaDodajNalogZaTransportRobe extends ApstraktnaSiste
 
         Date danasnjiDatum = null;
         try {
-            danasnjiDatum = sdf.parse(sdf.format(new Date()));
+            danasnjiDatum = sdf.parse(sdf.format(VremenskiIzvor.sada()));
         } catch (ParseException ex) {
             Logger.getLogger(SistemskaOperacijaDodajNalogZaTransportRobe.class.getName()).log(Level.INFO, "Neuspesno parsiranje danasnjeg datuma...");
             return;

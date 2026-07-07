@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -40,19 +41,19 @@ public interface ApstraktniDomenskiObjekat extends Serializable {
     // NOVO: parametri koji odgovaraju "?" znacima u uslovZaSelect().
     // Default je prazna lista - klase koje nemaju dinamicke vrednosti
     // (npr. Sertifikat, Roba, StrucnaSprema...) ne moraju nista da menjaju.
-    public default ArrayList<Object> parametriZaSelect() {
+    public default List<Object> parametriZaSelect() {
         return new ArrayList<>();
     }
 
-    public default ArrayList<Object> parametriZaInsert() {
+    public default List<Object> parametriZaInsert() {
         return new ArrayList<>();
     }
 
-    public default ArrayList<Object> parametriZaUpdate() {
+    public default List<Object> parametriZaUpdate() {
         return new ArrayList<>();
     }
 
-    public default ArrayList<Object> parametriZaUslov() {
+    public default List<Object> parametriZaUslov() {
         return new ArrayList<>();
     }
 }

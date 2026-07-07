@@ -200,15 +200,7 @@ public class Dispecer implements ApstraktniDomenskiObjekat {
 
     @Override
     public ArrayList<Object> parametriZaUpdate() {
-        ArrayList<Object> parametri = new ArrayList<>();
-        parametri.add(imeDispecera);
-        parametri.add(prezimeDispecera);
-        parametri.add(emailDispecera);
-        parametri.add(telefonDispecera);
-        parametri.add(korisnickoIme);
-        parametri.add(lozinka);
-        parametri.add(rola.ordinal());
-        return parametri;
+        return parametriZaInsert();
     }
 
     @Override

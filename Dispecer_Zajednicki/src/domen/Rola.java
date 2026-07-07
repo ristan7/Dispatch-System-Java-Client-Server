@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
- */
 package domen;
 
 /**
@@ -16,12 +12,11 @@ public enum Rola {
         String ime = name();
         char[] karakteri = ime.toCharArray();
         for (int i = 0; i < karakteri.length; i++) {
-
             if (i != 0) {
-                Character.toLowerCase(karakteri[i]);
+                karakteri[i] = Character.toLowerCase(karakteri[i]);
             }
         }
-        return karakteri.toString();
+        return new String(karakteri);
     }
 
 }
