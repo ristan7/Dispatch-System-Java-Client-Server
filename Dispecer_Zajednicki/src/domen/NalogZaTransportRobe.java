@@ -10,8 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  *
@@ -348,98 +350,106 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
 
     @Override
     public String uslovZaSelect() {
+        String posebanSlucaj = uslovZaPosebanSlucaj();
+        if (posebanSlucaj != null) {
+            return posebanSlucaj;
+        }
 
         StringBuilder uslov = new StringBuilder();
-        StringBuilder pocetak = new StringBuilder();
+        dodajUslovDispecera(uslov);
+        dodajUslovStatusa(uslov);
+        dodajUslovDatuma(uslov);
+        dodajUslovPartnera(uslov);
+        dodajUslovStavki(uslov);
 
+        if (uslov.length() > 0) {
+            return " WHERE " + uslov;
+        }
+        return "";
+    }
+
+    private String uslovZaPosebanSlucaj() {
         SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATUMA);
         sdf.setLenient(false);
-
         String danasnjiDatum = sdf.format(new Date());
 
         if (datumUtovara != null && datumIstovara != null) {
-
-            String datumUtovaraFormatiran = sdf.format(this.datumUtovara);
-            String datumIstovaraFormatiran = sdf.format(this.datumIstovara);
+            String datumUtovaraFormatiran = sdf.format(datumUtovara);
+            String datumIstovaraFormatiran = sdf.format(datumIstovara);
 
             if (datumUtovaraFormatiran.equals(danasnjiDatum) && datumIstovaraFormatiran.equals(danasnjiDatum)) {
-                uslov.append(" WHERE nr.dispecer = ? AND (nr.datumUtovara = ? OR nr.datumIstovara = ?)");
-                return uslov.toString();
+                return " WHERE nr.dispecer = ? AND (nr.datumUtovara = ? OR nr.datumIstovara = ?)";
             }
         }
+
         if (dispecer != null) {
             if (dispecer.getRola() == Rola.KORISNIK && idNaloga == -1) {
-                uslov.append(" WHERE nr.dispecer = ?");
-                return uslov.toString();
+                return " WHERE nr.dispecer = ?";
             }
             if (dispecer.getRola() == Rola.ADMINISTRATOR && idNaloga == -1) {
                 return "";
             }
         }
 
+        return null;
+    }
+
+    private void dodajUslovDispecera(StringBuilder uslov) {
         if (dispecer != null && dispecer.getIdDispecera() > 0) {
             uslov.append("nr.dispecer = ?");
         }
+    }
 
+    private void dodajUslovStatusa(StringBuilder uslov) {
         if (status != null) {
-            if (uslov.length() > 0) {
-                uslov.append(" AND ");
-            }
+            dodajAndAkoTreba(uslov);
             uslov.append("st.nazivStatusa = ?");
         }
+    }
 
+    private void dodajUslovDatuma(StringBuilder uslov) {
         if (datumUtovara != null) {
-            if (uslov.length() > 0) {
-                uslov.append(" AND ");
-            }
+            dodajAndAkoTreba(uslov);
             uslov.append("nr.datumUtovara = ?");
         }
-
         if (datumIstovara != null) {
-            if (uslov.length() > 0) {
-                uslov.append(" AND ");
-            }
+            dodajAndAkoTreba(uslov);
             uslov.append("nr.datumIstovara = ?");
         }
+    }
 
-        if (poslovniPartner != null) {
-
-            if (poslovniPartner.getNazivPartnera() != null && !poslovniPartner.getNazivPartnera().isBlank()) {
-                if (uslov.length() > 0) {
-                    uslov.append(" AND ");
-                }
-                uslov.append("pp.nazivPartnera LIKE ?");
-            }
-            if (poslovniPartner.getPib() != null && !poslovniPartner.getPib().isEmpty()) {
-                if (uslov.length() > 0) {
-                    uslov.append(" AND ");
-                }
-                uslov.append("pp.pib = ?");
-            }
-
-            if (poslovniPartner.getMesto() != null) {
-
-                if (poslovniPartner.getMesto().getNazivMesta() != null && !poslovniPartner.getMesto().getNazivMesta().isBlank()) {
-                    if (uslov.length() > 0) {
-                        uslov.append(" AND ");
-                    }
-                    uslov.append("m.nazivMesta LIKE ?");
-                }
-                if (poslovniPartner.getMesto().getDrzava() != null && !poslovniPartner.getMesto().getDrzava().isBlank()) {
-                    if (uslov.length() > 0) {
-                        uslov.append(" AND ");
-                    }
-                    uslov.append("m.drzava LIKE ?");
-                }
-
-            }
+    private void dodajUslovPartnera(StringBuilder uslov) {
+        if (poslovniPartner == null) {
+            return;
         }
 
-        if (!stavke.isEmpty()) {
+        if (poslovniPartner.getNazivPartnera() != null && !poslovniPartner.getNazivPartnera().isBlank()) {
+            dodajAndAkoTreba(uslov);
+            uslov.append("pp.nazivPartnera LIKE ?");
+        }
+        if (poslovniPartner.getPib() != null && !poslovniPartner.getPib().isEmpty()) {
+            dodajAndAkoTreba(uslov);
+            uslov.append("pp.pib = ?");
+        }
 
-            if (uslov.length() > 0) {
-                uslov.append(" AND ");
-            }
+        Mesto mesto = poslovniPartner.getMesto();
+        if (mesto == null) {
+            return;
+        }
+
+        if (mesto.getNazivMesta() != null && !mesto.getNazivMesta().isBlank()) {
+            dodajAndAkoTreba(uslov);
+            uslov.append("m.nazivMesta LIKE ?");
+        }
+        if (mesto.getDrzava() != null && !mesto.getDrzava().isBlank()) {
+            dodajAndAkoTreba(uslov);
+            uslov.append("m.drzava LIKE ?");
+        }
+    }
+
+    private void dodajUslovStavki(StringBuilder uslov) {
+        if (!stavke.isEmpty()) {
+            dodajAndAkoTreba(uslov);
             for (StavkaNaloga stavkaNaloga : stavke) {
                 uslov.append("nr.idNaloga IN (\n"
                         + "    SELECT sn2.nalog\n"
@@ -447,87 +457,115 @@ public class NalogZaTransportRobe implements ApstraktniDomenskiObjekat {
                         + "    WHERE sn2.roba = ?)");
             }
         }
-        if (uslov.length() > 0) {
-            pocetak.append(" WHERE ").append(uslov.toString());
-        }
+    }
 
-        return pocetak.toString();
+    private void dodajAndAkoTreba(StringBuilder uslov) {
+        if (uslov.length() > 0) {
+            uslov.append(" AND ");
+        }
     }
 
     @Override
     public ArrayList<Object> parametriZaSelect() {
-        ArrayList<Object> parametri = new ArrayList<>();
+        Optional<List<Object>> posebanSlucaj = parametriZaPosebanSlucaj();
+        if (posebanSlucaj.isPresent()) {
+            return new ArrayList<>(posebanSlucaj.get());
+        }
 
+        ArrayList<Object> parametri = new ArrayList<>();
+        dodajParametarDispecera(parametri);
+        dodajParametarStatusa(parametri);
+        dodajParametreDatuma(parametri);
+        dodajParametrePartnera(parametri);
+        dodajParametreStavki(parametri);
+        return parametri;
+    }
+
+    private Optional<List<Object>> parametriZaPosebanSlucaj() {
         SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATUMA);
         sdf.setLenient(false);
-
         String danasnjiDatum = sdf.format(new Date());
 
         if (datumUtovara != null && datumIstovara != null) {
-
-            String datumUtovaraFormatiran = sdf.format(this.datumUtovara);
-            String datumIstovaraFormatiran = sdf.format(this.datumIstovara);
+            String datumUtovaraFormatiran = sdf.format(datumUtovara);
+            String datumIstovaraFormatiran = sdf.format(datumIstovara);
 
             if (datumUtovaraFormatiran.equals(danasnjiDatum) && datumIstovaraFormatiran.equals(danasnjiDatum)) {
+                List<Object> parametri = new ArrayList<>();
                 parametri.add(dispecer.getIdDispecera());
                 parametri.add(danasnjiDatum);
                 parametri.add(danasnjiDatum);
-                return parametri;
-            }
-        }
-        if (dispecer != null) {
-            if (dispecer.getRola() == Rola.KORISNIK && idNaloga == -1) {
-                parametri.add(dispecer.getIdDispecera());
-                return parametri;
-            }
-            if (dispecer.getRola() == Rola.ADMINISTRATOR && idNaloga == -1) {
-                return parametri;
+                return Optional.of(parametri);
             }
         }
 
+        if (dispecer != null) {
+            if (dispecer.getRola() == Rola.KORISNIK && idNaloga == -1) {
+                List<Object> parametri = new ArrayList<>();
+                parametri.add(dispecer.getIdDispecera());
+                return Optional.of(parametri);
+            }
+            if (dispecer.getRola() == Rola.ADMINISTRATOR && idNaloga == -1) {
+                return Optional.of(new ArrayList<>());
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    private void dodajParametarDispecera(List<Object> parametri) {
         if (dispecer != null && dispecer.getIdDispecera() > 0) {
             parametri.add(dispecer.getIdDispecera());
         }
+    }
 
+    private void dodajParametarStatusa(List<Object> parametri) {
         if (status != null) {
             parametri.add(status.name());
         }
+    }
+
+    private void dodajParametreDatuma(List<Object> parametri) {
+        SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATUMA);
+        sdf.setLenient(false);
 
         if (datumUtovara != null) {
             parametri.add(sdf.format(datumUtovara));
         }
-
         if (datumIstovara != null) {
             parametri.add(sdf.format(datumIstovara));
         }
+    }
 
-        if (poslovniPartner != null) {
-
-            if (poslovniPartner.getNazivPartnera() != null && !poslovniPartner.getNazivPartnera().isBlank()) {
-                parametri.add("%" + poslovniPartner.getNazivPartnera() + "%");
-            }
-            if (poslovniPartner.getPib() != null && !poslovniPartner.getPib().isEmpty()) {
-                parametri.add(poslovniPartner.getPib());
-            }
-
-            if (poslovniPartner.getMesto() != null) {
-
-                if (poslovniPartner.getMesto().getNazivMesta() != null && !poslovniPartner.getMesto().getNazivMesta().isBlank()) {
-                    parametri.add("%" + poslovniPartner.getMesto().getNazivMesta() + "%");
-                }
-                if (poslovniPartner.getMesto().getDrzava() != null && !poslovniPartner.getMesto().getDrzava().isBlank()) {
-                    parametri.add("%" + poslovniPartner.getMesto().getDrzava() + "%");
-                }
-            }
+    private void dodajParametrePartnera(List<Object> parametri) {
+        if (poslovniPartner == null) {
+            return;
         }
 
-        if (!stavke.isEmpty()) {
-            for (StavkaNaloga stavkaNaloga : stavke) {
-                parametri.add(stavkaNaloga.getRoba().getIdRobe());
-            }
+        if (poslovniPartner.getNazivPartnera() != null && !poslovniPartner.getNazivPartnera().isBlank()) {
+            parametri.add("%" + poslovniPartner.getNazivPartnera() + "%");
+        }
+        if (poslovniPartner.getPib() != null && !poslovniPartner.getPib().isEmpty()) {
+            parametri.add(poslovniPartner.getPib());
         }
 
-        return parametri;
+        Mesto mesto = poslovniPartner.getMesto();
+        if (mesto == null) {
+            return;
+        }
+
+        if (mesto.getNazivMesta() != null && !mesto.getNazivMesta().isBlank()) {
+            parametri.add("%" + mesto.getNazivMesta() + "%");
+        }
+        if (mesto.getDrzava() != null && !mesto.getDrzava().isBlank()) {
+            parametri.add("%" + mesto.getDrzava() + "%");
+        }
+    }
+
+    private void dodajParametreStavki(List<Object> parametri) {
+        for (StavkaNaloga stavkaNaloga : stavke) {
+            parametri.add(stavkaNaloga.getRoba().getIdRobe());
+        }
     }
 
 }
